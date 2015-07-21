@@ -84,3 +84,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# PHPUnit
+phpunit.xml

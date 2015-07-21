@@ -19,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "TQ\\ExtDirect\\Tests\\": "tests/"
+            "TQ\\ExtDirect\\Tests\\": "tests/Tests/"
         }
     },
     "require": {
