@@ -1,0 +1,39 @@
+{
+    "name": "teqneers/ext-direct",
+    "version": "0.1.x-dev",
+    "type": "library",
+    "description": "A base component to integrate Sencha Ext JS Ext.direct into a PHP application",
+    "homepage": "https://github.com/teqneers/ext-direct",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stefan Gehrig",
+            "email": "gehrig@teqneers.de",
+            "homepage": "http://opensource.teqneers.de/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TQ\\ExtDirect\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TQ\\ExtDirect\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "jms/metadata": "~1.5",
+        "jms/serializer": "~1.0",
+        "doctrine/annotations": "~1.0",
+        "symfony/http-foundation": "~2.6|~3.0.0",
+        "symfony/validator": "~2.6|~3.0.0",
+        "symfony/event-dispatcher": "~2.6|~3.0.0",
+        "symfony/dependency-injection": "~2.6|~3.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.7",
+        "symfony/stopwatch": "~2.6|~3.0.0"
+    }
+}
