@@ -18,9 +18,15 @@ use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
  */
 class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
 {
+    protected function getDriver()
+    {
+        return new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
+    }
+
+
     public function testClassWithoutAnnotation()
     {
-        $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
+        $driver = $this->getDriver();
 
         $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service1');
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
