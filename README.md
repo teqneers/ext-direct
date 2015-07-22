@@ -1,6 +1,8 @@
 # ext-direct
 A base component to integrate Sencha Ext JS Ext.direct into a PHP application
 
+[![Build Status](https://travis-ci.org/teqneers/ext-direct.svg?branch=master)](https://travis-ci.org/teqneers/ext-direct)
+
 ## License
 
 The MIT License (MIT)
