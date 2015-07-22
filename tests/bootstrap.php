@@ -7,4 +7,8 @@
  * @copyright  Copyright (C) 2015 by TEQneers GmbH & Co. KG
  */
 
-require_once __DIR__.'/../vendor/autoload.php';
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
+$loader = require __DIR__ . '/../vendor/autoload.php';;
+
+AnnotationRegistry::registerLoader(array($loader, 'loadClass'));

@@ -8,12 +8,16 @@
 
 namespace TQ\ExtDirect\Tests\Metadata\Driver\Services;
 
+use TQ\ExtDirect\Annotation as Direct;
+
 /**
- * Class Service1
+ * Class Service2
  *
  * @package TQ\ExtDirect\Tests\Metadata\Driver\Services
+ *
+ * @Direct\Action("app.direct.test")
  */
-class Service1
+class Service2
 {
 
 }
