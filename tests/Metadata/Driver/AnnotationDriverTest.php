@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Metadata\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Validator\Constraint;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 
 /**
@@ -25,14 +26,17 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAllClassNames()
     {
-        $driver = $this->getDriver();
+        $driver  = $this->getDriver();
+        $classes = $driver->getAllClassNames();
+        sort($classes, SORT_NATURAL);
         $this->assertEquals(
             array(
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service2',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4',
+                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5',
             ),
-            $driver->getAllClassNames()
+            $classes
         );
     }
 
@@ -106,5 +110,29 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($methodMetadata->isStrict);
         $this->assertEquals(array(), $methodMetadata->parameters);
         $this->assertEquals(array(), $methodMetadata->constraints);
+    }
+
+    public function testMethodParameterConstraints()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        foreach (array('methodA', 'methodB', 'methodC') as $m) {
+            /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+            $methodMetadata = $classMetadata->methodMetadata[$m];
+
+            /** @var Constraint[] $parameters */
+            $constraints = $methodMetadata->constraints;
+            $this->assertCount(1, $constraints);
+            $this->assertArrayHasKey('a', $constraints);
+
+            /** @var Constraint $constraint */
+            $constraint = current($constraints['a']);
+
+            $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
+        }
     }
 }
