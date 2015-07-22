@@ -1,0 +1,20 @@
+language: php
+php:
+    - 5.5
+    - 5.6
+    - 7.0
+    - nightly
+    - hhvm
+
+env:
+  matrix:
+    - COMPOSER_PARAM="update --prefer-source --prefer-lowest"
+    - COMPOSER_PARAM="update --prefer-source"
+    - COMPOSER_PARAM="install --prefer-source"
+
+before_script:
+    - composer selfupdate
+    - composer $COMPOSER_PARAM
+
+script:
+    - phpunit

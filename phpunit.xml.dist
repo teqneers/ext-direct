@@ -10,10 +10,10 @@
          stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="tests/bootstrap.php"
->
+        >
     <testsuites>
         <testsuite name="TEQneers Ext.direct Library">
-            <directory>./tests/Tests</directory>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 
