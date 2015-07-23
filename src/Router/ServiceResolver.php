@@ -119,7 +119,7 @@ class ServiceResolver implements ServiceResolverInterface
                 $arguments['__internal__' . $parameter->getName()] = $httpRequest;
             } elseif ($parameter->getClass()
                 && $parameter->getClass()
-                             ->getName() === Request::class
+                             ->getName() === DirectRequest::class
             ) {
                 $arguments['__internal__' . $parameter->getName()] = $directRequest;
             } else {
