@@ -9,7 +9,7 @@
 
 namespace TQ\ExtDirect\Service;
 
-use Metadata\MetadataFactory;
+use Metadata\AdvancedMetadataFactoryInterface;
 
 /**
  * Class ServiceLocator
@@ -19,14 +19,14 @@ use Metadata\MetadataFactory;
 class MetadataServiceLocator implements ServiceLocator
 {
     /**
-     * @var MetadataFactory
+     * @var AdvancedMetadataFactoryInterface
      */
     private $metadataFactory;
 
     /**
-     * @param MetadataFactory $metadataFactory
+     * @param AdvancedMetadataFactoryInterface $metadataFactory
      */
-    public function __construct(MetadataFactory $metadataFactory)
+    public function __construct(AdvancedMetadataFactoryInterface $metadataFactory)
     {
         $this->metadataFactory = $metadataFactory;
     }
