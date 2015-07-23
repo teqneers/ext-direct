@@ -35,6 +35,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5',
+                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub\Service6'
             ),
             $classes
         );
