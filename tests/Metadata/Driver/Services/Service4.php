@@ -15,7 +15,7 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @package TQ\ExtDirect\Tests\Metadata\Driver\Services
  *
- * @Direct\Action("app.direct.test")
+ * @Direct\Action()
  */
 class Service4
 {

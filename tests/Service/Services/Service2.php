@@ -6,23 +6,22 @@
  * Time: 17:30
  */
 
-namespace TQ\ExtDirect\Tests\Metadata\Services;
+namespace TQ\ExtDirect\Tests\Service\Services;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use TQ\ExtDirect\Annotation as Direct;
 
 /**
- * Class Service1
+ * Class Service2
  *
- * @package TQ\ExtDirect\Tests\Metadata\Services
+ * @package TQ\ExtDirect\Tests\Service\Services
  *
- * @Direct\Action("app.direct.test")
+ * @Direct\Action()
  */
-class Service1
+class Service2
 {
     /**
      * @Direct\Method()
-     * @Direct\Parameter("a", { @Assert\NotNull() })
      *
      * @param mixed $a
      */

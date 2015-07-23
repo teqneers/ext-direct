@@ -11,6 +11,11 @@ namespace TQ\ExtDirect\Tests\Service;
 
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
 
+/**
+ * Class DefaultNamingStrategyTest
+ *
+ * @package TQ\ExtDirect\Tests\Service
+ */
 class DefaultNamingStrategyTest extends \PHPUnit_Framework_TestCase
 {
     /**

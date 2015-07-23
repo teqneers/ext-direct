@@ -19,11 +19,7 @@ class MetadataServiceLocatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAllClassNames()
     {
-        /** @var \Metadata\AdvancedMetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
-        $metadataFactory = $this->getMock(
-            'Metadata\AdvancedMetadataFactoryInterface',
-            array('getMetadataForClass', 'getAllClassNames')
-        );
+        $metadataFactory = $this->createMetadataFactory();
 
         $metadataFactory->expects($this->once())
                         ->method('getAllClassNames')
@@ -35,11 +31,7 @@ class MetadataServiceLocatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMetadataForClass()
     {
-        /** @var \Metadata\AdvancedMetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
-        $metadataFactory = $this->getMock(
-            'Metadata\AdvancedMetadataFactoryInterface',
-            array('getMetadataForClass', 'getAllClassNames')
-        );
+        $metadataFactory = $this->createMetadataFactory();
 
         $metadataFactory->expects($this->once())
                         ->method('getMetadataForClass')
@@ -48,5 +40,18 @@ class MetadataServiceLocatorTest extends \PHPUnit_Framework_TestCase
 
         $serviceLocator = new MetadataServiceLocator($metadataFactory);
         $this->assertEquals(null, $serviceLocator->getMetadataForClass('A'));
+    }
+
+    /**
+     * @return \Metadata\AdvancedMetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createMetadataFactory()
+    {
+        /** @var \Metadata\AdvancedMetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
+        $metadataFactory = $this->getMock(
+            'Metadata\AdvancedMetadataFactoryInterface',
+            array('getMetadataForClass', 'getAllClassNames')
+        );
+        return $metadataFactory;
     }
 }

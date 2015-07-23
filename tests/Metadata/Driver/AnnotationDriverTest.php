@@ -87,6 +87,16 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $methodMetadata->constraints);
     }
 
+    public function testClassWithoutServiceId() {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4');
+        $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertEmpty($classMetadata->serviceId);
+        $this->assertNull($classMetadata->serviceId);
+    }
+
     public function testClassFormHandlerMethod()
     {
         $driver = $this->getDriver();
@@ -98,7 +108,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('TQ\ExtDirect\Metadata\ActionMetadata', $classMetadata);
 
         $this->assertTrue($classMetadata->isAction);
-        $this->assertEquals('app.direct.test', $classMetadata->serviceId);
+        $this->assertNull($classMetadata->serviceId);
         $this->assertArrayHasKey('methodB', $classMetadata->methodMetadata);
 
         /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
