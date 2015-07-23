@@ -128,6 +128,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $constraints = $methodMetadata->constraints;
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
+            $this->assertCount(1, $constraints['a']);
 
             /** @var Constraint $constraint */
             $constraint = current($constraints['a']);
