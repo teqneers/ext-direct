@@ -150,7 +150,7 @@ class AnnotationDriver implements AdvancedDriverInterface
         foreach ($declared as $className) {
             $rc         = new \ReflectionClass($className);
             $sourceFile = $rc->getFileName();
-            if (in_array($sourceFile, $includedFiles) && !$this->isActionClass($className)) {
+            if (in_array($sourceFile, $includedFiles) && $this->isActionClass($className)) {
                 $classes[] = $className;
             }
         }
@@ -169,9 +169,9 @@ class AnnotationDriver implements AdvancedDriverInterface
 
         foreach ($classAnnotations as $annotation) {
             if (get_class($annotation) === self::ACTION_ANNOTATION_CLASS) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
