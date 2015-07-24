@@ -132,4 +132,25 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('BadMethodCallException', 'Cannot set strict params on form handler methods');
         $m->setStrict(false);
     }
+
+    public function testAddParameter()
+    {
+        $m = new MethodDescription('method', false, array('a'));
+        $m->addParam('b');
+        $this->assertEquals(array('a', 'b'), $m->getParams());
+    }
+
+    public function testAddParameters()
+    {
+        $m = new MethodDescription('method', false, array('a'));
+        $m->addParams(array('b', 'c'));
+        $this->assertEquals(array('a', 'b', 'c'), $m->getParams());
+    }
+
+    public function testSetParameters()
+    {
+        $m = new MethodDescription('method', false, array('a'));
+        $m->setParams(array('b', 'c'));
+        $this->assertEquals(array('b', 'c'), $m->getParams());
+    }
 }
