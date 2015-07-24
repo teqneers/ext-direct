@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Router;
 
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use TQ\ExtDirect\Router\Request;
 use TQ\ExtDirect\Router\RequestFactory;
 
 /**
@@ -31,6 +32,16 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($directRequest->isForm());
         $this->assertFalse($directRequest->isUpload());
         $this->assertFalse($directRequest->isFormUpload());
+
+        $firstRequest = $directRequest->getFirst();
+        $this->assertInstanceOf('TQ\ExtDirect\Router\Request', $firstRequest);
+        $this->assertEquals('My.service.Action', $firstRequest->getAction());
+        $this->assertEquals('method', $firstRequest->getMethod());
+        $this->assertEquals(1, $firstRequest->getTid());
+        $this->assertEquals(array('a', 'b'), $firstRequest->getData());
+        $this->assertFalse($firstRequest->isForm());
+        $this->assertFalse($firstRequest->isUpload());
+        $this->assertFalse($firstRequest->isFormUpload());
     }
 
     public function testCreateBatchedJsonRequest()
@@ -46,6 +57,11 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $directRequest = $factory->createRequest($httpRequest);
         $this->assertInstanceOf('TQ\ExtDirect\Router\RequestCollection', $directRequest);
         $this->assertCount(2, $directRequest);
+
+        foreach($directRequest as $i => $r) {
+            /** @var Request $r */
+            $this->assertEquals($i + 1, $r->getTid());
+        }
     }
 
     public function testCreateFormRequest()
@@ -66,6 +82,16 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($directRequest->isForm());
         $this->assertFalse($directRequest->isUpload());
         $this->assertFalse($directRequest->isFormUpload());
+
+        $firstRequest = $directRequest->getFirst();
+        $this->assertInstanceOf('TQ\ExtDirect\Router\Request', $firstRequest);
+        $this->assertEquals('My.service.Action', $firstRequest->getAction());
+        $this->assertEquals('method', $firstRequest->getMethod());
+        $this->assertEquals(1, $firstRequest->getTid());
+        $this->assertEquals(array(), $firstRequest->getData());
+        $this->assertTrue($firstRequest->isForm());
+        $this->assertFalse($firstRequest->isUpload());
+        $this->assertFalse($firstRequest->isFormUpload());
     }
 
     public function testCreateFormUploadRequest()
@@ -87,6 +113,16 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($directRequest->isForm());
         $this->assertTrue($directRequest->isUpload());
         $this->assertTrue($directRequest->isFormUpload());
+
+        $firstRequest = $directRequest->getFirst();
+        $this->assertInstanceOf('TQ\ExtDirect\Router\Request', $firstRequest);
+        $this->assertEquals('My.service.Action', $firstRequest->getAction());
+        $this->assertEquals('method', $firstRequest->getMethod());
+        $this->assertEquals(1, $firstRequest->getTid());
+        $this->assertEquals(array(), $firstRequest->getData());
+        $this->assertTrue($firstRequest->isForm());
+        $this->assertTrue($firstRequest->isUpload());
+        $this->assertTrue($firstRequest->isFormUpload());
     }
 
     public function testCreateJsonRequestFromMalformedJsonStringFails()
