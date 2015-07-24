@@ -2,6 +2,8 @@
 A base component to integrate Sencha Ext JS Ext.direct into a PHP application
 
 [![Build Status](https://travis-ci.org/teqneers/ext-direct.svg?branch=master)](https://travis-ci.org/teqneers/ext-direct)
+[![Code Coverage](https://scrutinizer-ci.com/g/teqneers/ext-direct/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/teqneers/ext-direct/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/teqneers/ext-direct/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/teqneers/ext-direct/?branch=master)
 
 ## License
 
