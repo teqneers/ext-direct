@@ -38,6 +38,18 @@ class RequestCollection implements \IteratorAggregate, \Countable
     }
 
     /**
+     * @return Request|null
+     */
+    public function getFirst()
+    {
+        if (count($this->requests) > 0) {
+            return reset($this->requests);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getIterator()
@@ -58,12 +70,10 @@ class RequestCollection implements \IteratorAggregate, \Countable
      */
     public function isForm()
     {
-        if (count($this->requests) !== 1) {
+        $firstRequest = $this->getFirst();
+        if (!$firstRequest) {
             return false;
         }
-
-        /** @var Request $firstRequest */
-        $firstRequest = reset($this->requests);
         return $firstRequest->isForm();
     }
 
@@ -72,11 +82,10 @@ class RequestCollection implements \IteratorAggregate, \Countable
      */
     public function isUpload()
     {
-        if (count($this->requests) !== 1) {
+        $firstRequest = $this->getFirst();
+        if (!$firstRequest || !$firstRequest) {
             return false;
         }
-        /** @var Request $firstRequest */
-        $firstRequest = reset($this->requests);
         return $firstRequest->isUpload();
     }
 
