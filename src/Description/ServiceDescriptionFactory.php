@@ -10,6 +10,7 @@
 namespace TQ\ExtDirect\Description;
 
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Service\NamingStrategy;
@@ -55,13 +56,13 @@ class ServiceDescriptionFactory
      */
     public function createServiceDescription($url)
     {
-        $serviceDescription = new ServiceDescription($url);
+        $serviceDescription = new ServiceDescription($url, $this->namespace);
 
         foreach ($this->serviceLocator->getAllClassNames() as $className) {
             $actionName     = $this->namingStrategy->convertToActionName($className);
             $actionMetadata = $this->serviceLocator->getMetadataForClass($className);
 
-            if (!$actionMetadata->isAction) {
+            if (!($actionMetadata instanceof ActionMetadata) || !$actionMetadata->isAction) {
                 continue;
             }
 
@@ -89,6 +90,7 @@ class ServiceDescriptionFactory
                     $methodMetadata->name,
                     $methodMetadata->isFormHandler,
                     $parameters,
+                    $methodMetadata->hasNamedParams,
                     $methodMetadata->isStrict
                 ));
             }
