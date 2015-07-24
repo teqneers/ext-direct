@@ -29,17 +29,17 @@ class MethodDescription implements \JsonSerializable
     /**
      * @var array
      */
-    protected $params;
+    protected $params = array();
 
     /**
      * @var bool
      */
-    private $namedParams;
+    private $namedParams = false;
 
     /**
      * @var bool
      */
-    protected $strict;
+    protected $strict = true;
 
     /**
      * @param string $name
@@ -59,6 +59,7 @@ class MethodDescription implements \JsonSerializable
         $this->setFormHandler($formHandler);
         if (!$this->isFormHandler()) {
             $this->setParams($params);
+            $this->setNamedParams($namedParams);
             $this->setStrict($strict);
         }
     }
@@ -156,6 +157,9 @@ class MethodDescription implements \JsonSerializable
      */
     public function setNamedParams($namedParams)
     {
+        if ($this->isFormHandler()) {
+            throw new \BadMethodCallException('Cannot set named params on form handler methods');
+        }
         $this->namedParams = (bool)$namedParams;
         return $this;
     }
@@ -174,6 +178,9 @@ class MethodDescription implements \JsonSerializable
      */
     public function setStrict($strict)
     {
+        if ($this->isFormHandler()) {
+            throw new \BadMethodCallException('Cannot set strict params on form handler methods');
+        }
         $this->strict = (bool)$strict;
         return $this;
     }
