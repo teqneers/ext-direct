@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub;
 
 use TQ\ExtDirect\Annotation as Direct;
+use TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4;
 
 /**
  * Class Service3
@@ -17,7 +18,7 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action("app.direct.test")
  */
-class Service6
+class Service6 extends Service4
 {
     /**
      * @Direct\Method()

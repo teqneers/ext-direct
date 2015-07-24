@@ -147,4 +147,16 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
         }
     }
+
+    public function testClassInheritance()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub\Service6');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
+        $this->assertArrayHasKey('methodB', $classMetadata->methodMetadata);
+    }
 }
