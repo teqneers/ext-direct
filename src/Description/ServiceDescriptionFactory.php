@@ -78,11 +78,11 @@ class ServiceDescriptionFactory
                 foreach ($methodMetadata->parameters as $parameter) {
                     if (($class = $parameter->getClass()) === null
                         || (
-                            $class->getName() !== HttpRequest::class
-                            && $class->getName() !== DirectRequest::class
+                            $class->name !== HttpRequest::class
+                            && $class->name !== DirectRequest::class
                         )
                     ) {
-                        $parameters[] = $parameter->getName();
+                        $parameters[] = $parameter->name;
                     }
                 }
 

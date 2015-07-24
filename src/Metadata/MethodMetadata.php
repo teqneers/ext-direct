@@ -54,7 +54,7 @@ class MethodMetadata extends BaseMethodMetadata
      */
     public function addParameter(\ReflectionParameter $parameter)
     {
-        $this->parameters[$parameter->getName()] = $parameter;
+        $this->parameters[$parameter->name] = $parameter;
     }
 
     /**
@@ -83,7 +83,7 @@ class MethodMetadata extends BaseMethodMetadata
     {
         $parameterNames = array_map(
             function (\ReflectionParameter $param) {
-                return $param->getName();
+                return $param->name;
             },
             $this->parameters
         );
@@ -118,9 +118,11 @@ class MethodMetadata extends BaseMethodMetadata
         foreach ($parameterNames as $parameterName) {
             $this->parameters[$parameterName] = new \ReflectionParameter(
                 array(
-                    $this->reflection->getDeclaringClass()
-                                     ->getName(),
-                    $this->reflection->getName()
+                    $this->reflection
+                        ->getDeclaringClass()
+                        ->name,
+                    $this->reflection
+                        ->name
                 ),
                 $parameterName
             );

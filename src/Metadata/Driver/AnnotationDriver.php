@@ -66,7 +66,7 @@ class AnnotationDriver implements AdvancedDriverInterface
      */
     public function loadMetadataForClass(\ReflectionClass $class)
     {
-        $actionMetadata = new ActionMetadata($class->getName());
+        $actionMetadata = new ActionMetadata($class->name);
 
         $actionMetadata->fileResources[] = $class->getFilename();
 
@@ -77,7 +77,7 @@ class AnnotationDriver implements AdvancedDriverInterface
             $actionMetadata->isAction  = true;
             $actionMetadata->serviceId = $actionAnnotation->serviceId;
         } else {
-            return new NullMetadata($class->getName());
+            return new NullMetadata($class->name);
         }
 
         $methodCount = 0;
@@ -86,7 +86,7 @@ class AnnotationDriver implements AdvancedDriverInterface
                 continue;
             }
 
-            $methodMetadata   = new MethodMetadata($class->getName(), $reflectionMethod->getName());
+            $methodMetadata   = new MethodMetadata($class->name, $reflectionMethod->name);
             $methodAnnotation = $this->reader->getMethodAnnotation($reflectionMethod, self::METHOD_ANNOTATION_CLASS);
 
             /** @var \TQ\ExtDirect\Annotation\Method $methodAnnotation */
@@ -112,7 +112,7 @@ class AnnotationDriver implements AdvancedDriverInterface
         }
 
         if ($methodCount < 1) {
-            return new NullMetadata($class->getName());
+            return new NullMetadata($class->name);
         }
 
         return $actionMetadata;

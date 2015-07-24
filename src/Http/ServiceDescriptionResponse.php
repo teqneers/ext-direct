@@ -58,10 +58,11 @@ class ServiceDescriptionResponse extends JsonResponse
     {
         $this->headers->set('Content-Type', 'application/javascript');
 
-        $namespace     = explode('.', $this->descriptor);
-        $baseNamespace = reset($namespace);
-        $jsExpression  = 'var ' . $baseNamespace . ' = ' . $baseNamespace . ' || {};' . PHP_EOL;
-        for ($i = 1; $i < count($namespace); $i++) {
+        $namespace      = explode('.', $this->descriptor);
+        $baseNamespace  = reset($namespace);
+        $jsExpression   = 'var ' . $baseNamespace . ' = ' . $baseNamespace . ' || {};' . PHP_EOL;
+        $namespaceCount = count($namespace);
+        for ($i = 1; $i < $namespaceCount; $i++) {
             if ($i > 1) {
                 $subNamespace = implode('.', array_slice($namespace, 0, $i));
                 $jsExpression .= $subNamespace . ' = ' . $subNamespace . ' || {};' . PHP_EOL;
