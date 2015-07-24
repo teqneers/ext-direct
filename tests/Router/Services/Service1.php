@@ -73,4 +73,11 @@ class Service1
         \Symfony\Component\HttpFoundation\Request $request2
     ) {
     }
+
+    /**
+     * @Direct\Method()
+     */
+    public static function methodF()
+    {
+    }
 }

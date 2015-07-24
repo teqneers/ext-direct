@@ -65,8 +65,14 @@ class ServiceResolver implements ServiceResolverInterface
         /** @var MethodMetadata $methodMetadata */
         list($actionMetadata, $methodMetadata) = $this->assertMetadata($directRequest);
 
+        if ($methodMetadata->reflection->isStatic()) {
+            $service = $actionMetadata->name;
+        } else {
+            $service = $this->serviceFactory->createService($actionMetadata);
+        }
+
         return new ServiceReference(
-            $this->serviceFactory->createService($actionMetadata),
+            $service,
             $actionMetadata,
             $methodMetadata
         );

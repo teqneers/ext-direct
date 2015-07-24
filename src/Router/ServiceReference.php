@@ -20,7 +20,7 @@ use TQ\ExtDirect\Metadata\MethodMetadata;
 class ServiceReference
 {
     /**
-     * @var object
+     * @var object|string
      */
     private $service;
 
@@ -35,7 +35,7 @@ class ServiceReference
     private $methodMetadata;
 
     /**
-     * @param object         $service
+     * @param object|string  $service
      * @param ActionMetadata $actionMetadata
      * @param MethodMetadata $methodMetadata
      */
@@ -47,7 +47,7 @@ class ServiceReference
     }
 
     /**
-     * @return object
+     * @return object|string
      */
     public function getService()
     {
