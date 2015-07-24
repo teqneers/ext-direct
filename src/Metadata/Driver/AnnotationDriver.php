@@ -82,6 +82,10 @@ class AnnotationDriver implements AdvancedDriverInterface
 
         $methodCount = 0;
         foreach ($class->getMethods() as $reflectionMethod) {
+            if (!$reflectionMethod->isPublic()) {
+                continue;
+            }
+
             $methodMetadata   = new MethodMetadata($class->getName(), $reflectionMethod->getName());
             $methodAnnotation = $this->reader->getMethodAnnotation($reflectionMethod, self::METHOD_ANNOTATION_CLASS);
 

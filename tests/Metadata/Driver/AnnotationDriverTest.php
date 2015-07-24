@@ -35,6 +35,8 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5',
+                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service7',
+                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service8',
                 'TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub\Service6'
             ),
             $classes
@@ -87,7 +89,8 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $methodMetadata->constraints);
     }
 
-    public function testClassWithoutServiceId() {
+    public function testClassWithoutServiceId()
+    {
         $driver = $this->getDriver();
 
         $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4');
@@ -158,5 +161,40 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
         $this->assertArrayHasKey('methodB', $classMetadata->methodMetadata);
+    }
+
+    public function testClassWithMethodAnnotationOnNonPublicMethod()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service7');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertInstanceOf('Metadata\NullMetadata', $classMetadata);
+    }
+
+    public function testClassRegularStaticMethod()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\ActionMetadata', $classMetadata);
+
+        $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
+
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodA'];
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\MethodMetadata', $methodMetadata);
+
+        $this->assertTrue($methodMetadata->isMethod);
+        $this->assertFalse($methodMetadata->isFormHandler);
+        $this->assertFalse($methodMetadata->hasNamedParams);
+        $this->assertTrue($methodMetadata->isStrict);
+        $this->assertEquals(array(), $methodMetadata->parameters);
+        $this->assertEquals(array(), $methodMetadata->constraints);
     }
 }
