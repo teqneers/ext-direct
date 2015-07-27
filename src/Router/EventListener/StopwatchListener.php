@@ -12,11 +12,9 @@ namespace TQ\ExtDirect\Router\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
-use TQ\ExtDirect\Router\Router;
-use TQ\ExtDirect\Router\Event\BeginRequestEvent;
-use TQ\ExtDirect\Router\Event\EndRequestEvent;
 use TQ\ExtDirect\Router\Event\InvokeEvent;
 use TQ\ExtDirect\Router\Event\ServiceResolveEvent;
+use TQ\ExtDirect\Router\Router;
 use TQ\ExtDirect\Router\RouterEvents;
 
 /**
@@ -55,9 +53,8 @@ class StopwatchListener implements EventSubscriberInterface
     }
 
     /**
-     * @param BeginRequestEvent $event
      */
-    public function onBeginRequest(BeginRequestEvent $event)
+    public function onBeginRequest()
     {
         if (!$this->stopwatch) {
             return;
@@ -114,9 +111,8 @@ class StopwatchListener implements EventSubscriberInterface
     }
 
     /**
-     * @param EndRequestEvent $event
      */
-    public function onEndRequest(EndRequestEvent $event)
+    public function onEndRequest()
     {
         if (!$this->stopwatch) {
             return;
