@@ -120,19 +120,19 @@ class ServiceResolver implements ServiceResolverInterface
         foreach ($methodMetadata->parameters as $parameter) {
             if ($parameter->getClass()
                 && $parameter->getClass()
-                             ->getName() === HttpRequest::class
+                             ->name === HttpRequest::class
             ) {
-                $arguments['__internal__' . $parameter->getName()] = $httpRequest;
+                $arguments['__internal__' . $parameter->name] = $httpRequest;
             } elseif ($parameter->getClass()
                 && $parameter->getClass()
-                             ->getName() === DirectRequest::class
+                             ->name === DirectRequest::class
             ) {
-                $arguments['__internal__' . $parameter->getName()] = $directRequest;
+                $arguments['__internal__' . $parameter->name] = $directRequest;
             } else {
                 if (isset($requestParameters[$i])) {
-                    $arguments[$parameter->getName()] = $requestParameters[$i];
+                    $arguments[$parameter->name] = $requestParameters[$i];
                 } else {
-                    $arguments[$parameter->getName()] = null;
+                    $arguments[$parameter->name] = null;
                 }
                 $i++;
             }
