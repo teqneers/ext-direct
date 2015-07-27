@@ -36,26 +36,22 @@ class ArgumentConverter implements ArgumentConverterInterface
      */
     public function convert(ServiceReference $service, array $arguments)
     {
-        $methodMetadata = $service->getMethodMetadata();
         foreach ($arguments as $name => $value) {
             if (strpos($name, '__internal__') !== false) {
                 continue;
             }
 
-            if (!isset($methodMetadata->parameters[$name])
-                || !is_array($value)
-            ) {
+            $parameter = $service->getParameter($name);
+            if (!$parameter || !is_array($value)) {
                 continue;
             }
 
-            $parameter = $methodMetadata->parameters[$name];
             if (!$parameter->getClass()) {
                 continue;
             }
 
             $arguments[$name] = $this->serializer->fromArray(
-                $value, $parameter->getClass()
-                                  ->name
+                $value, $parameter->getClass()->name
             );
         }
 

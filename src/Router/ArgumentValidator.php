@@ -45,7 +45,6 @@ class ArgumentValidator implements ArgumentValidatorInterface
      */
     public function validate(ServiceReference $service, array $arguments)
     {
-        $methodMetadata   = $service->getMethodMetadata();
         $validationResult = array();
         $parameterCount   = 0;
         $validatedCount   = 0;
@@ -53,10 +52,10 @@ class ArgumentValidator implements ArgumentValidatorInterface
             if (strpos($name, '__internal__') !== false) {
                 continue;
             }
-            if (isset($methodMetadata->constraints[$name])
-                && !empty($methodMetadata->constraints[$name])
-            ) {
-                $violations = $this->validator->validate($value, $methodMetadata->constraints[$name]);
+
+            $constraints = $service->getParameterConstraints($name);
+            if (!empty($constraints)) {
+                $violations = $this->validator->validate($value, $constraints);
                 if (count($violations)) {
                     $validationResult[$name] = $violations;
                 }

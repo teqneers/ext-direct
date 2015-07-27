@@ -9,6 +9,7 @@
 
 namespace TQ\ExtDirect\Router;
 
+use Symfony\Component\Validator\Constraint;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 
 /**
@@ -47,11 +48,37 @@ class ServiceReference
     }
 
     /**
-     * @return MethodMetadata
+     * @return \ReflectionParameter[]
      */
-    public function getMethodMetadata()
+    public function getParameters()
     {
-        return $this->methodMetadata;
+        return $this->methodMetadata->parameters;
+    }
+
+    /**
+     * @param string $name
+     * @return \ReflectionParameter|null
+     */
+    public function getParameter($name)
+    {
+        if (isset($this->methodMetadata->parameters[$name])) {
+            return $this->methodMetadata->parameters[$name];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param string $name
+     * @return Constraint[]
+     */
+    public function getParameterConstraints($name)
+    {
+        if (isset($this->methodMetadata->constraints[$name])) {
+            return $this->methodMetadata->constraints[$name];
+        } else {
+            return array();
+        }
     }
 
     /**
