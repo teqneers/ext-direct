@@ -9,7 +9,6 @@
 
 namespace TQ\ExtDirect\Router;
 
-use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 
 /**
@@ -25,24 +24,17 @@ class ServiceReference
     private $service;
 
     /**
-     * @var ActionMetadata
-     */
-    private $actionMetadata;
-
-    /**
      * @var MethodMetadata
      */
     private $methodMetadata;
 
     /**
      * @param object|string  $service
-     * @param ActionMetadata $actionMetadata
      * @param MethodMetadata $methodMetadata
      */
-    public function __construct($service, ActionMetadata $actionMetadata, MethodMetadata $methodMetadata)
+    public function __construct($service, MethodMetadata $methodMetadata)
     {
         $this->service        = $service;
-        $this->actionMetadata = $actionMetadata;
         $this->methodMetadata = $methodMetadata;
     }
 
@@ -52,14 +44,6 @@ class ServiceReference
     public function getService()
     {
         return $this->service;
-    }
-
-    /**
-     * @return ActionMetadata
-     */
-    public function getActionMetadata()
-    {
-        return $this->actionMetadata;
     }
 
     /**

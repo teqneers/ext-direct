@@ -73,7 +73,6 @@ class ServiceResolver implements ServiceResolverInterface
 
         return new ServiceReference(
             $service,
-            $actionMetadata,
             $methodMetadata
         );
     }
