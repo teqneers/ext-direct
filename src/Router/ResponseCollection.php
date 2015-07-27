@@ -65,6 +65,18 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     }
 
     /**
+     * @param int $index
+     * @return AbstractResponse|null
+     */
+    public function getAt($index)
+    {
+        if ($index >= count($this->responses) || $index < 0) {
+            return null;
+        }
+        return $this->responses[$index];
+    }
+
+    /**
      * {@inheritdoc
      */
     public function jsonSerialize()
