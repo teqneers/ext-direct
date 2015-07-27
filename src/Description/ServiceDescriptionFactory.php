@@ -62,7 +62,7 @@ class ServiceDescriptionFactory
             $actionName     = $this->namingStrategy->convertToActionName($className);
             $actionMetadata = $this->serviceLocator->getMetadataForClass($className);
 
-            if (!($actionMetadata instanceof ActionMetadata) || !$actionMetadata->isAction) {
+            if (!$actionMetadata) {
                 continue;
             }
 

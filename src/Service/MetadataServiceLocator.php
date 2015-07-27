@@ -10,6 +10,7 @@
 namespace TQ\ExtDirect\Service;
 
 use Metadata\AdvancedMetadataFactoryInterface;
+use TQ\ExtDirect\Metadata\ActionMetadata;
 
 /**
  * Class ServiceLocator
@@ -36,7 +37,12 @@ class MetadataServiceLocator implements ServiceLocator
      */
     public function getMetadataForClass($class)
     {
-        return $this->metadataFactory->getMetadataForClass($class);
+        $metadata = $this->metadataFactory->getMetadataForClass($class);
+        if (!($metadata instanceof ActionMetadata) || !$metadata->isAction) {
+            return null;
+        }
+
+        return $metadata;
     }
 
     /**
