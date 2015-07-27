@@ -55,7 +55,7 @@ class ArgumentConverter implements ArgumentConverterInterface
 
             $arguments[$name] = $this->serializer->fromArray(
                 $value, $parameter->getClass()
-                                  ->getName()
+                                  ->name
             );
         }
 
