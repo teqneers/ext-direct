@@ -35,7 +35,7 @@ class ExceptionResponseTest extends \PHPUnit_Framework_TestCase
         $response = new ExceptionResponse(1, 'My.Action', 'method', $e, true);
 
         $this->assertStringStartsWith(
-            '{"type":"exception","tid":1,"action":"My.Action","method":"method","where":"#0 [internal function]: ',
+            '{"type":"exception","tid":1,"action":"My.Action","method":"method","where":"#0',
             json_encode($response)
         );
     }
@@ -59,7 +59,7 @@ class ExceptionResponseTest extends \PHPUnit_Framework_TestCase
         $response = ExceptionResponse::fromRequest($request, $e, true);
 
         $this->assertStringStartsWith(
-            '{"type":"exception","tid":2,"action":"My.Action","method":"method","where":"#0 [internal function]: ',
+            '{"type":"exception","tid":2,"action":"My.Action","method":"method","where":"#0',
             json_encode($response)
         );
     }
