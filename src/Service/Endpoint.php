@@ -99,7 +99,7 @@ class Endpoint
         if ($format == 'json') {
             $response = JsonResponse::create($serviceDescription);
         } else {
-            $response = new ServiceDescriptionResponse($this->getDescriptor(), $serviceDescription);
+            $response = new ServiceDescriptionResponse($serviceDescription, $this->getDescriptor());
         }
 
         if ($this->debug) {

@@ -25,14 +25,14 @@ class ServiceDescriptionResponse extends JsonResponse
     private $descriptor;
 
     /**
-     * @param string                  $descriptor
-     * @param ServiceDescription|null $serviceDescription
-     * @param int                     $status
-     * @param array                   $headers
+     * @param ServiceDescription $serviceDescription
+     * @param string             $descriptor
+     * @param int                $status
+     * @param array              $headers
      */
     public function __construct(
+        ServiceDescription $serviceDescription,
         $descriptor = 'Ext.app.REMOTING_API',
-        ServiceDescription $serviceDescription = null,
         $status = 200,
         $headers = array()
     ) {
@@ -58,15 +58,19 @@ class ServiceDescriptionResponse extends JsonResponse
     {
         $this->headers->set('Content-Type', 'application/javascript');
 
-        $namespace      = explode('.', $this->descriptor);
-        $baseNamespace  = reset($namespace);
-        $jsExpression   = 'var ' . $baseNamespace . ' = ' . $baseNamespace . ' || {};' . PHP_EOL;
-        $namespaceCount = count($namespace);
-        for ($i = 1; $i < $namespaceCount; $i++) {
-            if ($i > 1) {
-                $subNamespace = implode('.', array_slice($namespace, 0, $i));
-                $jsExpression .= $subNamespace . ' = ' . $subNamespace . ' || {};' . PHP_EOL;
+        $namespace = explode('.', $this->descriptor);
+        if (count($namespace) > 1) {
+            $baseNamespace  = reset($namespace);
+            $jsExpression   = 'var ' . $baseNamespace . ' = ' . $baseNamespace . ' || {};' . PHP_EOL;
+            $namespaceCount = count($namespace);
+            for ($i = 1; $i < $namespaceCount; $i++) {
+                if ($i > 1) {
+                    $subNamespace = implode('.', array_slice($namespace, 0, $i));
+                    $jsExpression .= $subNamespace . ' = ' . $subNamespace . ' || {};' . PHP_EOL;
+                }
             }
+        } else {
+            $jsExpression = 'var ';
         }
         $jsExpression .= $this->descriptor . ' = ' . $this->data . ';';
 
