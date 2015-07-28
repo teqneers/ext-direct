@@ -57,7 +57,7 @@ class EventResponse extends AbstractResponse
     }
 
     /**
-     * {@inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

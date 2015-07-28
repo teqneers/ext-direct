@@ -77,7 +77,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     }
 
     /**
-     * {@inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

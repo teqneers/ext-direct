@@ -59,7 +59,7 @@ class Response extends AbstractTransactionResponse
     }
 
     /**
-     * {@inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

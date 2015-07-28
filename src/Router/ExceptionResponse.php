@@ -79,7 +79,7 @@ class ExceptionResponse extends AbstractTransactionResponse
     }
 
     /**
-     * {@inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

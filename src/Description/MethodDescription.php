@@ -186,7 +186,7 @@ class MethodDescription implements \JsonSerializable
     }
 
     /**
-     * {@inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

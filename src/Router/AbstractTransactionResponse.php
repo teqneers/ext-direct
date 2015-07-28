@@ -72,7 +72,7 @@ abstract class AbstractTransactionResponse extends AbstractResponse
     }
 
     /**
-     * {@inheritdoc
+     * {@inheritdoc}
      */
     public function jsonSerialize()
     {
