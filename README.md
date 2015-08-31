@@ -203,23 +203,25 @@ Parameters that go into a method that is being called via an *Ext.direct* reques
  parameter validation. This requires that the `TQ\ExtDirect\Router\EventListener\ArgumentValidationListener` is
  registered with the appropriate event dispatcher.
 
-    use Symfony\Component\Validator\Constraints as Assert;
+```php
+use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Direct\Action("app.direct.service4")
+ */
+class Service4
+{
     /**
-     * @Direct\Action("app.direct.service4")
+     * @Direct\Method()
+     * @Direct\Parameter("a", { @Assert\NotNull(), @Assert\Type("int") })
+     *
+     * @param int $a
      */
-    class Service4
+    public function methodA($a)
     {
-        /**
-         * @Direct\Method()
-         * @Direct\Parameter("a", { @Assert\NotNull(), @Assert\Type("int") })
-         *
-         * @param int $a
-         */
-        public function methodA($a)
-        {
-        }
     }
+}
+```
 
 If the signature of the method being called exposes parameter(s) with a type-hint for `Symfony\Component\HttpFoundation\Request`
 and/or `TQ\ExtDirect\Router\Request`, the incoming Symfony HTTP request and/or the raw *Ext.direct* request are
