@@ -142,6 +142,99 @@ library.
         )
     );
 
+## Service Annotations
+
+Services to be exposed via the *Ext.direct* API must be decorated with appropriate meta information. Currently this
+is only possible using annotations (like the ones known from Doctrine, Symfony or other modern PHP libraries).
+
+Each service class that will be exposed as an *Ext.direct* action is required to be annotated with `TQ\ExtDirect\Annotation\Action`.
+The `Action` annotation optionally takes a service id parameter for services that are neither static nor can be
+ instantiated with a parameter-less constructor.
+
+    use TQ\ExtDirect\Annotation as Direct;
+
+    /**
+     * @Direct\Action()
+     */
+    class Service1
+    {
+        // service will be instantiated using the parameter-less constructor if called method is not static
+    }
+
+    /**
+     * @Direct\Action("app.direct.service2")
+     */
+    class Service2
+    {
+        // service will be retrieved from the dependency injection container using id "app.direct.service2" if called method is not static
+    }
+
+Additionally each method that ill be exposed on an *Ext.direct* action is required to be annotated with `TQ\ExtDirect\Annotation\Method`.
+The `Method` annotation optionally takes either `true` to designate the method as being a form handler ([taking regular form
+posts](http://docs.sencha.com/extjs/6.0/direct/specification.html#Remoting_form_submission)) or `false` to designate the
+method as being a regular *Ext.direct* method (this is the default).
+
+    /**
+     * @Direct\Action("app.direct.service3")
+     */
+    class Service3
+    {
+        /**
+         * @Direct\Method()
+         */
+        public function methodA()
+        {
+            // regular method
+        }
+
+        /**
+         * @Direct\Method(true)
+         */
+        public function methodB()
+        {
+            // form handler method
+        }
+    }
+
+**Extended features such as named parameters and strict named parameters described the in the *Ext.direct* specification are
+ currently not exposed through the annotation system.**
+
+Parameters that go into a method that is being called via an *Ext.direct* request can be annotated as well to apply
+ parameter validation. This requires that the `TQ\ExtDirect\Router\EventListener\ArgumentValidationListener` is
+ registered with the appropriate event dispatcher.
+
+    use Symfony\Component\Validator\Constraints as Assert;
+
+    /**
+     * @Direct\Action("app.direct.service4")
+     */
+    class Service4
+    {
+        /**
+         * @Direct\Method()
+         * @Direct\Parameter("a", { @Assert\NotNull(), @Assert\Type("int") })
+         *
+         * @param int $a
+         */
+        public function methodA($a)
+        {
+        }
+    }
+
+If the signature of the method being called exposes parameter(s) with a type-hint for `Symfony\Component\HttpFoundation\Request`
+and/or `TQ\ExtDirect\Router\Request`, the incoming Symfony HTTP request and/or the raw *Ext.direct* request are
+ injected into the method call automatically. This is especially important form form handling methods because there
+ is no other way to access the incoming HTTP request parameters (form post).
+
+As soon as the `TQ\ExtDirect\Router\EventListener\ArgumentConversionListener` is enabled, one can use strictly-typed
+object parameters on service methods. These arguments will be automatically deserialized from the incoming JSON request and
+will be injected into the method call.
+
+The same is true for returning objects from a service method call. If the `TQ\ExtDirect\Router\EventListener\ResultConversionListener`
+is enabled, return values are automatically serialized to JSON even if they are non-trivial objects.
+
+Both the argument as well as the return value conversion is based on the excellent [`jms/serializer`](https://github.com/schmittjoh/serializer)
+library by Johannes Schmitt. See the [documentation](http://jmsyst.com/libs/serializer) for more information.
 
 ## Specification
 
