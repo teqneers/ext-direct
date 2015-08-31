@@ -37,16 +37,18 @@ an associated annotation driver (which in turn uses a [`doctrine/annotations`](h
 annotation reader) to read meta information about possible annotated service
 classes from a given set of paths.
 
-    $serviceLocator = new TQ\ExtDirect\Service\MetadataServiceLocator(
-        new Metadata\MetadataFactory(
-            new TQ\ExtDirect\Metadata\Driver\AnnotationDriver(
-                new Doctrine\Common\Annotations\AnnotationReader(),
-                [
-                    __DIR__.'/services'
-                ]
-            )
+```php
+$serviceLocator = new TQ\ExtDirect\Service\MetadataServiceLocator(
+    new Metadata\MetadataFactory(
+        new TQ\ExtDirect\Metadata\Driver\AnnotationDriver(
+            new Doctrine\Common\Annotations\AnnotationReader(),
+            [
+                __DIR__.'/services'
+            ]
         )
-    );
+    )
+);
+```
 
 The naming strategy determins how PHP class names and namespaces are translated
 into Javascript-compatible *Ext.direct* action names. The default naming strategy
@@ -54,12 +56,16 @@ translates the `\` namspapce separator into a `.`. So `My\Namespace\Service` is
 translated into `My.namespace.Service`. Please note that the transformation
 must be reversible (`My.namespace.Service` => `My\Namespace\Service`).
 
-    $namingStrategy = new TQ\ExtDirect\Service\DefaultNamingStrategy();
+```php
+$namingStrategy = new TQ\ExtDirect\Service\DefaultNamingStrategy();
+```
 
 The event dispatcher is optional but is required to use features like
 argument conversion and validation, result conversion of the profiling listener.
 
-    $eventDispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+```php
+$eventDispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+```
 
 The router is used to translate incoming *Ext.direct* requests into PHP method calls
 to the correct service class. The `ContainerServiceFactory` supports retrieving
@@ -67,16 +73,18 @@ services from a Symfony dependency injection container or instantiating simple
 services which take no constructor arguments at all. Static service calls bypass the
 service factory.
 
-    $router = new TQ\ExtDirect\Router\Router(
-        new TQ\ExtDirect\Router\ServiceResolver(
-            $serviceLocator,
-            $namingStrategy,
-            new TQ\ExtDirect\Service\ContainerServiceFactory(
-                /* a Symfony\Component\DependencyInjection\ContainerInterface */
-            )
-        ),
-        $eventDispatcher
-    );
+```php
+$router = new TQ\ExtDirect\Router\Router(
+    new TQ\ExtDirect\Router\ServiceResolver(
+        $serviceLocator,
+        $namingStrategy,
+        new TQ\ExtDirect\Service\ContainerServiceFactory(
+            /* a Symfony\Component\DependencyInjection\ContainerInterface */
+        )
+    ),
+    $eventDispatcher
+);
+```
 
 The endpoint object is a facade in front of all the *Ext.direct* server-side components.
 With its `createServiceDescription()` method one can obtain a standard-compliant API-
@@ -84,31 +92,35 @@ description while `handleRequest()` takes a `Symfony\Component\HttpFoundation\Re
 and returns a `Symfony\Component\HttpFoundation\Response` which contains the *Ext.direct*
 response for the service calls received.
 
-    $endpoint = TQ\ExtDirect\Service\Endpoint(
-        'default', // endpoint id
-        new TQ\ExtDirect\Description\ServiceDescriptionFactory(
-            $serviceLocator,
-            $namingStrategy,
-            'My.api',
-            $router,
-            new TQ\ExtDirect\Router\RequestFactory(),
-            'My.api.REMOTING_API'
-        )
-    );
+```php
+$endpoint = TQ\ExtDirect\Service\Endpoint(
+    'default', // endpoint id
+    new TQ\ExtDirect\Description\ServiceDescriptionFactory(
+        $serviceLocator,
+        $namingStrategy,
+        'My.api',
+        $router,
+        new TQ\ExtDirect\Router\RequestFactory(),
+        'My.api.REMOTING_API'
+    )
+);
+```
 
 The endpoint manager is just a simple collection of endpoints which allow retrieval using
 the endpoint id. This allows easy exposure of multiple independent APIs.
 
-    $manager = new TQ\ExtDirect\Service\EndpointManager();
-    $manager->addEndpoint($endpoint);
-    $defaultEndpoint = $manager->getEndpoint('default');
+```php
+$manager = new TQ\ExtDirect\Service\EndpointManager();
+$manager->addEndpoint($endpoint);
+$defaultEndpoint = $manager->getEndpoint('default');
 
-    $apiResponse = $defaultEndpoint->createServiceDescription('/path/to/router');
-    $apiResponse->send();
+$apiResponse = $defaultEndpoint->createServiceDescription('/path/to/router');
+$apiResponse->send();
 
-    $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
-    $response = $defaultEndpoint->handleRequest($request);
-    $response->send();
+$request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+$response = $defaultEndpoint->handleRequest($request);
+$response->send();
+```
 
 The routing process can be manipulated and augmented by using event listeners on the event
 dispatcher passed into the router. The library provides four event subscribers that allow
@@ -121,26 +133,28 @@ The shipped argument and result converters use the [`jms/serializer`](https://gi
 (de-)serialization capabilities, while the default argument validator makes use of the [`symfony/validator`](https://github.com/symfony/Validator)
 library.
 
-    $eventDispatcher->addSubscriber(
-        new TQ\ExtDirect\Router\EventListener\ArgumentConversionListener(
-            new TQ\ExtDirect\Router\ArgumentConverter(/* a JMS\Serializer\Serializer */)
-        )
-    );
-    $eventDispatcher->addSubscriber(
-        new TQ\ExtDirect\Router\EventListener\ArgumentValidationListener(
-            new TQ\ExtDirect\Router\ArgumentValidator(/* a Symfony\Component\Validator\Validator\ValidatorInterface */)
-        )
-    );
-    $eventDispatcher->addSubscriber(
-        new TQ\ExtDirect\Router\EventListener\ResultConversionListener(
-            new TQ\ExtDirect\Router\ResultConverter(/* a JMS\Serializer\Serializer */)
-        )
-    );
-    $eventDispatcher->addSubscriber(
-        new TQ\ExtDirect\Router\EventListener\StopwatchListener(
-            /* a Symfony\Component\Stopwatch\Stopwatch */
-        )
-    );
+```php
+$eventDispatcher->addSubscriber(
+    new TQ\ExtDirect\Router\EventListener\ArgumentConversionListener(
+        new TQ\ExtDirect\Router\ArgumentConverter(/* a JMS\Serializer\Serializer */)
+    )
+);
+$eventDispatcher->addSubscriber(
+    new TQ\ExtDirect\Router\EventListener\ArgumentValidationListener(
+        new TQ\ExtDirect\Router\ArgumentValidator(/* a Symfony\Component\Validator\Validator\ValidatorInterface */)
+    )
+);
+$eventDispatcher->addSubscriber(
+    new TQ\ExtDirect\Router\EventListener\ResultConversionListener(
+        new TQ\ExtDirect\Router\ResultConverter(/* a JMS\Serializer\Serializer */)
+    )
+);
+$eventDispatcher->addSubscriber(
+    new TQ\ExtDirect\Router\EventListener\StopwatchListener(
+        /* a Symfony\Component\Stopwatch\Stopwatch */
+    )
+);
+```
 
 ## Service Annotations
 
@@ -151,50 +165,54 @@ Each service class that will be exposed as an *Ext.direct* action is required to
 The `Action` annotation optionally takes a service id parameter for services that are neither static nor can be
  instantiated with a parameter-less constructor.
 
-    use TQ\ExtDirect\Annotation as Direct;
+```php
+use TQ\ExtDirect\Annotation as Direct;
 
-    /**
-     * @Direct\Action()
-     */
-    class Service1
-    {
-        // service will be instantiated using the parameter-less constructor if called method is not static
-    }
+/**
+ * @Direct\Action()
+ */
+class Service1
+{
+    // service will be instantiated using the parameter-less constructor if called method is not static
+}
 
-    /**
-     * @Direct\Action("app.direct.service2")
-     */
-    class Service2
-    {
-        // service will be retrieved from the dependency injection container using id "app.direct.service2" if called method is not static
-    }
+/**
+ * @Direct\Action("app.direct.service2")
+ */
+class Service2
+{
+    // service will be retrieved from the dependency injection container using id "app.direct.service2" if called method is not static
+}
+```
 
 Additionally each method that ill be exposed on an *Ext.direct* action is required to be annotated with `TQ\ExtDirect\Annotation\Method`.
 The `Method` annotation optionally takes either `true` to designate the method as being a form handler ([taking regular form
 posts](http://docs.sencha.com/extjs/6.0/direct/specification.html#Remoting_form_submission)) or `false` to designate the
 method as being a regular *Ext.direct* method (this is the default).
 
+```php
+/**
+ * @Direct\Action("app.direct.service3")
+ */
+class Service3
+{
     /**
-     * @Direct\Action("app.direct.service3")
+     * @Direct\Method()
      */
-    class Service3
+    public function methodA()
     {
-        /**
-         * @Direct\Method()
-         */
-        public function methodA()
-        {
-            // regular method
-        }
-
-        /**
-         * @Direct\Method(true)
-         */
-        public function methodB()
-        {
-            // form handler method
-        }
+        // regular method
     }
+
+    /**
+     * @Direct\Method(true)
+     */
+    public function methodB()
+    {
+        // form handler method
+    }
+}
+```
 
 **Extended features such as named parameters and strict named parameters described the in the *Ext.direct* specification are
  currently not exposed through the annotation system.**
