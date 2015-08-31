@@ -32,8 +32,8 @@ or add the package to your composer.json file directly.
 
 ## Example
 
-The service locator uses a metadata factory from the jms/metadata library and
-an associated annotation driver (which in turn uses a doctrine/annotations
+The service locator uses a metadata factory from the [`jms/metadata`](https://github.com/schmittjoh/metadata) library and
+an associated annotation driver (which in turn uses a [`doctrine/annotations`](https://github.com/doctrine/annotations.git)
 annotation reader) to read meta information about possible annotated service
 classes from a given set of paths.
 
@@ -80,8 +80,8 @@ service factory.
 
 The endpoint object is a facade in front of all the *Ext.direct* server-side components.
 With its `createServiceDescription()` method one can obtain a standard-compliant API-
-description while `handleRequest()` takes a Symfony\Component\HttpFoundation\Request
-and returns a Symfony\Component\HttpFoundation\Response which contains the *Ext.direct*
+description while `handleRequest()` takes a `Symfony\Component\HttpFoundation\Request`
+and returns a `Symfony\Component\HttpFoundation\Response` which contains the *Ext.direct*
 response for the service calls received.
 
     $endpoint = TQ\ExtDirect\Service\Endpoint(
@@ -101,6 +101,14 @@ the endpoint id. This allows easy exposure of multiple independent APIs.
 
     $manager = new TQ\ExtDirect\Service\EndpointManager();
     $manager->addEndpoint($endpoint);
+    $defaultEndpoint = $manager->getEndpoint('default');
+
+    $apiResponse = $defaultEndpoint->createServiceDescription('/path/to/router');
+    $apiResponse->send();
+
+    $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+    $response = $defaultEndpoint->handleRequest($request);
+    $response->send();
 
 The routing process can be manipulated and augmented by using event listeners on the event
 dispatcher passed into the router. The library provides four event subscribers that allow
@@ -109,8 +117,8 @@ dispatcher passed into the router. The library provides four event subscribers t
 - converting the service method call result before sending it back to the client
 - instrumenting the router to gain timing information (used to augment the Symfony profiler timeline)
 
-The shipped argument and result converters use the jms/serializer library to provide extended
-(de-)serialization capabilities, while the default argument validator makes use of the symfony/validator
+The shipped argument and result converters use the [`jms/serializer`](https://github.com/schmittjoh/serializer) library to provide extended
+(de-)serialization capabilities, while the default argument validator makes use of the [`symfony/validator`](https://github.com/symfony/Validator)
 library.
 
     $eventDispatcher->addSubscriber(
