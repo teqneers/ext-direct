@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "88613e90df546fbfd7bda16ed2b8ed0b",
-    "content-hash": "eb3fc0577fc698c9a71ef1908f348f57",
+    "hash": "afc92be280b83424570939bd997b58f6",
+    "content-hash": "e42272951f65287b88a6027bfe2be977",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1046,16 +1046,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.4.7",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "6f1447a60f068c89d345ceee32025a51dd630f1c"
+                "reference": "3ab72c62e550370a6cd5dc873e1a04ab57562f5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/6f1447a60f068c89d345ceee32025a51dd630f1c",
-                "reference": "6f1447a60f068c89d345ceee32025a51dd630f1c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3ab72c62e550370a6cd5dc873e1a04ab57562f5b",
+                "reference": "3ab72c62e550370a6cd5dc873e1a04ab57562f5b",
                 "shasum": ""
             },
             "require": {
@@ -1091,7 +1091,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2015-09-14 18:56:12"
+            "time": "2015-08-16 08:51:00"
         },
         {
             "name": "phpunit/phpunit",
