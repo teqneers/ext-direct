@@ -49,6 +49,47 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
             'id' => 1
         ), $converter->convert($result));
     }
+
+    public function testArrayIsConverted()
+    {
+        /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
+        $serializer = $this->getMock('JMS\Serializer\Serializer', array('toArray'), array(), '', false);
+
+        $result = [
+            new ResultConverterTest_TestClass(1),
+            new ResultConverterTest_TestClass(2),
+            new ResultConverterTest_TestClass(3)
+        ];
+
+        $serializer->expects($this->once())
+                   ->method('toArray')
+                   ->with($this->equalTo($result))
+                   ->willReturn(
+                       array(
+                           array(
+                               'id' => 1
+                           ),
+                           array(
+                               'id' => 2
+                           ),
+                           array(
+                               'id' => 3
+                           )
+                       ));
+
+        $converter = new ResultConverter($serializer);
+        $this->assertEquals(array(
+            array(
+                'id' => 1
+            ),
+            array(
+                'id' => 2
+            ),
+            array(
+                'id' => 3
+            )
+        ), $converter->convert($result));
+    }
 }
 
 /**
