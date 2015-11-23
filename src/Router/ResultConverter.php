@@ -36,7 +36,7 @@ class ResultConverter implements ResultConverterInterface
      */
     public function convert($result)
     {
-        if (is_object($result)) {
+        if (is_object($result) || is_array($result)) {
             return $this->serializer->toArray($result);
         }
         return $result;
