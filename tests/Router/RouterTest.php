@@ -438,6 +438,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 'removeListener',
                 'removeSubscriber',
                 'getListeners',
+                'getListenerPriority',
                 'hasListeners',
             )
         );
@@ -537,6 +538,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 'removeListener',
                 'removeSubscriber',
                 'getListeners',
+                'getListenerPriority',
                 'hasListeners',
             )
         );
