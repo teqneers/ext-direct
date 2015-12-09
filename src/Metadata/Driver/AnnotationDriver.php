@@ -57,7 +57,7 @@ abstract class AnnotationDriver implements AdvancedDriverInterface
         /** @var \TQ\ExtDirect\Annotation\Action $actionAnnotation */
         if ($actionAnnotation !== null) {
             $actionMetadata->isAction  = true;
-            $actionMetadata->serviceId = $actionAnnotation->serviceId;
+            $actionMetadata->serviceId = $actionAnnotation->serviceId ?: null;
         } else {
             return new NullMetadata($class->name);
         }

@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Metadata\Driver;
 
 use Doctrine\Common\Annotations\Reader;
+use TQ\ExtDirect\Metadata\ActionMetadata;
 
 /**
  * Class ClassAnnotationDriver
@@ -39,16 +40,41 @@ class ClassAnnotationDriver extends AnnotationDriver
      */
     public function addClasses(array $classes)
     {
-        $this->classes = array_unique(array_merge($this->classes, $classes));
-        $this->clearAllClassNames();
+        foreach ($classes as $key => $value) {
+            if (is_numeric($key)) {
+                $class     = $value;
+                $serviceId = null;
+            } else {
+                $class     = $key;
+                $serviceId = $value;
+            }
+            $this->addClass($class, $serviceId);
+        }
     }
 
     /**
-     * @param string $class
+     * @param string      $class
+     * @param string|null $serviceId
      */
-    public function addClass($class)
+    public function addClass($class, $serviceId = null)
     {
-        $this->addClasses([$class]);
+        $this->classes[$class] = $serviceId;
+        $this->clearAllClassNames();
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadMetadataForClass(\ReflectionClass $class)
+    {
+        $actionMetadata = parent::loadMetadataForClass($class);
+        if ($actionMetadata instanceof ActionMetadata) {
+            if (isset($this->classes[$class->name])) {
+                $actionMetadata->serviceId = $this->classes[$class->name];
+            }
+        }
+        return $actionMetadata;
     }
 
     /**
@@ -57,7 +83,7 @@ class ClassAnnotationDriver extends AnnotationDriver
     protected function findAllClassNames()
     {
         return array_filter(
-            $this->classes,
+            array_keys($this->classes),
             function ($class) {
                 return $this->isActionClass($class);
             }
