@@ -13,7 +13,7 @@ use Metadata\AdvancedMetadataFactoryInterface;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 
 /**
- * Class ServiceLocator
+ * Class MetadataServiceLocator
  *
  * @package TQ\ExtDirect
  */

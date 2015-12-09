@@ -10,18 +10,18 @@ namespace TQ\ExtDirect\Tests\Metadata\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Validator\Constraint;
-use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 
 /**
- * Class AnnotationDriverTest
+ * Class PathAnnotationDriverTest
  *
  * @package TQ\ExtDirect\Tests\Metadata\Driver
  */
-class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
+class PathAnnotationDriverTest extends \PHPUnit_Framework_TestCase
 {
     protected function getDriver()
     {
-        return new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
+        return new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
     }
 
     public function testGetAllClassNames()

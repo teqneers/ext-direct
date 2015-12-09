@@ -11,7 +11,7 @@ namespace TQ\ExtDirect\Tests\Router;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Router\ServiceResolver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
@@ -260,7 +260,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     {
         return new MetadataServiceLocator(
             new MetadataFactory(
-                new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
+                new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
             )
         );
     }

@@ -11,7 +11,7 @@ namespace TQ\ExtDirect\Tests\Description;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
 use TQ\ExtDirect\Description\ServiceDescriptionFactory;
-use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
 use TQ\ExtDirect\Service\MetadataServiceLocator;
 
@@ -90,7 +90,7 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         return new MetadataServiceLocator(
             new MetadataFactory(
-                new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
+                new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
             )
         );
     }

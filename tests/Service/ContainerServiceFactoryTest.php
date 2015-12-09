@@ -9,7 +9,7 @@
 namespace TQ\ExtDirect\Tests\Service;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 use TQ\ExtDirect\Service\ContainerServiceFactory;
 
 /**
@@ -101,7 +101,7 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function loadMetadataForClass($className)
     {
-        $driver          = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
+        $driver          = new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
         $reflectionClass = new\ReflectionClass($className);
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
         return $classMetadata;
