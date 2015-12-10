@@ -39,7 +39,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -71,7 +70,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -90,7 +88,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -109,7 +106,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -129,7 +125,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -149,7 +144,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -170,7 +164,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -197,7 +190,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -217,7 +209,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -241,7 +232,6 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver = new ServiceResolver(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             $serviceFactory
         );
 
@@ -261,7 +251,8 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         return new DefaultServiceRegistry(
             new MetadataFactory(
                 new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
-            )
+            ),
+            new DefaultNamingStrategy()
         );
     }
 }

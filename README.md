@@ -32,6 +32,16 @@ or add the package to your composer.json file directly.
 
 ## Example
 
+The naming strategy determins how PHP class names and namespaces are translated
+into Javascript-compatible *Ext.direct* action names. The default naming strategy
+translates the `\` namspapce separator into a `.`. So `My\Namespace\Service` is
+translated into `My.namespace.Service`. Please note that the transformation
+must be reversible (`My.namespace.Service` => `My\Namespace\Service`).
+
+```php
+$namingStrategy = new TQ\ExtDirect\Service\DefaultNamingStrategy();
+```
+
 The service registry uses a metadata factory from the [`jms/metadata`](https://github.com/schmittjoh/metadata) library and
 an associated annotation driver (which in turn uses a [`doctrine/annotations`](https://github.com/doctrine/annotations.git)
 annotation reader) to read meta information about possible annotated service
@@ -46,18 +56,9 @@ $serviceRegistry = new TQ\ExtDirect\Service\DefaultServiceRegistry(
                 __DIR__.'/services'
             ]
         )
-    )
+    ),
+    $namingStrategy
 );
-```
-
-The naming strategy determins how PHP class names and namespaces are translated
-into Javascript-compatible *Ext.direct* action names. The default naming strategy
-translates the `\` namspapce separator into a `.`. So `My\Namespace\Service` is
-translated into `My.namespace.Service`. Please note that the transformation
-must be reversible (`My.namespace.Service` => `My\Namespace\Service`).
-
-```php
-$namingStrategy = new TQ\ExtDirect\Service\DefaultNamingStrategy();
 ```
 
 The event dispatcher is optional but is required to use features like
@@ -77,7 +78,6 @@ service factory.
 $router = new TQ\ExtDirect\Router\Router(
     new TQ\ExtDirect\Router\ServiceResolver(
         $serviceRegistry,
-        $namingStrategy,
         new TQ\ExtDirect\Service\ContainerServiceFactory(
             /* a Symfony\Component\DependencyInjection\ContainerInterface */
         )
@@ -97,7 +97,6 @@ $endpoint = TQ\ExtDirect\Service\Endpoint(
     'default', // endpoint id
     new TQ\ExtDirect\Description\ServiceDescriptionFactory(
         $serviceRegistry,
-        $namingStrategy,
         'My.api',
         $router,
         new TQ\ExtDirect\Router\RequestFactory(),

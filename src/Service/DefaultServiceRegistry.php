@@ -25,11 +25,18 @@ class DefaultServiceRegistry implements ServiceRegistry
     private $metadataFactory;
 
     /**
-     * @param AdvancedMetadataFactoryInterface $metadataFactory
+     * @var NamingStrategy
      */
-    public function __construct(AdvancedMetadataFactoryInterface $metadataFactory)
+    private $namingStrategy;
+
+    /**
+     * @param AdvancedMetadataFactoryInterface $metadataFactory
+     * @param NamingStrategy                   $namingStrategy
+     */
+    public function __construct(AdvancedMetadataFactoryInterface $metadataFactory, NamingStrategy $namingStrategy)
     {
         $this->metadataFactory = $metadataFactory;
+        $this->namingStrategy  = $namingStrategy;
     }
 
     /**
@@ -56,5 +63,22 @@ class DefaultServiceRegistry implements ServiceRegistry
         }
 
         return $all;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToActionName($className)
+    {
+        return $this->namingStrategy->convertToActionName($className);
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToClassName($actionName)
+    {
+        return $this->namingStrategy->convertToClassName($actionName);
     }
 }

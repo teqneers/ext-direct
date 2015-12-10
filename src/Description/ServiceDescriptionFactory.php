@@ -12,7 +12,6 @@ namespace TQ\ExtDirect\Description;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 use TQ\ExtDirect\Router\Request as DirectRequest;
-use TQ\ExtDirect\Service\NamingStrategy;
 use TQ\ExtDirect\Service\ServiceRegistry;
 
 /**
@@ -28,24 +27,17 @@ class ServiceDescriptionFactory
     private $serviceRegistry;
 
     /**
-     * @var NamingStrategy
-     */
-    private $namingStrategy;
-
-    /**
      * @var string
      */
     private $namespace;
 
     /**
      * @param ServiceRegistry $serviceRegistry
-     * @param NamingStrategy  $namingStrategy
      * @param string          $namespace
      */
-    public function __construct(ServiceRegistry $serviceRegistry, NamingStrategy $namingStrategy, $namespace)
+    public function __construct(ServiceRegistry $serviceRegistry, $namespace)
     {
         $this->serviceRegistry = $serviceRegistry;
-        $this->namingStrategy  = $namingStrategy;
         $this->namespace       = $namespace;
     }
 
@@ -61,7 +53,7 @@ class ServiceDescriptionFactory
             if (!$actionMetadata) {
                 continue;
             }
-            $actionName = $this->namingStrategy->convertToActionName($actionMetadata->name);
+            $actionName = $this->serviceRegistry->convertToActionName($actionMetadata->name);
 
             $actionDescription = new ActionDescription($actionName);
             foreach ($actionMetadata->methodMetadata as $methodMetadata) {

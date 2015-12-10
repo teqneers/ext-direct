@@ -15,7 +15,6 @@ use TQ\ExtDirect\Metadata\MethodMetadata;
 use TQ\ExtDirect\Router\Exception\ActionNotFoundException;
 use TQ\ExtDirect\Router\Exception\MethodNotFoundException;
 use TQ\ExtDirect\Router\Request as DirectRequest;
-use TQ\ExtDirect\Service\NamingStrategy;
 use TQ\ExtDirect\Service\ServiceFactory;
 use TQ\ExtDirect\Service\ServiceRegistry;
 
@@ -32,27 +31,17 @@ class ServiceResolver implements ServiceResolverInterface
     private $serviceRegistry;
 
     /**
-     * @var NamingStrategy
-     */
-    private $namingStrategy;
-
-    /**
      * @var ServiceFactory
      */
     private $serviceFactory;
 
     /**
      * @param ServiceRegistry $serviceRegistry
-     * @param NamingStrategy  $namingStrategy
      * @param ServiceFactory  $serviceFactory
      */
-    public function __construct(
-        ServiceRegistry $serviceRegistry,
-        NamingStrategy $namingStrategy,
-        ServiceFactory $serviceFactory
-    ) {
+    public function __construct(ServiceRegistry $serviceRegistry, ServiceFactory $serviceFactory)
+    {
         $this->serviceRegistry = $serviceRegistry;
-        $this->namingStrategy  = $namingStrategy;
         $this->serviceFactory  = $serviceFactory;
     }
 
@@ -85,7 +74,7 @@ class ServiceResolver implements ServiceResolverInterface
      */
     protected function assertMetadata(DirectRequest $directRequest)
     {
-        $className = $this->namingStrategy->convertToClassName($directRequest->getAction());
+        $className = $this->serviceRegistry->convertToClassName($directRequest->getAction());
         if (!class_exists($className)) {
             throw new ActionNotFoundException($directRequest);
         }

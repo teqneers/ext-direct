@@ -27,7 +27,6 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new ServiceDescriptionFactory(
             $this->createServiceRegistry(),
-            new DefaultNamingStrategy(),
             'My.namespace'
         );
 
@@ -91,7 +90,8 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
         return new DefaultServiceRegistry(
             new MetadataFactory(
                 new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
-            )
+            ),
+            new DefaultNamingStrategy()
         );
     }
 }

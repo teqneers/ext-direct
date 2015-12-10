@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Service;
 
+use TQ\ExtDirect\Service\DefaultNamingStrategy;
 use TQ\ExtDirect\Service\DefaultServiceRegistry;
 
 /**
@@ -25,7 +26,7 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
                         ->method('getAllClassNames')
                         ->willReturn(array());
 
-        $serviceRegistry = new DefaultServiceRegistry($metadataFactory);
+        $serviceRegistry = new DefaultServiceRegistry($metadataFactory, new DefaultNamingStrategy());
         $this->assertEquals(array(), $serviceRegistry->getAllMetadata());
     }
 
@@ -38,7 +39,7 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
                         ->with($this->equalTo('A'))
                         ->willReturn(null);
 
-        $serviceRegistry = new DefaultServiceRegistry($metadataFactory);
+        $serviceRegistry = new DefaultServiceRegistry($metadataFactory, new DefaultNamingStrategy());
         $this->assertEquals(null, $serviceRegistry->getMetadataForService('A'));
     }
 
