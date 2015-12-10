@@ -57,13 +57,11 @@ class ServiceDescriptionFactory
     {
         $serviceDescription = new ServiceDescription($url, $this->namespace);
 
-        foreach ($this->serviceRegistry->getAllClassNames() as $className) {
-            $actionName     = $this->namingStrategy->convertToActionName($className);
-            $actionMetadata = $this->serviceRegistry->getMetadataForClass($className);
-
+        foreach ($this->serviceRegistry->getAllMetadata() as $actionMetadata) {
             if (!$actionMetadata) {
                 continue;
             }
+            $actionName = $this->namingStrategy->convertToActionName($actionMetadata->name);
 
             $actionDescription = new ActionDescription($actionName);
             foreach ($actionMetadata->methodMetadata as $methodMetadata) {

@@ -35,7 +35,7 @@ class DefaultServiceRegistry implements ServiceRegistry
     /**
      * {@inheritdoc}
      */
-    public function getMetadataForClass($class)
+    public function getMetadataForService($class)
     {
         $metadata = $this->metadataFactory->getMetadataForClass($class);
         if (!($metadata instanceof ActionMetadata) || !$metadata->isAction) {
@@ -48,8 +48,13 @@ class DefaultServiceRegistry implements ServiceRegistry
     /**
      * {@inheritdoc}
      */
-    public function getAllClassNames()
+    public function getAllMetadata()
     {
-        return $this->metadataFactory->getAllClassNames();
+        $all = array();
+        foreach ($this->metadataFactory->getAllClassNames() as $className) {
+            $all[] = $this->getMetadataForService($className);
+        }
+
+        return $all;
     }
 }

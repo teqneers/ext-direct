@@ -90,7 +90,7 @@ class ServiceResolver implements ServiceResolverInterface
             throw new ActionNotFoundException($directRequest);
         }
 
-        $actionMetadata = $this->serviceRegistry->getMetadataForClass($className);
+        $actionMetadata = $this->serviceRegistry->getMetadataForService($className);
         if (!$actionMetadata) {
             throw new ActionNotFoundException($directRequest);
         }

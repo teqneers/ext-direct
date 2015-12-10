@@ -17,7 +17,7 @@ use TQ\ExtDirect\Service\DefaultServiceRegistry;
  */
 class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetAllClassNames()
+    public function testGetAllMetadata()
     {
         $metadataFactory = $this->createMetadataFactory();
 
@@ -26,10 +26,10 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
                         ->willReturn(array());
 
         $serviceRegistry = new DefaultServiceRegistry($metadataFactory);
-        $this->assertEquals(array(), $serviceRegistry->getAllClassNames());
+        $this->assertEquals(array(), $serviceRegistry->getAllMetadata());
     }
 
-    public function testGetMetadataForClass()
+    public function testGetMetadataForService()
     {
         $metadataFactory = $this->createMetadataFactory();
 
@@ -39,7 +39,7 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
                         ->willReturn(null);
 
         $serviceRegistry = new DefaultServiceRegistry($metadataFactory);
-        $this->assertEquals(null, $serviceRegistry->getMetadataForClass('A'));
+        $this->assertEquals(null, $serviceRegistry->getMetadataForService('A'));
     }
 
     /**

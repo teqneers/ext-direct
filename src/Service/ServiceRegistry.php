@@ -22,10 +22,10 @@ interface ServiceRegistry
      * @param string $class
      * @return ActionMetadata|null
      */
-    public function getMetadataForClass($class);
+    public function getMetadataForService($class);
 
     /**
-     * @return array
+     * @return ActionMetadata[]
      */
-    public function getAllClassNames();
+    public function getAllMetadata();
 }
