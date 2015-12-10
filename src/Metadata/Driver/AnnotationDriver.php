@@ -10,7 +10,6 @@ namespace TQ\ExtDirect\Metadata\Driver;
 
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\AdvancedDriverInterface;
-use Metadata\NullMetadata;
 use TQ\ExtDirect\Annotation\Parameter;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
@@ -58,8 +57,9 @@ abstract class AnnotationDriver implements AdvancedDriverInterface
         if ($actionAnnotation !== null) {
             $actionMetadata->isAction  = true;
             $actionMetadata->serviceId = $actionAnnotation->serviceId ?: null;
+            $actionMetadata->alias     = $actionAnnotation->alias ?: null;
         } else {
-            return new NullMetadata($class->name);
+            return null;
         }
 
         $methodCount = 0;
@@ -73,8 +73,10 @@ abstract class AnnotationDriver implements AdvancedDriverInterface
 
             /** @var \TQ\ExtDirect\Annotation\Method $methodAnnotation */
             if ($methodAnnotation !== null) {
-                $methodMetadata->isMethod      = true;
-                $methodMetadata->isFormHandler = $methodAnnotation->formHandler;
+                $methodMetadata->isMethod       = true;
+                $methodMetadata->isFormHandler  = $methodAnnotation->formHandler;
+                $methodMetadata->hasNamedParams = $methodAnnotation->namedParams;
+                $methodMetadata->isStrict       = $methodAnnotation->strict;
                 $methodMetadata->addParameters($reflectionMethod->getParameters());
 
                 foreach ($this->reader->getMethodAnnotations($reflectionMethod) as $annotation) {
@@ -94,7 +96,7 @@ abstract class AnnotationDriver implements AdvancedDriverInterface
         }
 
         if ($methodCount < 1) {
-            return new NullMetadata($class->name);
+            return null;
         }
 
         return $actionMetadata;

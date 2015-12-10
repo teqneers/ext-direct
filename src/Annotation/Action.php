@@ -24,4 +24,9 @@ class Action
      * @var string
      */
     public $serviceId;
+
+    /**
+     * @var string
+     */
+    public $alias;
 }

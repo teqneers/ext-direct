@@ -97,7 +97,7 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $className
-     * @return \Metadata\ClassMetadata|\Metadata\NullMetadata|\TQ\ExtDirect\Metadata\ActionMetadata
+     * @return \Metadata\ClassMetadata|\TQ\ExtDirect\Metadata\ActionMetadata|null
      */
     protected function loadMetadataForClass($className)
     {

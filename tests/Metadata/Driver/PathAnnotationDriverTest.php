@@ -50,7 +50,7 @@ class PathAnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service1');
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
 
-        $this->assertInstanceOf('Metadata\NullMetadata', $classMetadata);
+        $this->assertNull($classMetadata);
     }
 
     public function testClassWithoutMethods()
@@ -60,7 +60,7 @@ class PathAnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service2');
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
 
-        $this->assertInstanceOf('Metadata\NullMetadata', $classMetadata);
+        $this->assertNull($classMetadata);
     }
 
     public function testClassRegularMethod()
@@ -171,7 +171,7 @@ class PathAnnotationDriverTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
-        $this->assertInstanceOf('Metadata\NullMetadata', $classMetadata);
+        $this->assertNull($classMetadata);
     }
 
     public function testClassRegularStaticMethod()

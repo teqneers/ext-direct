@@ -24,4 +24,14 @@ class Method
      * @var bool
      */
     public $formHandler = false;
+
+    /**
+     * @var bool
+     */
+    public $namedParams = false;
+
+    /**
+     * @var bool
+     */
+    public $strict = true;
 }

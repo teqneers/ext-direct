@@ -24,9 +24,14 @@ class ActionMetadata extends MergeableClassMetadata
     public $isAction = false;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $serviceId;
+
+    /**
+     * @var string|null
+     */
+    public $alias;
 
     /**
      * {@inheritdoc}
@@ -36,6 +41,7 @@ class ActionMetadata extends MergeableClassMetadata
         return serialize(array(
             $this->isAction,
             $this->serviceId,
+            $this->alias,
             parent::serialize(),
         ));
     }
@@ -45,7 +51,7 @@ class ActionMetadata extends MergeableClassMetadata
      */
     public function unserialize($str)
     {
-        list($this->isAction, $this->serviceId, $parentStr) = unserialize($str);
+        list($this->isAction, $this->serviceId, $this->alias, $parentStr) = unserialize($str);
         parent::unserialize($parentStr);
     }
 }

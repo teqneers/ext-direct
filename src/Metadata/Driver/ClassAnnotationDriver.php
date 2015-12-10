@@ -44,21 +44,28 @@ class ClassAnnotationDriver extends AnnotationDriver
             if (is_numeric($key)) {
                 $class     = $value;
                 $serviceId = null;
+                $alias     = null;
             } else {
-                $class     = $key;
-                $serviceId = $value;
+                $class = $key;
+                if (is_array($value)) {
+                    list($serviceId, $alias) = $value;
+                } else {
+                    $serviceId = $value;
+                    $alias     = null;
+                }
             }
-            $this->addClass($class, $serviceId);
+            $this->addClass($class, $serviceId, $alias);
         }
     }
 
     /**
      * @param string      $class
      * @param string|null $serviceId
+     * @param string|null $alias
      */
-    public function addClass($class, $serviceId = null)
+    public function addClass($class, $serviceId = null, $alias = null)
     {
-        $this->classes[$class] = $serviceId;
+        $this->classes[$class] = [$serviceId, $alias];
         $this->clearAllClassNames();
     }
 
@@ -70,11 +77,19 @@ class ClassAnnotationDriver extends AnnotationDriver
     {
         $actionMetadata = parent::loadMetadataForClass($class);
         if ($actionMetadata instanceof ActionMetadata) {
-            if (isset($this->classes[$class->name])) {
-                $actionMetadata->serviceId = $this->classes[$class->name];
+            if (!isset($this->classes[$class->name])) {
+                return null;
+            }
+
+            list($serviceId, $alias) = $this->classes[$class->name];
+            if ($serviceId) {
+                $actionMetadata->serviceId = $serviceId;
+            }
+            if ($alias) {
+                $actionMetadata->alias = $alias;
             }
         }
-        return $actionMetadata;
+        return null;
     }
 
     /**
