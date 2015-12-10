@@ -13,7 +13,7 @@ use Metadata\MetadataFactory;
 use TQ\ExtDirect\Description\ServiceDescriptionFactory;
 use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
-use TQ\ExtDirect\Service\MetadataServiceLocator;
+use TQ\ExtDirect\Service\DefaultServiceRegistry;
 
 /**
  * Class ServiceDescriptionFactoryTest
@@ -26,7 +26,7 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateDescription()
     {
         $factory = new ServiceDescriptionFactory(
-            $this->createServiceLocator(),
+            $this->createServiceRegistry(),
             new DefaultNamingStrategy(),
             'My.namespace'
         );
@@ -84,11 +84,11 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return MetadataServiceLocator
+     * @return DefaultServiceRegistry
      */
-    protected function createServiceLocator()
+    protected function createServiceRegistry()
     {
-        return new MetadataServiceLocator(
+        return new DefaultServiceRegistry(
             new MetadataFactory(
                 new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
             )

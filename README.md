@@ -32,13 +32,13 @@ or add the package to your composer.json file directly.
 
 ## Example
 
-The service locator uses a metadata factory from the [`jms/metadata`](https://github.com/schmittjoh/metadata) library and
+The service registry uses a metadata factory from the [`jms/metadata`](https://github.com/schmittjoh/metadata) library and
 an associated annotation driver (which in turn uses a [`doctrine/annotations`](https://github.com/doctrine/annotations.git)
 annotation reader) to read meta information about possible annotated service
 classes from a given set of paths.
 
 ```php
-$serviceLocator = new TQ\ExtDirect\Service\MetadataServiceLocator(
+$serviceRegistry = new TQ\ExtDirect\Service\DefaultServiceRegistry(
     new Metadata\MetadataFactory(
         new TQ\ExtDirect\Metadata\Driver\AnnotationDriver(
             new Doctrine\Common\Annotations\AnnotationReader(),
@@ -76,7 +76,7 @@ service factory.
 ```php
 $router = new TQ\ExtDirect\Router\Router(
     new TQ\ExtDirect\Router\ServiceResolver(
-        $serviceLocator,
+        $serviceRegistry,
         $namingStrategy,
         new TQ\ExtDirect\Service\ContainerServiceFactory(
             /* a Symfony\Component\DependencyInjection\ContainerInterface */
@@ -96,7 +96,7 @@ response for the service calls received.
 $endpoint = TQ\ExtDirect\Service\Endpoint(
     'default', // endpoint id
     new TQ\ExtDirect\Description\ServiceDescriptionFactory(
-        $serviceLocator,
+        $serviceRegistry,
         $namingStrategy,
         'My.api',
         $router,

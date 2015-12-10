@@ -12,11 +12,11 @@ namespace TQ\ExtDirect\Service;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 
 /**
- * Interface ServiceLocator
+ * Interface ServiceRegistry
  *
  * @package TQ\ExtDirect
  */
-interface ServiceLocator
+interface ServiceRegistry
 {
     /**
      * @param string $class

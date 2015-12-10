@@ -8,14 +8,14 @@
 
 namespace TQ\ExtDirect\Tests\Service;
 
-use TQ\ExtDirect\Service\MetadataServiceLocator;
+use TQ\ExtDirect\Service\DefaultServiceRegistry;
 
 /**
- * Class MetadataServiceLocatorTest
+ * Class DefaultServiceRegistryTest
  *
  * @package TQ\ExtDirect\Tests\Service
  */
-class MetadataServiceLocatorTest extends \PHPUnit_Framework_TestCase
+class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAllClassNames()
     {
@@ -25,8 +25,8 @@ class MetadataServiceLocatorTest extends \PHPUnit_Framework_TestCase
                         ->method('getAllClassNames')
                         ->willReturn(array());
 
-        $serviceLocator = new MetadataServiceLocator($metadataFactory);
-        $this->assertEquals(array(), $serviceLocator->getAllClassNames());
+        $serviceRegistry = new DefaultServiceRegistry($metadataFactory);
+        $this->assertEquals(array(), $serviceRegistry->getAllClassNames());
     }
 
     public function testGetMetadataForClass()
@@ -38,8 +38,8 @@ class MetadataServiceLocatorTest extends \PHPUnit_Framework_TestCase
                         ->with($this->equalTo('A'))
                         ->willReturn(null);
 
-        $serviceLocator = new MetadataServiceLocator($metadataFactory);
-        $this->assertEquals(null, $serviceLocator->getMetadataForClass('A'));
+        $serviceRegistry = new DefaultServiceRegistry($metadataFactory);
+        $this->assertEquals(null, $serviceRegistry->getMetadataForClass('A'));
     }
 
     /**

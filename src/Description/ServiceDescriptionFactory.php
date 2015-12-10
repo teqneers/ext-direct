@@ -10,11 +10,10 @@
 namespace TQ\ExtDirect\Description;
 
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Service\NamingStrategy;
-use TQ\ExtDirect\Service\ServiceLocator;
+use TQ\ExtDirect\Service\ServiceRegistry;
 
 /**
  * Class ServiceDescriptionFactory
@@ -24,9 +23,9 @@ use TQ\ExtDirect\Service\ServiceLocator;
 class ServiceDescriptionFactory
 {
     /**
-     * @var ServiceLocator
+     * @var ServiceRegistry
      */
-    private $serviceLocator;
+    private $serviceRegistry;
 
     /**
      * @var NamingStrategy
@@ -39,15 +38,15 @@ class ServiceDescriptionFactory
     private $namespace;
 
     /**
-     * @param ServiceLocator $serviceLocator
-     * @param NamingStrategy $namingStrategy
-     * @param string         $namespace
+     * @param ServiceRegistry $serviceRegistry
+     * @param NamingStrategy  $namingStrategy
+     * @param string          $namespace
      */
-    public function __construct(ServiceLocator $serviceLocator, NamingStrategy $namingStrategy, $namespace)
+    public function __construct(ServiceRegistry $serviceRegistry, NamingStrategy $namingStrategy, $namespace)
     {
-        $this->serviceLocator = $serviceLocator;
-        $this->namingStrategy = $namingStrategy;
-        $this->namespace      = $namespace;
+        $this->serviceRegistry = $serviceRegistry;
+        $this->namingStrategy  = $namingStrategy;
+        $this->namespace       = $namespace;
     }
 
     /**
@@ -58,9 +57,9 @@ class ServiceDescriptionFactory
     {
         $serviceDescription = new ServiceDescription($url, $this->namespace);
 
-        foreach ($this->serviceLocator->getAllClassNames() as $className) {
+        foreach ($this->serviceRegistry->getAllClassNames() as $className) {
             $actionName     = $this->namingStrategy->convertToActionName($className);
-            $actionMetadata = $this->serviceLocator->getMetadataForClass($className);
+            $actionMetadata = $this->serviceRegistry->getMetadataForClass($className);
 
             if (!$actionMetadata) {
                 continue;

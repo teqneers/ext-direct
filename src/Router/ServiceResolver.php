@@ -17,7 +17,7 @@ use TQ\ExtDirect\Router\Exception\MethodNotFoundException;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Service\NamingStrategy;
 use TQ\ExtDirect\Service\ServiceFactory;
-use TQ\ExtDirect\Service\ServiceLocator;
+use TQ\ExtDirect\Service\ServiceRegistry;
 
 /**
  * Class ServiceResolver
@@ -27,9 +27,9 @@ use TQ\ExtDirect\Service\ServiceLocator;
 class ServiceResolver implements ServiceResolverInterface
 {
     /**
-     * @var ServiceLocator
+     * @var ServiceRegistry
      */
-    private $serviceLocator;
+    private $serviceRegistry;
 
     /**
      * @var NamingStrategy
@@ -42,18 +42,18 @@ class ServiceResolver implements ServiceResolverInterface
     private $serviceFactory;
 
     /**
-     * @param ServiceLocator $serviceLocator
-     * @param NamingStrategy $namingStrategy
-     * @param ServiceFactory $serviceFactory
+     * @param ServiceRegistry $serviceRegistry
+     * @param NamingStrategy  $namingStrategy
+     * @param ServiceFactory  $serviceFactory
      */
     public function __construct(
-        ServiceLocator $serviceLocator,
+        ServiceRegistry $serviceRegistry,
         NamingStrategy $namingStrategy,
         ServiceFactory $serviceFactory
     ) {
-        $this->serviceLocator = $serviceLocator;
-        $this->namingStrategy = $namingStrategy;
-        $this->serviceFactory = $serviceFactory;
+        $this->serviceRegistry = $serviceRegistry;
+        $this->namingStrategy  = $namingStrategy;
+        $this->serviceFactory  = $serviceFactory;
     }
 
     /**
@@ -90,7 +90,7 @@ class ServiceResolver implements ServiceResolverInterface
             throw new ActionNotFoundException($directRequest);
         }
 
-        $actionMetadata = $this->serviceLocator->getMetadataForClass($className);
+        $actionMetadata = $this->serviceRegistry->getMetadataForClass($className);
         if (!$actionMetadata) {
             throw new ActionNotFoundException($directRequest);
         }
