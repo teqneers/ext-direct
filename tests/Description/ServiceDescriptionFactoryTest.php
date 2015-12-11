@@ -11,9 +11,10 @@ namespace TQ\ExtDirect\Tests\Description;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
 use TQ\ExtDirect\Description\ServiceDescriptionFactory;
-use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
 use TQ\ExtDirect\Service\DefaultServiceRegistry;
+use TQ\ExtDirect\Service\PathServiceLoader;
 
 /**
  * Class ServiceDescriptionFactoryTest
@@ -87,11 +88,11 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function createServiceRegistry()
     {
-        return new DefaultServiceRegistry(
-            new MetadataFactory(
-                new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
-            ),
+        $registry = new DefaultServiceRegistry(
+            new MetadataFactory(new AnnotationDriver(new AnnotationReader())),
             new DefaultNamingStrategy()
         );
+        $registry->importServices(new PathServiceLoader([__DIR__ . '/Services']));
+        return $registry;
     }
 }

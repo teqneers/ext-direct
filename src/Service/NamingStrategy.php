@@ -21,11 +21,4 @@ interface NamingStrategy
      * @return string
      */
     public function convertToActionName($className);
-
-    /**
-     * @param $actionName
-     * @return string
-     */
-    public function convertToClassName($actionName);
-
 }

@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Metadata;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 
 /**
@@ -20,7 +21,7 @@ class ActionMetadataTest extends \PHPUnit_Framework_TestCase
 {
     public function testSerialize()
     {
-        $driver          = new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
+        $driver          = new AnnotationDriver(new AnnotationReader());
         $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Services\Service1');
         $origMetadata    = $driver->loadMetadataForClass($reflectionClass);
 

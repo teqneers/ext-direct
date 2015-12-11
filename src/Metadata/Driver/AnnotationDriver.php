@@ -9,17 +9,17 @@
 namespace TQ\ExtDirect\Metadata\Driver;
 
 use Doctrine\Common\Annotations\Reader;
-use Metadata\Driver\AdvancedDriverInterface;
+use Metadata\Driver\DriverInterface;
 use TQ\ExtDirect\Annotation\Parameter;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 
 /**
- * Class BaseAnnotationDriver
+ * Class AnnotationDriver
  *
  * @package TQ\ExtDirect\Metadata\Driver
  */
-abstract class AnnotationDriver implements AdvancedDriverInterface
+class AnnotationDriver implements DriverInterface
 {
     const ACTION_ANNOTATION_CLASS = 'TQ\ExtDirect\Annotation\Action';
     const METHOD_ANNOTATION_CLASS = 'TQ\ExtDirect\Annotation\Method';
@@ -28,11 +28,6 @@ abstract class AnnotationDriver implements AdvancedDriverInterface
      * @var Reader
      */
     protected $reader;
-
-    /**
-     * @var array|null
-     */
-    private $allClassNames;
 
     /**
      * @param Reader $reader
@@ -100,45 +95,5 @@ abstract class AnnotationDriver implements AdvancedDriverInterface
         }
 
         return $actionMetadata;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAllClassNames()
-    {
-        if ($this->allClassNames === null) {
-            $this->allClassNames = $this->findAllClassNames();
-        }
-        return $this->allClassNames;
-    }
-
-    /**
-     *
-     */
-    protected function clearAllClassNames()
-    {
-        $this->allClassNames = null;
-    }
-
-    /**
-     * @return array
-     */
-    abstract protected function findAllClassNames();
-
-    /**
-     * @param string $className
-     * @return boolean
-     */
-    protected function isActionClass($className)
-    {
-        $classAnnotations = $this->reader->getClassAnnotations(new \ReflectionClass($className));
-
-        foreach ($classAnnotations as $annotation) {
-            if (get_class($annotation) === self::ACTION_ANNOTATION_CLASS) {
-                return true;
-            }
-        }
-        return false;
     }
 }

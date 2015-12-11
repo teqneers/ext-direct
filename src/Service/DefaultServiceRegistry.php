@@ -9,7 +9,7 @@
 
 namespace TQ\ExtDirect\Service;
 
-use Metadata\AdvancedMetadataFactoryInterface;
+use Metadata\MetadataFactoryInterface;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 
 /**
@@ -20,7 +20,7 @@ use TQ\ExtDirect\Metadata\ActionMetadata;
 class DefaultServiceRegistry implements ServiceRegistry
 {
     /**
-     * @var AdvancedMetadataFactoryInterface
+     * @var MetadataFactoryInterface
      */
     private $metadataFactory;
 
@@ -30,10 +30,15 @@ class DefaultServiceRegistry implements ServiceRegistry
     private $namingStrategy;
 
     /**
-     * @param AdvancedMetadataFactoryInterface $metadataFactory
-     * @param NamingStrategy                   $namingStrategy
+     * @var array
      */
-    public function __construct(AdvancedMetadataFactoryInterface $metadataFactory, NamingStrategy $namingStrategy)
+    private $services = array();
+
+    /**
+     * @param MetadataFactoryInterface $metadataFactory
+     * @param NamingStrategy           $namingStrategy
+     */
+    public function __construct(MetadataFactoryInterface $metadataFactory, NamingStrategy $namingStrategy)
     {
         $this->metadataFactory = $metadataFactory;
         $this->namingStrategy  = $namingStrategy;
@@ -42,43 +47,112 @@ class DefaultServiceRegistry implements ServiceRegistry
     /**
      * {@inheritdoc}
      */
-    public function getMetadataForService($class)
+    public function getService($service)
     {
+        $serviceConfig = $this->findServiceConfig($service);
+        if (!$serviceConfig) {
+            return null;
+        }
+        list($class, $serviceId, $alias) = $serviceConfig;
+
         $metadata = $this->metadataFactory->getMetadataForClass($class);
         if (!($metadata instanceof ActionMetadata) || !$metadata->isAction) {
             return null;
+        }
+
+        if ($serviceId) {
+            $metadata->serviceId = $serviceId;
+        }
+        if ($alias) {
+            $metadata->alias = $alias;
+        } else {
+            $metadata->alias = $service;
         }
 
         return $metadata;
     }
 
     /**
+     * @param string $service
+     * @return array|null
+     */
+    private function findServiceConfig($service)
+    {
+        if (!isset($this->services[$service])) {
+            $serviceConfig = null;
+            foreach ($this->services as $sc) {
+                if ($sc[2] === $service) {
+                    return $sc;
+                }
+            }
+        } else {
+            return $this->services[$service];
+        }
+        return null;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function getAllMetadata()
+    public function getAllServices()
     {
         $all = array();
-        foreach ($this->metadataFactory->getAllClassNames() as $className) {
-            $all[] = $this->getMetadataForService($className);
+        foreach (array_keys($this->services) as $service) {
+            $all[] = $this->getService($service);
         }
 
         return $all;
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $services
+     * @return $this
      */
-    public function convertToActionName($className)
+    public function addServices(array $services)
     {
-        return $this->namingStrategy->convertToActionName($className);
+        foreach ($services as $key => $value) {
+            if (is_numeric($key)) {
+                $class     = $value;
+                $serviceId = null;
+                $alias     = null;
+            } else {
+                $class = $key;
+                if (is_array($value)) {
+                    list($serviceId, $alias) = $value;
+                } else {
+                    $serviceId = $value;
+                    $alias     = null;
+                }
+            }
+            $this->addService($class, $serviceId, $alias);
+        }
+
+        return $this;
     }
 
+    /**
+     * @param string      $class
+     * @param string|null $serviceId
+     * @param string|null $alias
+     * @return $this
+     */
+    public function addService($class, $serviceId = null, $alias = null)
+    {
+        if (!$alias) {
+            $key = $this->namingStrategy->convertToActionName($class);
+        } else {
+            $key = $alias;
+        }
+
+        $this->services[$key] = [$class, $serviceId, $alias];
+        return $this;
+    }
 
     /**
-     * {@inheritdoc}
+     * @param ServiceLoader $serviceLoader
      */
-    public function convertToClassName($actionName)
+    public function importServices(ServiceLoader $serviceLoader)
     {
-        return $this->namingStrategy->convertToClassName($actionName);
+        $this->addServices($serviceLoader->load());
     }
 }

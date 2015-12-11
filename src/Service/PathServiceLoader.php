@@ -1,22 +1,19 @@
 <?php
 /**
- * teqneers/ext-direct
- *
- * @category   TQ
- * @package    TQ\ExtDirect
- * @copyright  Copyright (C) 2015 by TEQneers GmbH & Co. KG
+ * Created by PhpStorm.
+ * User: stefan
+ * Date: 11.12.15
+ * Time: 14:20
  */
 
-namespace TQ\ExtDirect\Metadata\Driver;
-
-use Doctrine\Common\Annotations\Reader;
+namespace TQ\ExtDirect\Service;
 
 /**
- * Class PathAnnotationDriver
+ * Class PathServiceLoader
  *
- * @package TQ\ExtDirect\Metadata\Driver
+ * @package TQ\ExtDirect\Service
  */
-class PathAnnotationDriver extends AnnotationDriver
+class PathServiceLoader implements ServiceLoader
 {
     /**
      * @var array
@@ -24,46 +21,55 @@ class PathAnnotationDriver extends AnnotationDriver
     private $paths = array();
 
     /**
-     * @param Reader            $reader
-     * @param array|string|null $paths
+     * @param array $paths
      */
-    public function __construct(Reader $reader, $paths = null)
+    public function __construct(array $paths = array())
     {
-        parent::__construct($reader);
-        if ($paths) {
-            $this->addPaths((array)$paths);
-        }
+        $this->addPaths($paths);
     }
 
     /**
      * @param array $paths
+     * @return $this
      */
     public function addPaths(array $paths)
     {
-        $this->paths = array_unique(array_merge($this->paths, $paths));
-        $this->clearAllClassNames();
+        foreach ($paths as $path) {
+            $this->addPath($path);
+        }
+        return $this;
     }
 
     /**
      * @param string $path
+     * @return $this
      */
     public function addPath($path)
     {
-        $this->addPaths([$path]);
+        if (!is_dir($path)) {
+            throw new \RuntimeException('"' . $path . '" is not a valid directory');
+        }
+        $this->paths[] = $path;
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function findAllClassNames()
+    public function load()
     {
+        return $this->findClasses();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function findClasses()
+    {
+        $paths         = array_unique($this->paths);
         $classes       = array();
         $includedFiles = array();
-        foreach ($this->paths as $path) {
-            if (!is_dir($path)) {
-                throw new \RuntimeException('"' . $path . '" is not a valid directory');
-            }
-
+        foreach ($paths as $path) {
             $iterator = new \RegexIterator(
                 new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS),
@@ -84,7 +90,7 @@ class PathAnnotationDriver extends AnnotationDriver
         foreach ($declared as $className) {
             $rc         = new \ReflectionClass($className);
             $sourceFile = $rc->getFileName();
-            if (in_array($sourceFile, $includedFiles) && $this->isActionClass($className)) {
+            if (in_array($sourceFile, $includedFiles)) {
                 $classes[] = $className;
             }
         }

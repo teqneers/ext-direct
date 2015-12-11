@@ -19,25 +19,13 @@ use TQ\ExtDirect\Metadata\ActionMetadata;
 interface ServiceRegistry
 {
     /**
-     * @param string $class
+     * @param string $service
      * @return ActionMetadata|null
      */
-    public function getMetadataForService($class);
+    public function getService($service);
 
     /**
      * @return ActionMetadata[]
      */
-    public function getAllMetadata();
-
-    /**
-     * @param $className
-     * @return string
-     */
-    public function convertToActionName($className);
-
-    /**
-     * @param $actionName
-     * @return string
-     */
-    public function convertToClassName($actionName);
+    public function getAllServices();
 }

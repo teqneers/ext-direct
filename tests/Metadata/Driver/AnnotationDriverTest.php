@@ -2,45 +2,27 @@
 /**
  * Created by PhpStorm.
  * User: stefan
- * Date: 22.07.15
- * Time: 17:29
+ * Date: 09.12.15
+ * Time: 14:55
  */
 
 namespace TQ\ExtDirect\Tests\Metadata\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Validator\Constraint;
-use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
+use TQ\ExtDirect\Metadata\Driver\ClassAnnotationDriver;
 
 /**
- * Class PathAnnotationDriverTest
+ * Class AnnotationDriverTest
  *
  * @package TQ\ExtDirect\Tests\Metadata\Driver
  */
-class PathAnnotationDriverTest extends \PHPUnit_Framework_TestCase
+class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
 {
     protected function getDriver()
     {
-        return new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'));
-    }
-
-    public function testGetAllClassNames()
-    {
-        $driver  = $this->getDriver();
-        $classes = $driver->getAllClassNames();
-        sort($classes, SORT_NATURAL);
-        $this->assertEquals(
-            array(
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service2',
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3',
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4',
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5',
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service7',
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Service8',
-                'TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub\Service6'
-            ),
-            $classes
-        );
+        return new AnnotationDriver(new AnnotationReader());
     }
 
     public function testClassWithoutAnnotation()

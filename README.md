@@ -45,21 +45,23 @@ $namingStrategy = new TQ\ExtDirect\Service\DefaultNamingStrategy();
 The service registry uses a metadata factory from the [`jms/metadata`](https://github.com/schmittjoh/metadata) library and
 an associated annotation driver (which in turn uses a [`doctrine/annotations`](https://github.com/doctrine/annotations.git)
 annotation reader) to read meta information about possible annotated service
-classes from a given set of paths.
+classes.
 
 ```php
 $serviceRegistry = new TQ\ExtDirect\Service\DefaultServiceRegistry(
     new Metadata\MetadataFactory(
         new TQ\ExtDirect\Metadata\Driver\AnnotationDriver(
-            new Doctrine\Common\Annotations\AnnotationReader(),
-            [
-                __DIR__.'/services'
-            ]
+            new Doctrine\Common\Annotations\AnnotationReader()
         )
     ),
     $namingStrategy
 );
 ```
+
+The service registry can be filled manually by calling `addServices()` or `addService()` or by
+importing services using a `TQ\ExtDirect\Service\ServiceLoader`. The default implementation
+`\TQ\ExtDirect\Service\PathServiceLoader` can read classes from a set of given paths.
+
 
 The event dispatcher is optional but is required to use features like
 argument conversion and validation, result conversion of the profiling listener.

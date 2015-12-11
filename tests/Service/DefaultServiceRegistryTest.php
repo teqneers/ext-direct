@@ -22,12 +22,8 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $metadataFactory = $this->createMetadataFactory();
 
-        $metadataFactory->expects($this->once())
-                        ->method('getAllClassNames')
-                        ->willReturn(array());
-
         $serviceRegistry = new DefaultServiceRegistry($metadataFactory, new DefaultNamingStrategy());
-        $this->assertEquals(array(), $serviceRegistry->getAllMetadata());
+        $this->assertEquals(array(), $serviceRegistry->getAllServices());
     }
 
     public function testGetMetadataForService()
@@ -40,18 +36,20 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
                         ->willReturn(null);
 
         $serviceRegistry = new DefaultServiceRegistry($metadataFactory, new DefaultNamingStrategy());
-        $this->assertEquals(null, $serviceRegistry->getMetadataForService('A'));
+        $serviceRegistry->addService('A');
+
+        $this->assertEquals(null, $serviceRegistry->getService('A'));
     }
 
     /**
-     * @return \Metadata\AdvancedMetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Metadata\MetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function createMetadataFactory()
     {
-        /** @var \Metadata\AdvancedMetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
+        /** @var \Metadata\MetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
         $metadataFactory = $this->getMock(
-            'Metadata\AdvancedMetadataFactoryInterface',
-            array('getMetadataForClass', 'getAllClassNames')
+            'Metadata\MetadataFactoryInterface',
+            array('getMetadataForClass')
         );
         return $metadataFactory;
     }

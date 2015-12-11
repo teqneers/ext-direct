@@ -11,11 +11,13 @@ namespace TQ\ExtDirect\Tests\Router;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Router\ServiceResolver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
 use TQ\ExtDirect\Service\DefaultServiceRegistry;
+use TQ\ExtDirect\Service\PathServiceLoader;
 
 /**
  * Class ServiceResolverTest
@@ -248,11 +250,11 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
      */
     protected function createServiceRegistry()
     {
-        return new DefaultServiceRegistry(
-            new MetadataFactory(
-                new PathAnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Services'))
-            ),
+        $registry = new DefaultServiceRegistry(
+            new MetadataFactory(new AnnotationDriver(new AnnotationReader())),
             new DefaultNamingStrategy()
         );
+        $registry->importServices(new PathServiceLoader([__DIR__ . '/Services']));
+        return $registry;
     }
 }

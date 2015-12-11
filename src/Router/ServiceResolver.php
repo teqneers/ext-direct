@@ -74,12 +74,7 @@ class ServiceResolver implements ServiceResolverInterface
      */
     protected function assertMetadata(DirectRequest $directRequest)
     {
-        $className = $this->serviceRegistry->convertToClassName($directRequest->getAction());
-        if (!class_exists($className)) {
-            throw new ActionNotFoundException($directRequest);
-        }
-
-        $actionMetadata = $this->serviceRegistry->getMetadataForService($className);
+        $actionMetadata = $this->serviceRegistry->getService($directRequest->getAction());
         if (!$actionMetadata) {
             throw new ActionNotFoundException($directRequest);
         }

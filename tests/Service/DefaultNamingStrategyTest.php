@@ -29,17 +29,6 @@ class DefaultNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $strategy->convertToActionName($className));
     }
 
-    /**
-     * @dataProvider actionNameProvider
-     * @param string $actionName
-     * @param string $expected
-     */
-    public function testConvertToClassName($actionName, $expected)
-    {
-        $strategy = new DefaultNamingStrategy();
-        $this->assertEquals($expected, $strategy->convertToClassName($actionName));
-    }
-
     protected static function classNamesActionNamesMap()
     {
         return array(
@@ -57,18 +46,6 @@ class DefaultNamingStrategyTest extends \PHPUnit_Framework_TestCase
         $data = array();
         foreach (self::classNamesActionNamesMap() as $className => $actionName) {
             $data[] = array($className, $actionName);
-        }
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function actionNameProvider()
-    {
-        $data = array();
-        foreach (self::classNamesActionNamesMap() as $className => $actionName) {
-            $data[] = array($actionName, $className);
         }
         return $data;
     }

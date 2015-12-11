@@ -16,20 +16,11 @@ namespace TQ\ExtDirect\Service;
  */
 class DefaultNamingStrategy implements NamingStrategy
 {
-
     /**
      * {@inheritdoc}
      */
     public function convertToActionName($className)
     {
         return str_replace('\\', '.', $className);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToClassName($actionName)
-    {
-        return str_replace('.', '\\', $actionName);
     }
 }
