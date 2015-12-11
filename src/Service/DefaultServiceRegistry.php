@@ -65,7 +65,7 @@ class DefaultServiceRegistry implements ServiceRegistry
         }
         if ($alias) {
             $metadata->alias = $alias;
-        } else {
+        } elseif (!$metadata->alias) {
             $metadata->alias = $service;
         }
 
