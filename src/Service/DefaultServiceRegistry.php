@@ -85,6 +85,12 @@ class DefaultServiceRegistry implements ServiceRegistry
                     return $sc;
                 }
             }
+            foreach ($this->services as $sc) {
+                $metadata = $this->metadataFactory->getMetadataForClass($sc[0]);
+                if ($metadata instanceof ActionMetadata && $metadata->isAction && $metadata->alias === $service) {
+                    return $sc;
+                }
+            }
         } else {
             return $this->services[$service];
         }
