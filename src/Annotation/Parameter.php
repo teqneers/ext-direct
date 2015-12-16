@@ -31,6 +31,11 @@ class Parameter
     public $constraints = array();
 
     /**
+     * @var string
+     */
+    public $validationGroup;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
@@ -40,6 +45,9 @@ class Parameter
                 $data['name'] = array_shift($data['value']);
                 if (!empty($data['value'])) {
                     $data['constraints'] = array_shift($data['value']);
+                }
+                if (!empty($data['value'])) {
+                    $data['validationGroup'] = array_shift($data['value']);
                 }
             } else {
                 $data['name'] = $data['value'];

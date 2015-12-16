@@ -79,7 +79,8 @@ class AnnotationDriver implements DriverInterface
                         if (!empty($annotation->constraints)) {
                             $methodMetadata->addParameterConstraints(
                                 $annotation->name,
-                                $annotation->constraints
+                                $annotation->constraints,
+                                $annotation->validationGroup
                             );
                         }
                     }

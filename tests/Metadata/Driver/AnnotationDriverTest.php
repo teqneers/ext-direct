@@ -124,12 +124,41 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $constraints = $methodMetadata->constraints;
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
-            $this->assertCount(1, $constraints['a']);
+
+            list($constraints, $validationGroup) = $constraints['a'];
+            $this->assertCount(1, $constraints);
 
             /** @var Constraint $constraint */
-            $constraint = current($constraints['a']);
-
+            $constraint = current($constraints);
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
+            $this->assertNull($validationGroup);
+        }
+    }
+
+    public function testMethodParameterConstraintsAndValidationGroup()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        foreach (array('methodD', 'methodE', 'methodF') as $m) {
+            /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+            $methodMetadata = $classMetadata->methodMetadata[$m];
+
+            /** @var Constraint[] $parameters */
+            $constraints = $methodMetadata->constraints;
+            $this->assertCount(1, $constraints);
+            $this->assertArrayHasKey('a', $constraints);
+
+            list($constraints, $validationGroup) = $constraints['a'];
+            $this->assertCount(1, $constraints);
+
+            /** @var Constraint $constraint */
+            $constraint = current($constraints);
+            $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
+            $this->assertEquals('myGroup', $validationGroup);
         }
     }
 

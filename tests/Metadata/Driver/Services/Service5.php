@@ -8,8 +8,8 @@
 
 namespace TQ\ExtDirect\Tests\Metadata\Driver\Services;
 
-use TQ\ExtDirect\Annotation as Direct;
 use Symfony\Component\Validator\Constraints as Assert;
+use TQ\ExtDirect\Annotation as Direct;
 
 /**
  * Class Service5
@@ -47,6 +47,36 @@ class Service5
      * @param mixed $a
      */
     public function methodC($a)
+    {
+    }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroup="myGroup")
+     *
+     * @param mixed $a
+     */
+    public function methodD($a)
+    {
+    }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter("a", constraints={ @Assert\NotNull() }, validationGroup="myGroup")
+     *
+     * @param mixed $a
+     */
+    public function methodE($a)
+    {
+    }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() }, validationGroup="myGroup")
+     *
+     * @param mixed $a
+     */
+    public function methodF($a)
     {
     }
 }

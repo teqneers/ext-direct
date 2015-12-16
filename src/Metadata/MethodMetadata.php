@@ -45,7 +45,7 @@ class MethodMetadata extends BaseMethodMetadata
     public $parameters = [];
 
     /**
-     * @var Constraint[][]
+     * @var array
      */
     public $constraints = [];
 
@@ -70,10 +70,11 @@ class MethodMetadata extends BaseMethodMetadata
     /**
      * @param string       $parameter
      * @param Constraint[] $constraints
+     * @param string|null  $validationGroup
      */
-    public function addParameterConstraints($parameter, array $constraints)
+    public function addParameterConstraints($parameter, array $constraints, $validationGroup = null)
     {
-        $this->constraints[$parameter] = $constraints;
+        $this->constraints[$parameter] = [$constraints, $validationGroup];
     }
 
     /**
