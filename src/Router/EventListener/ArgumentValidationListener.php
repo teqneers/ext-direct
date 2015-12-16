@@ -13,6 +13,7 @@ namespace TQ\ExtDirect\Router\EventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use TQ\ExtDirect\Router\ArgumentValidatorInterface;
 use TQ\ExtDirect\Router\Event\ServiceResolveEvent;
+use TQ\ExtDirect\Router\Exception\ArgumentValidationException;
 use TQ\ExtDirect\Router\RouterEvents;
 
 /**
@@ -50,6 +51,17 @@ class ArgumentValidationListener implements EventSubscriberInterface
      */
     public function onAfterResolve(ServiceResolveEvent $event)
     {
-        $this->validator->validate($event->getService(), $event->getArguments());
+        try {
+            $this->validator->validate($event->getService(), $event->getArguments());
+        } catch (ArgumentValidationException $e) {
+            $event->setArguments(
+                array_replace(
+                    $event->getArguments(),
+                    [
+                        '__internal__validation_result__' => $e->getResult()
+                    ]
+                )
+            );
+        }
     }
 }

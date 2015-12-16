@@ -69,7 +69,7 @@ class ArgumentValidator implements ArgumentValidatorInterface
         }
 
         if (!empty($validationResult)) {
-            throw new ArgumentValidationException($validationResult);
+            throw new ArgumentValidationException(new ArgumentValidationResult($validationResult));
         }
     }
 

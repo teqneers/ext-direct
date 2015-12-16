@@ -10,7 +10,7 @@
 namespace TQ\ExtDirect\Router\Exception;
 
 use Symfony\Component\Validator\ConstraintViolationInterface;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
+use TQ\ExtDirect\Router\ArgumentValidationResult;
 
 
 /**
@@ -21,17 +21,17 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class ArgumentValidationException extends \InvalidArgumentException
 {
     /**
-     * @var ConstraintViolationListInterface[]
+     * @var ArgumentValidationResult
      */
-    private $violations;
+    private $result;
 
     /**
-     * @param ConstraintViolationListInterface[] $violations
+     * @param ArgumentValidationResult $result
      */
-    public function __construct(array $violations)
+    public function __construct(ArgumentValidationResult $result)
     {
-        $this->violations = $violations;
-        $violationsInfo   = array();
+        $this->result   = $result;
+        $violationsInfo = array();
         foreach ($this->getViolations() as $parameter => $violation) {
             /** @var ConstraintViolationInterface $violation */
 
@@ -51,11 +51,19 @@ class ArgumentValidationException extends \InvalidArgumentException
      */
     public function getViolations()
     {
-        foreach ($this->violations as $parameter => $violations) {
+        foreach ($this->result as $parameter => $violations) {
             /** @var ConstraintViolationInterface $violation */
             foreach ($violations as $violation) {
                 yield $parameter => $violation;
             }
         }
+    }
+
+    /**
+     * @return ArgumentValidationResult
+     */
+    public function getResult()
+    {
+        return $this->result;
     }
 }

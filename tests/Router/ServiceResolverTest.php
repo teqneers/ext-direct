@@ -12,7 +12,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
-use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
+use TQ\ExtDirect\Router\ArgumentValidationResult;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Router\ServiceResolver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
@@ -137,7 +137,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
 
         $arguments = $resolver->getArguments($directRequest, $httpRequest);
         $this->assertCount(2, $arguments);
-        $this->assertEquals(array('a' => 'A', '__internal__request' => $httpRequest), $arguments);
+        $this->assertEquals(array('a' => 'A', '__internal__http_request__' => $httpRequest), $arguments);
     }
 
     public function testGetOneArgumentWithDirectRequest()
@@ -156,7 +156,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
 
         $arguments = $resolver->getArguments($directRequest, $httpRequest);
         $this->assertCount(2, $arguments);
-        $this->assertEquals(array('a' => 'A', '__internal__request' => $directRequest), $arguments);
+        $this->assertEquals(array('a' => 'A', '__internal__direct_request__' => $directRequest), $arguments);
     }
 
 
@@ -178,9 +178,9 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(3, $arguments);
         $this->assertEquals(
             array(
-                'a'                    => 'A',
-                '__internal__request1' => $directRequest,
-                '__internal__request2' => $httpRequest,
+                'a'                            => 'A',
+                '__internal__direct_request__' => $directRequest,
+                '__internal__http_request__'   => $httpRequest,
             ),
             $arguments
         );
@@ -222,6 +222,50 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
         $arguments = $resolver->getArguments($directRequest, $httpRequest);
         $this->assertCount(1, $arguments);
         $this->assertEquals(array('a' => null), $arguments);
+    }
+
+    public function testGetArgumentWithOptionalArgumentValidationResult()
+    {
+        /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
+        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $resolver       = new ServiceResolver(
+            $this->createServiceRegistry(),
+            $serviceFactory
+        );
+
+        $httpRequest   = new HttpRequest();
+        $directRequest = new DirectRequest(1, 'TQ.ExtDirect.Tests.Router.Services.Service1', 'methodG', array('A'),
+            false,
+            false);
+
+        $arguments = $resolver->getArguments($directRequest, $httpRequest);
+        $this->assertCount(2, $arguments);
+        $this->assertEquals(
+            array('a' => 'A', '__internal__validation_result__' => new ArgumentValidationResult()),
+            $arguments
+        );
+    }
+
+    public function testGetArgumentWithArgumentValidationResult()
+    {
+        /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
+        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $resolver       = new ServiceResolver(
+            $this->createServiceRegistry(),
+            $serviceFactory
+        );
+
+        $httpRequest   = new HttpRequest();
+        $directRequest = new DirectRequest(1, 'TQ.ExtDirect.Tests.Router.Services.Service1', 'methodH', array('A'),
+            false,
+            false);
+
+        $arguments = $resolver->getArguments($directRequest, $httpRequest);
+        $this->assertCount(2, $arguments);
+        $this->assertEquals(
+            array('a' => 'A', '__internal__validation_result__' => new ArgumentValidationResult()),
+            $arguments
+        );
     }
 
     public function testGetStaticService()

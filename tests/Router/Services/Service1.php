@@ -80,4 +80,26 @@ class Service1
     public static function methodF()
     {
     }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter("a", { @Assert\NotNull() })
+     *
+     * @param mixed                                         $a
+     * @param \TQ\ExtDirect\Router\ArgumentValidationResult $result
+     */
+    public function methodG($a, \TQ\ExtDirect\Router\ArgumentValidationResult $result = null)
+    {
+    }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter("a", { @Assert\NotNull() })
+     *
+     * @param mixed                                         $a
+     * @param \TQ\ExtDirect\Router\ArgumentValidationResult $result
+     */
+    public function methodH($a, \TQ\ExtDirect\Router\ArgumentValidationResult $result)
+    {
+    }
 }
