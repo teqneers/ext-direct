@@ -11,6 +11,7 @@ namespace TQ\ExtDirect\Description;
 
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use TQ\ExtDirect\Metadata\MethodMetadata;
+use TQ\ExtDirect\Router\ArgumentValidationResult;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Service\ServiceRegistry;
 
@@ -68,6 +69,7 @@ class ServiceDescriptionFactory
                         || (
                             $class->name !== HttpRequest::class
                             && $class->name !== DirectRequest::class
+                            && $class->name !== ArgumentValidationResult::class
                         )
                     ) {
                         $parameters[] = $parameter->name;
