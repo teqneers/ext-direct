@@ -237,4 +237,56 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
             'a' => null
         ));
     }
+
+    public function testParameterConstraintsWithValidationGroupsAreValidated()
+    {
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Symfony\Component\Validator\Validator\ValidatorInterface',
+            array(
+                'validate',
+                'validateProperty',
+                'validatePropertyValue',
+                'startContext',
+                'inContext',
+                'getMetadataFor',
+                'hasMetadataFor'
+            )
+        );
+
+        $constraints = array(
+            new NotNull()
+        );
+        $groups      = array(
+            'myGroup'
+        );
+
+        $validator->expects($this->once())
+                  ->method('validate')
+                  ->with($this->equalTo(1), $this->equalTo($constraints), $this->equalTo($groups))
+                  ->willReturn(new ConstraintViolationList());
+
+        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        $service = $this->getMock(
+            'TQ\ExtDirect\Router\ServiceReference',
+            array('getParameterConstraints', 'getParameterValidationGroups'),
+            array(),
+            '',
+            false
+        );
+        $service->expects($this->once())
+                ->method('getParameterConstraints')
+                ->with($this->equalTo('a'))
+                ->willReturn($constraints);
+        $service->expects($this->once())
+                ->method('getParameterValidationGroups')
+                ->with($this->equalTo('a'))
+                ->willReturn($groups);
+
+        $argValidator = new ArgumentValidator($validator, false);
+
+        $argValidator->validate($service, array(
+            'a' => 1
+        ));
+    }
 }

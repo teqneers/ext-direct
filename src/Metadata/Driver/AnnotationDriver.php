@@ -80,7 +80,7 @@ class AnnotationDriver implements DriverInterface
                             $methodMetadata->addParameterConstraints(
                                 $annotation->name,
                                 $annotation->constraints,
-                                $annotation->validationGroup
+                                $annotation->validationGroups
                             );
                         }
                     }

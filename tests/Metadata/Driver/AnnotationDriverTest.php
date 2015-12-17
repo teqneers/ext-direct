@@ -143,7 +143,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
-        foreach (array('methodD', 'methodE', 'methodF') as $m) {
+        foreach (array('methodD', 'methodE', 'methodF', 'methodG', 'methodH') as $m) {
             /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
             $methodMetadata = $classMetadata->methodMetadata[$m];
 
@@ -152,13 +152,13 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
 
-            list($constraints, $validationGroup) = $constraints['a'];
+            list($constraints, $validationGroups) = $constraints['a'];
             $this->assertCount(1, $constraints);
 
             /** @var Constraint $constraint */
             $constraint = current($constraints);
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
-            $this->assertEquals('myGroup', $validationGroup);
+            $this->assertEquals(['myGroup'], $validationGroups);
         }
     }
 

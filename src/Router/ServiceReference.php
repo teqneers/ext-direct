@@ -83,9 +83,9 @@ class ServiceReference
 
     /**
      * @param string $name
-     * @return string|null
+     * @return array|null
      */
-    public function getParameterValidationGroup($name)
+    public function getParameterValidationGroups($name)
     {
         if (isset($this->methodMetadata->constraints[$name])) {
             return $this->methodMetadata->constraints[$name][1];

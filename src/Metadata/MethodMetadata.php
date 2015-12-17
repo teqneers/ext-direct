@@ -70,11 +70,11 @@ class MethodMetadata extends BaseMethodMetadata
     /**
      * @param string       $parameter
      * @param Constraint[] $constraints
-     * @param string|null  $validationGroup
+     * @param array|null   $validationGroups
      */
-    public function addParameterConstraints($parameter, array $constraints, $validationGroup = null)
+    public function addParameterConstraints($parameter, array $constraints, array $validationGroups = null)
     {
-        $this->constraints[$parameter] = [$constraints, $validationGroup];
+        $this->constraints[$parameter] = [$constraints, $validationGroups];
     }
 
     /**

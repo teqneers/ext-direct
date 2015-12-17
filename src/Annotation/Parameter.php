@@ -31,9 +31,9 @@ class Parameter
     public $constraints = array();
 
     /**
-     * @var string
+     * @var array<string>
      */
-    public $validationGroup;
+    public $validationGroups;
 
     /**
      * @param array $data
@@ -47,7 +47,7 @@ class Parameter
                     $data['constraints'] = array_shift($data['value']);
                 }
                 if (!empty($data['value'])) {
-                    $data['validationGroup'] = array_shift($data['value']);
+                    $data['validationGroups'] = array_shift($data['value']);
                 }
             } else {
                 $data['name'] = $data['value'];
@@ -57,6 +57,8 @@ class Parameter
 
         foreach ($data as $k => $v) {
             if ($k == 'constraints' && !is_array($v)) {
+                $v = array($v);
+            } elseif ($k == 'validationGroups' && !is_array($v)) {
                 $v = array($v);
             }
 

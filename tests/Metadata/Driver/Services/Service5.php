@@ -52,7 +52,7 @@ class Service5
 
     /**
      * @Direct\Method()
-     * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroup="myGroup")
+     * @Direct\Parameter("a", { @Assert\NotNull() }, {"myGroup"})
      *
      * @param mixed $a
      */
@@ -62,7 +62,7 @@ class Service5
 
     /**
      * @Direct\Method()
-     * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroup="myGroup")
+     * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroups="myGroup")
      *
      * @param mixed $a
      */
@@ -72,11 +72,31 @@ class Service5
 
     /**
      * @Direct\Method()
-     * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() }, validationGroup="myGroup")
+     * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() }, validationGroups="myGroup")
      *
      * @param mixed $a
      */
     public function methodF($a)
+    {
+    }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroups={"myGroup"})
+     *
+     * @param mixed $a
+     */
+    public function methodG($a)
+    {
+    }
+
+    /**
+     * @Direct\Method()
+     * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() }, validationGroups={"myGroup"})
+     *
+     * @param mixed $a
+     */
+    public function methodH($a)
     {
     }
 }

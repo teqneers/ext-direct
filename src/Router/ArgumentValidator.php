@@ -53,9 +53,10 @@ class ArgumentValidator implements ArgumentValidatorInterface
                 continue;
             }
 
-            $constraints = $service->getParameterConstraints($name);
+            $constraints      = $service->getParameterConstraints($name);
+            $validationGroups = $service->getParameterValidationGroups($name);
             if (!empty($constraints)) {
-                $violations = $this->validator->validate($value, $constraints);
+                $violations = $this->validator->validate($value, $constraints, $validationGroups);
                 if (count($violations)) {
                     $validationResult[$name] = $violations;
                 }
