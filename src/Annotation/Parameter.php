@@ -26,7 +26,7 @@ class Parameter
     public $name;
 
     /**
-     * @var array<Symfony\Component\Validator\Constraint>|Constraint>
+     * @var array<Symfony\Component\Validator\Constraint>
      */
     public $constraints = array();
 

@@ -62,7 +62,7 @@ class Service5
 
     /**
      * @Direct\Method()
-     * @Direct\Parameter("a", constraints={ @Assert\NotNull() }, validationGroup="myGroup")
+     * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroup="myGroup")
      *
      * @param mixed $a
      */
