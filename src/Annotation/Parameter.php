@@ -9,6 +9,8 @@
 
 namespace TQ\ExtDirect\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Required;
+
 
 /**
  * Class Parameter
@@ -21,6 +23,8 @@ namespace TQ\ExtDirect\Annotation;
 class Parameter
 {
     /**
+     * @Required
+     *
      * @var string
      */
     public $name;
