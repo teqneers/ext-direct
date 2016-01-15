@@ -26,12 +26,19 @@ class ArgumentValidationException extends \InvalidArgumentException
     private $result;
 
     /**
-     * @param ArgumentValidationResult $result
+     * @var bool
      */
-    public function __construct(ArgumentValidationResult $result)
+    private $strictFailure;
+
+    /**
+     * @param ArgumentValidationResult $result
+     * @param bool                     $strictFailure
+     */
+    public function __construct(ArgumentValidationResult $result, $strictFailure)
     {
-        $this->result   = $result;
-        $violationsInfo = array();
+        $this->result        = $result;
+        $this->strictFailure = $strictFailure;
+        $violationsInfo      = array();
         foreach ($this->getViolations() as $parameter => $violation) {
             /** @var ConstraintViolationInterface $violation */
 
@@ -44,6 +51,14 @@ class ArgumentValidationException extends \InvalidArgumentException
         }
 
         parent::__construct('Argument validation failed: ' . json_encode($violationsInfo));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStrictFailure()
+    {
+        return $this->strictFailure;
     }
 
     /**

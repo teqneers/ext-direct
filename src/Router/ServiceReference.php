@@ -95,6 +95,19 @@ class ServiceReference
     }
 
     /**
+     * @param string $name
+     * @return bool
+     */
+    public function isStrictParameterValidation($name)
+    {
+        if (isset($this->methodMetadata->constraints[$name])) {
+            return $this->methodMetadata->constraints[$name][2];
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @return callable
      */
     public function getCallable()

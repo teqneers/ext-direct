@@ -125,13 +125,15 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
 
-            list($constraints, $validationGroup) = $constraints['a'];
+            list($constraints, $validationGroup, $strict) = $constraints['a'];
             $this->assertCount(1, $constraints);
 
             /** @var Constraint $constraint */
             $constraint = current($constraints);
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
             $this->assertNull($validationGroup);
+
+            $this->assertFalse($strict);
         }
     }
 
@@ -152,13 +154,15 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
 
-            list($constraints, $validationGroups) = $constraints['a'];
+            list($constraints, $validationGroups, $strict) = $constraints['a'];
             $this->assertCount(1, $constraints);
 
             /** @var Constraint $constraint */
             $constraint = current($constraints);
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
             $this->assertEquals(['myGroup'], $validationGroups);
+
+            $this->assertFalse($strict);
         }
     }
 
@@ -189,7 +193,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3');
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service8');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -207,5 +211,29 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($methodMetadata->isStrict);
         $this->assertEquals(array(), $methodMetadata->parameters);
         $this->assertEquals(array(), $methodMetadata->constraints);
+    }
+
+    public function testClassWithStrictParameterAnnotation()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service9');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
+
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodA'];
+
+        /** @var Constraint[] $parameters */
+        $constraints = $methodMetadata->constraints;
+        $this->assertCount(1, $constraints);
+        $this->assertArrayHasKey('a', $constraints);
+
+        list($constraints, $validationGroups, $strict) = $constraints['a'];
+        $this->assertCount(1, $constraints);
+        $this->assertEmpty($validationGroups);
+        $this->assertTrue($strict);
     }
 }

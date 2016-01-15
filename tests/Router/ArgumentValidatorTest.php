@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use TQ\ExtDirect\Router\ArgumentValidator;
+use TQ\ExtDirect\Router\Exception\ArgumentValidationException;
 
 /**
  * Class ArgumentValidatorTest
@@ -288,5 +289,70 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
         $argValidator->validate($service, array(
             'a' => 1
         ));
+    }
+
+    public function testStrictParameterConstraintAreValidated()
+    {
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        $validator = $this->getMock(
+            'Symfony\Component\Validator\Validator\ValidatorInterface',
+            array(
+                'validate',
+                'validateProperty',
+                'validatePropertyValue',
+                'startContext',
+                'inContext',
+                'getMetadataFor',
+                'hasMetadataFor'
+            )
+        );
+
+        $constraints = array(
+            new NotNull()
+        );
+
+        $validator->expects($this->once())
+                  ->method('validate')
+                  ->with($this->equalTo(null), $this->equalTo($constraints), $this->equalTo(array()))
+                  ->willReturn(
+                      new ConstraintViolationList(
+                          array(
+                              new ConstraintViolation('not null', 'not null', array(), '', '', null)
+                          )
+                      )
+                  );
+
+        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        $service = $this->getMock(
+            'TQ\ExtDirect\Router\ServiceReference',
+            array('getParameterConstraints', 'getParameterValidationGroups', 'isStrictParameterValidation'),
+            array(),
+            '',
+            false
+        );
+        $service->expects($this->once())
+                ->method('getParameterConstraints')
+                ->with($this->equalTo('a'))
+                ->willReturn($constraints);
+        $service->expects($this->once())
+                ->method('getParameterValidationGroups')
+                ->with($this->equalTo('a'))
+                ->willReturn(array());
+        $service->expects($this->once())
+                ->method('isStrictParameterValidation')
+                ->with($this->equalTo('a'))
+                ->willReturn(true);
+
+        $argValidator = new ArgumentValidator($validator, false);
+
+        try {
+            $argValidator->validate($service, array(
+                'a' => null
+            ));
+            $this->fail('Expected TQ\ExtDirect\Router\Exception\ArgumentValidationException not called');
+        } catch (ArgumentValidationException $e) {
+            $this->assertEquals('Argument validation failed: {"a":["not null []"]}', $e->getMessage());
+            $this->assertTrue($e->isStrictFailure());
+        }
     }
 }

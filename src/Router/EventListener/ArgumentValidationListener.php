@@ -54,6 +54,9 @@ class ArgumentValidationListener implements EventSubscriberInterface
         try {
             $this->validator->validate($event->getService(), $event->getArguments());
         } catch (ArgumentValidationException $e) {
+            if ($e->isStrictFailure()) {
+                throw $e;
+            }
             $event->setArguments(
                 array_replace(
                     $event->getArguments(),

@@ -48,17 +48,22 @@ class ArgumentValidator implements ArgumentValidatorInterface
         $validationResult = array();
         $parameterCount   = 0;
         $validatedCount   = 0;
+        $hasStrictFailure = false;
         foreach ($arguments as $name => $value) {
             if (strpos($name, '__internal__') !== false) {
                 continue;
             }
 
-            $constraints      = $service->getParameterConstraints($name);
-            $validationGroups = $service->getParameterValidationGroups($name);
+            $constraints        = $service->getParameterConstraints($name);
+            $validationGroups   = $service->getParameterValidationGroups($name);
+            $isStrictValidation = $service->isStrictParameterValidation($name);
             if (!empty($constraints)) {
                 $violations = $this->validator->validate($value, $constraints, $validationGroups);
                 if (count($violations)) {
                     $validationResult[$name] = $violations;
+                    if ($isStrictValidation) {
+                        $hasStrictFailure = true;
+                    }
                 }
                 $validatedCount++;
             }
@@ -70,7 +75,7 @@ class ArgumentValidator implements ArgumentValidatorInterface
         }
 
         if (!empty($validationResult)) {
-            throw new ArgumentValidationException(new ArgumentValidationResult($validationResult));
+            throw new ArgumentValidationException(new ArgumentValidationResult($validationResult), $hasStrictFailure);
         }
     }
 

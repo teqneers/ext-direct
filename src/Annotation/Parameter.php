@@ -40,6 +40,11 @@ class Parameter
     public $validationGroups;
 
     /**
+     * @var bool
+     */
+    public $strict = false;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
@@ -52,6 +57,9 @@ class Parameter
                 }
                 if (!empty($data['value'])) {
                     $data['validationGroups'] = array_shift($data['value']);
+                }
+                if (!empty($data['value'])) {
+                    $data['strict'] = array_shift($data['value']);
                 }
             } else {
                 $data['name'] = $data['value'];
