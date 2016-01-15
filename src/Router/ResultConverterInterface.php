@@ -17,8 +17,9 @@ namespace TQ\ExtDirect\Router;
 interface ResultConverterInterface
 {
     /**
-     * @param mixed $result
+     * @param ServiceReference $service
+     * @param mixed            $result
      * @return mixed
      */
-    public function convert($result);
+    public function convert(ServiceReference $service, $result);
 }

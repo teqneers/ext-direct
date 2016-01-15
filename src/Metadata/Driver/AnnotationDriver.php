@@ -11,6 +11,7 @@ namespace TQ\ExtDirect\Metadata\Driver;
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\DriverInterface;
 use TQ\ExtDirect\Annotation\Parameter;
+use TQ\ExtDirect\Annotation\Result;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 
@@ -58,35 +59,13 @@ class AnnotationDriver implements DriverInterface
         }
 
         $methodCount = 0;
-        foreach ($class->getMethods() as $reflectionMethod) {
-            if (!$reflectionMethod->isPublic()) {
+        foreach ($class->getMethods() as $method) {
+            if (!$method->isPublic()) {
                 continue;
             }
 
-            $methodMetadata   = new MethodMetadata($class->name, $reflectionMethod->name);
-            $methodAnnotation = $this->reader->getMethodAnnotation($reflectionMethod, self::METHOD_ANNOTATION_CLASS);
-
-            /** @var \TQ\ExtDirect\Annotation\Method $methodAnnotation */
-            if ($methodAnnotation !== null) {
-                $methodMetadata->isMethod       = true;
-                $methodMetadata->isFormHandler  = $methodAnnotation->formHandler;
-                $methodMetadata->hasNamedParams = $methodAnnotation->namedParams;
-                $methodMetadata->isStrict       = $methodAnnotation->strict;
-                $methodMetadata->addParameters($reflectionMethod->getParameters());
-
-                foreach ($this->reader->getMethodAnnotations($reflectionMethod) as $annotation) {
-                    if ($annotation instanceof Parameter) {
-                        if (!empty($annotation->constraints)) {
-                            $methodMetadata->addParameterConstraints(
-                                $annotation->name,
-                                $annotation->constraints,
-                                $annotation->validationGroups,
-                                $annotation->strict
-                            );
-                        }
-                    }
-                }
-
+            $methodMetadata = $this->loadMetadataForMethod($class, $method);
+            if ($methodMetadata) {
                 $actionMetadata->addMethodMetadata($methodMetadata);
                 $methodCount++;
             }
@@ -97,5 +76,53 @@ class AnnotationDriver implements DriverInterface
         }
 
         return $actionMetadata;
+    }
+
+    /**
+     * @param \ReflectionClass  $class
+     * @param \ReflectionMethod $method
+     * @return null|MethodMetadata
+     */
+    private function loadMetadataForMethod(\ReflectionClass $class, \ReflectionMethod $method)
+    {
+        $methodAnnotation = $this->reader->getMethodAnnotation($method, self::METHOD_ANNOTATION_CLASS);
+        if ($methodAnnotation === null) {
+            return null;
+        }
+
+        /** @var \TQ\ExtDirect\Annotation\Method $methodAnnotation */
+        $methodMetadata                 = new MethodMetadata($class->name, $method->name);
+        $methodMetadata->isMethod       = true;
+        $methodMetadata->isFormHandler  = $methodAnnotation->formHandler;
+        $methodMetadata->hasNamedParams = $methodAnnotation->namedParams;
+        $methodMetadata->isStrict       = $methodAnnotation->strict;
+        $methodMetadata->addParameters($method->getParameters());
+
+        /** @var Result|null $resultMetadata */
+        $resultMetadata = null;
+        foreach ($this->reader->getMethodAnnotations($method) as $annotation) {
+            if ($annotation instanceof Parameter) {
+                if (!empty($annotation->constraints)) {
+                    $methodMetadata->addParameterConstraints(
+                        $annotation->name,
+                        $annotation->constraints,
+                        $annotation->validationGroups,
+                        $annotation->strict
+                    );
+                }
+            } elseif ($annotation instanceof Result) {
+                $resultMetadata = $annotation;
+            }
+        }
+
+        if ($resultMetadata) {
+            $methodMetadata->setResult(
+                $resultMetadata->groups,
+                $resultMetadata->attributes,
+                $resultMetadata->version
+            );
+        }
+
+        return $methodMetadata;
     }
 }

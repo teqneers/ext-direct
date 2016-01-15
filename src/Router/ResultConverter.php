@@ -9,6 +9,7 @@
 
 namespace TQ\ExtDirect\Router;
 
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\Serializer;
 
 /**
@@ -34,10 +35,27 @@ class ResultConverter implements ResultConverterInterface
     /**
      * {@inheritdoc}
      */
-    public function convert($result)
+    public function convert(ServiceReference $service, $result)
     {
         if (is_object($result) || is_array($result)) {
-            return $this->serializer->toArray($result);
+
+            $context    = SerializationContext::create();
+            $groups     = $service->getResultSerializationGroups();
+            $attributes = $service->getResultSerializationAttributes();
+            $version    = $service->getResultSerializationVersion();
+            if (!empty($groups)) {
+                $context->setGroups($groups);
+            }
+            if (!empty($attributes)) {
+                foreach ($attributes as $key => $value) {
+                    $context->setAttribute($key, $value);
+                }
+            }
+            if ($version !== null) {
+                $context->setVersion($version);
+            }
+
+            return $this->serializer->toArray($result, $context);
         }
         return $result;
     }

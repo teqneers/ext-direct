@@ -236,4 +236,76 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($validationGroups);
         $this->assertTrue($strict);
     }
+
+    public function testMethodWithResultGroupsParameter()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodA'];
+
+        list($groups, $attributes, $version) = $methodMetadata->result;
+        $this->assertEquals(['a', 'b'], $groups);
+        $this->assertEmpty($attributes);
+        $this->assertNull($version);
+    }
+
+    public function testMethodWithResultAttributesParameter()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodB', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodB'];
+
+        list($groups, $attributes, $version) = $methodMetadata->result;
+        $this->assertEmpty($groups);
+        $this->assertEquals(['a' => 1, 'b' => 2], $attributes);
+        $this->assertNull($version);
+    }
+
+    public function testMethodWithResultVersionParameter()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodC', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodC'];
+
+        list($groups, $attributes, $version) = $methodMetadata->result;
+        $this->assertEmpty($groups);
+        $this->assertEmpty($attributes);
+        $this->assertEquals(1, $version);
+    }
+
+    public function testMethodWithResultAllParameters()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodD', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodD'];
+
+        list($groups, $attributes, $version) = $methodMetadata->result;
+        $this->assertEquals(['a', 'b'], $groups);
+        $this->assertEquals(['a' => 1, 'b' => 2], $attributes);
+        $this->assertEquals(1, $version);
+    }
 }

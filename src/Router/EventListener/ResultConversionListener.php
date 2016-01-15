@@ -50,10 +50,6 @@ class ResultConversionListener implements EventSubscriberInterface
      */
     public function onAfterInvoke(InvokeEvent $event)
     {
-        $event->setResult(
-            $this->converter->convert(
-                $event->getResult()
-            )
-        );
+        $event->setResult($this->converter->convert($event->getService(), $event->getResult()));
     }
 }

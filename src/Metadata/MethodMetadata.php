@@ -50,6 +50,11 @@ class MethodMetadata extends BaseMethodMetadata
     public $constraints = [];
 
     /**
+     * @var array|null
+     */
+    public $result;
+
+    /**
      * @param \ReflectionParameter $parameter
      */
     public function addParameter(\ReflectionParameter $parameter)
@@ -83,6 +88,16 @@ class MethodMetadata extends BaseMethodMetadata
     }
 
     /**
+     * @param array    $groups
+     * @param array    $attributes
+     * @param int|null $version
+     */
+    public function setResult(array $groups, array $attributes, $version)
+    {
+        $this->result = [$groups, $attributes, $version];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function serialize()
@@ -101,6 +116,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->isStrict,
             $parameterNames,
             $this->constraints,
+            $this->result,
             parent::serialize(),
         ));
     }
@@ -117,6 +133,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->isStrict,
             $parameterNames,
             $this->constraints,
+            $this->result,
             $parentStr
             ) = unserialize($str);
         parent::unserialize($parentStr);

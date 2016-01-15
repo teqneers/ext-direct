@@ -108,6 +108,42 @@ class ServiceReference
     }
 
     /**
+     * @return array|null
+     */
+    public function getResultSerializationGroups()
+    {
+        if ($this->methodMetadata->result) {
+            return $this->methodMetadata->result[0];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getResultSerializationAttributes()
+    {
+        if ($this->methodMetadata->result) {
+            return $this->methodMetadata->result[1];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getResultSerializationVersion()
+    {
+        if ($this->methodMetadata->result !== null) {
+            return $this->methodMetadata->result[2];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * @return callable
      */
     public function getCallable()

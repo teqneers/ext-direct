@@ -25,9 +25,12 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
         $serializer->expects($this->never())
                    ->method('toArray');
 
+        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        $service = $this->getMock('TQ\ExtDirect\Router\ServiceReference', [], [], '', false);
+
         $converter = new ResultConverter($serializer);
         $value     = 'value';
-        $this->assertEquals($value, $converter->convert($value));
+        $this->assertEquals($value, $converter->convert($service, $value));
     }
 
     public function testObjectIsConverted()
@@ -44,16 +47,22 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
                        'id' => 1
                    ));
 
+        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        $service = $this->getMock('TQ\ExtDirect\Router\ServiceReference', [], [], '', false);
+
         $converter = new ResultConverter($serializer);
         $this->assertEquals(array(
             'id' => 1
-        ), $converter->convert($result));
+        ), $converter->convert($service, $result));
     }
 
     public function testArrayIsConverted()
     {
         /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
         $serializer = $this->getMock('JMS\Serializer\Serializer', array('toArray'), array(), '', false);
+
+        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        $service = $this->getMock('TQ\ExtDirect\Router\ServiceReference', [], [], '', false);
 
         $result = [
             new ResultConverterTest_TestClass(1),
@@ -88,7 +97,7 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
             array(
                 'id' => 3
             )
-        ), $converter->convert($result));
+        ), $converter->convert($service, $result));
     }
 }
 
