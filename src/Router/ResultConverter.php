@@ -38,25 +38,32 @@ class ResultConverter implements ResultConverterInterface
     public function convert(ServiceReference $service, $result)
     {
         if (is_object($result) || is_array($result)) {
-
-            $context    = SerializationContext::create();
-            $groups     = $service->getResultSerializationGroups();
-            $attributes = $service->getResultSerializationAttributes();
-            $version    = $service->getResultSerializationVersion();
-            if (!empty($groups)) {
-                $context->setGroups($groups);
-            }
-            if (!empty($attributes)) {
-                foreach ($attributes as $key => $value) {
-                    $context->setAttribute($key, $value);
-                }
-            }
-            if ($version !== null) {
-                $context->setVersion($version);
-            }
-
-            return $this->serializer->toArray($result, $context);
+            return $this->serializer->toArray($result, $this->createSerializationContext($service));
         }
         return $result;
+    }
+
+    /**
+     * @param ServiceReference $service
+     * @return SerializationContext
+     */
+    protected function createSerializationContext(ServiceReference $service)
+    {
+        $context    = SerializationContext::create();
+        $groups     = $service->getResultSerializationGroups();
+        $attributes = $service->getResultSerializationAttributes();
+        $version    = $service->getResultSerializationVersion();
+        if (!empty($groups)) {
+            $context->setGroups($groups);
+        }
+        if (!empty($attributes)) {
+            foreach ($attributes as $key => $value) {
+                $context->setAttribute($key, $value);
+            }
+        }
+        if ($version !== null) {
+            $context->setVersion($version);
+        }
+        return $context;
     }
 }
