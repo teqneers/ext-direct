@@ -98,8 +98,6 @@ class AnnotationDriver implements DriverInterface
         $methodMetadata->isStrict       = $methodAnnotation->strict;
         $methodMetadata->addParameters($method->getParameters());
 
-        /** @var Result|null $resultMetadata */
-        $resultMetadata = null;
         foreach ($this->reader->getMethodAnnotations($method) as $annotation) {
             if ($annotation instanceof Parameter) {
                 if (!empty($annotation->constraints)) {
@@ -114,16 +112,12 @@ class AnnotationDriver implements DriverInterface
                     );
                 }
             } elseif ($annotation instanceof Result) {
-                $resultMetadata = $annotation;
+                $methodMetadata->setResult(
+                    $annotation->groups,
+                    $annotation->attributes,
+                    $annotation->version
+                );
             }
-        }
-
-        if ($resultMetadata) {
-            $methodMetadata->setResult(
-                $resultMetadata->groups,
-                $resultMetadata->attributes,
-                $resultMetadata->version
-            );
         }
 
         return $methodMetadata;
