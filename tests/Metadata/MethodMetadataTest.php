@@ -10,7 +10,6 @@ namespace TQ\ExtDirect\Tests\Metadata;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
-use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 
 /**
  * Class MethodMetadataTest
@@ -40,6 +39,7 @@ class MethodMetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($origMethodMetadata->isStrict, $restoredMethodMetadata->isStrict);
 
         $this->assertEquals(count($origMethodMetadata->parameters), count($restoredMethodMetadata->parameters));
-        $this->assertEquals(count($origMethodMetadata->constraints), count($restoredMethodMetadata->constraints));
+        $this->assertEquals(count($origMethodMetadata->parameterMetadata),
+            count($restoredMethodMetadata->parameterMetadata));
     }
 }

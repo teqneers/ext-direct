@@ -74,8 +74,8 @@ class ServiceReference
      */
     public function getParameterConstraints($name)
     {
-        if (isset($this->methodMetadata->constraints[$name])) {
-            return $this->methodMetadata->constraints[$name][0];
+        if (isset($this->methodMetadata->parameterMetadata[$name])) {
+            return $this->methodMetadata->parameterMetadata[$name][0];
         } else {
             return array();
         }
@@ -87,8 +87,8 @@ class ServiceReference
      */
     public function getParameterValidationGroups($name)
     {
-        if (isset($this->methodMetadata->constraints[$name])) {
-            return $this->methodMetadata->constraints[$name][1];
+        if (isset($this->methodMetadata->parameterMetadata[$name])) {
+            return $this->methodMetadata->parameterMetadata[$name][1];
         } else {
             return null;
         }
@@ -100,8 +100,8 @@ class ServiceReference
      */
     public function isStrictParameterValidation($name)
     {
-        if (isset($this->methodMetadata->constraints[$name])) {
-            return $this->methodMetadata->constraints[$name][2];
+        if (isset($this->methodMetadata->parameterMetadata[$name])) {
+            return $this->methodMetadata->parameterMetadata[$name][2];
         } else {
             return false;
         }

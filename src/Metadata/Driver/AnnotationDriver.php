@@ -103,7 +103,7 @@ class AnnotationDriver implements DriverInterface
         foreach ($this->reader->getMethodAnnotations($method) as $annotation) {
             if ($annotation instanceof Parameter) {
                 if (!empty($annotation->constraints)) {
-                    $methodMetadata->addParameterConstraints(
+                    $methodMetadata->addParameterMetadata(
                         $annotation->name,
                         $annotation->constraints,
                         $annotation->validationGroups,

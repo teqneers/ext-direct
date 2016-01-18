@@ -68,7 +68,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($methodMetadata->hasNamedParams);
         $this->assertTrue($methodMetadata->isStrict);
         $this->assertEquals(array(), $methodMetadata->parameters);
-        $this->assertEquals(array(), $methodMetadata->constraints);
+        $this->assertEquals(array(), $methodMetadata->parameterMetadata);
     }
 
     public function testClassWithoutServiceId()
@@ -105,7 +105,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($methodMetadata->hasNamedParams);
         $this->assertTrue($methodMetadata->isStrict);
         $this->assertEquals(array(), $methodMetadata->parameters);
-        $this->assertEquals(array(), $methodMetadata->constraints);
+        $this->assertEquals(array(), $methodMetadata->parameterMetadata);
     }
 
     public function testMethodParameterConstraints()
@@ -121,7 +121,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $methodMetadata = $classMetadata->methodMetadata[$m];
 
             /** @var Constraint[] $parameters */
-            $constraints = $methodMetadata->constraints;
+            $constraints = $methodMetadata->parameterMetadata;
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
 
@@ -150,7 +150,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $methodMetadata = $classMetadata->methodMetadata[$m];
 
             /** @var Constraint[] $parameters */
-            $constraints = $methodMetadata->constraints;
+            $constraints = $methodMetadata->parameterMetadata;
             $this->assertCount(1, $constraints);
             $this->assertArrayHasKey('a', $constraints);
 
@@ -210,7 +210,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($methodMetadata->hasNamedParams);
         $this->assertTrue($methodMetadata->isStrict);
         $this->assertEquals(array(), $methodMetadata->parameters);
-        $this->assertEquals(array(), $methodMetadata->constraints);
+        $this->assertEquals(array(), $methodMetadata->parameterMetadata);
     }
 
     public function testClassWithStrictParameterAnnotation()
@@ -227,7 +227,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $methodMetadata = $classMetadata->methodMetadata['methodA'];
 
         /** @var Constraint[] $parameters */
-        $constraints = $methodMetadata->constraints;
+        $constraints = $methodMetadata->parameterMetadata;
         $this->assertCount(1, $constraints);
         $this->assertArrayHasKey('a', $constraints);
 

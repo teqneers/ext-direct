@@ -47,7 +47,7 @@ class MethodMetadata extends BaseMethodMetadata
     /**
      * @var array
      */
-    public $constraints = [];
+    public $parameterMetadata = [];
 
     /**
      * @var array|null
@@ -78,13 +78,13 @@ class MethodMetadata extends BaseMethodMetadata
      * @param array|null   $validationGroups
      * @param bool         $strict
      */
-    public function addParameterConstraints(
+    public function addParameterMetadata(
         $parameter,
         array $constraints,
         array $validationGroups = null,
         $strict = false
     ) {
-        $this->constraints[$parameter] = [$constraints, $validationGroups, (bool)$strict];
+        $this->parameterMetadata[$parameter] = [$constraints, $validationGroups, (bool)$strict];
     }
 
     /**
@@ -115,7 +115,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->hasNamedParams,
             $this->isStrict,
             $parameterNames,
-            $this->constraints,
+            $this->parameterMetadata,
             $this->result,
             parent::serialize(),
         ));
@@ -132,7 +132,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->hasNamedParams,
             $this->isStrict,
             $parameterNames,
-            $this->constraints,
+            $this->parameterMetadata,
             $this->result,
             $parentStr
             ) = unserialize($str);
