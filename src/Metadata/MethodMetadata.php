@@ -77,14 +77,27 @@ class MethodMetadata extends BaseMethodMetadata
      * @param Constraint[] $constraints
      * @param array|null   $validationGroups
      * @param bool         $strict
+     * @param array|null   $serializationGroups
+     * @param array|null   $serializationAttributes
+     * @param int|null     $serializationVersion
      */
     public function addParameterMetadata(
         $parameter,
         array $constraints,
         array $validationGroups = null,
-        $strict = false
+        $strict = false,
+        array $serializationGroups = null,
+        array $serializationAttributes = null,
+        $serializationVersion = null
     ) {
-        $this->parameterMetadata[$parameter] = [$constraints, $validationGroups, (bool)$strict];
+        $this->parameterMetadata[$parameter] = [
+            $constraints,
+            $validationGroups,
+            (bool)$strict,
+            $serializationGroups,
+            $serializationAttributes,
+            $serializationVersion
+        ];
     }
 
     /**

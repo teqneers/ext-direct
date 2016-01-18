@@ -107,7 +107,10 @@ class AnnotationDriver implements DriverInterface
                         $annotation->name,
                         $annotation->constraints,
                         $annotation->validationGroups,
-                        $annotation->strict
+                        $annotation->strict,
+                        $annotation->serializationGroups,
+                        $annotation->serializationAttributes,
+                        $annotation->serializationVersion
                     );
                 }
             } elseif ($annotation instanceof Result) {

@@ -74,11 +74,7 @@ class ServiceReference
      */
     public function getParameterConstraints($name)
     {
-        if (isset($this->methodMetadata->parameterMetadata[$name])) {
-            return $this->methodMetadata->parameterMetadata[$name][0];
-        } else {
-            return array();
-        }
+        return $this->getParameterMetadata($name, 0);
     }
 
     /**
@@ -87,11 +83,7 @@ class ServiceReference
      */
     public function getParameterValidationGroups($name)
     {
-        if (isset($this->methodMetadata->parameterMetadata[$name])) {
-            return $this->methodMetadata->parameterMetadata[$name][1];
-        } else {
-            return null;
-        }
+        return $this->getParameterMetadata($name, 1);
     }
 
     /**
@@ -100,10 +92,47 @@ class ServiceReference
      */
     public function isStrictParameterValidation($name)
     {
-        if (isset($this->methodMetadata->parameterMetadata[$name])) {
-            return $this->methodMetadata->parameterMetadata[$name][2];
+        return $this->getParameterMetadata($name, 2);
+    }
+
+    /**
+     * @param string $name
+     * @return array|null
+     */
+    public function getParameterSerializationGroups($name)
+    {
+        return $this->getParameterMetadata($name, 3);
+    }
+
+    /**
+     * @param string $name
+     * @return array|null
+     */
+    public function getParameterSerializationAttributes($name)
+    {
+        return $this->getParameterMetadata($name, 4);
+    }
+
+    /**
+     * @param string $name
+     * @return int|null
+     */
+    public function getParameterSerializationVersion($name)
+    {
+        return $this->getParameterMetadata($name, 5);
+    }
+
+    /**
+     * @param string $name
+     * @param int    $index
+     * @return mixed|null
+     */
+    private function getParameterMetadata($name, $index)
+    {
+        if (isset($this->methodMetadata->parameterMetadata[$name][$index])) {
+            return $this->methodMetadata->parameterMetadata[$name][$index];
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -112,11 +141,7 @@ class ServiceReference
      */
     public function getResultSerializationGroups()
     {
-        if ($this->methodMetadata->result) {
-            return $this->methodMetadata->result[0];
-        } else {
-            return null;
-        }
+        return $this->getResultMetadata(0);
     }
 
     /**
@@ -124,11 +149,7 @@ class ServiceReference
      */
     public function getResultSerializationAttributes()
     {
-        if ($this->methodMetadata->result) {
-            return $this->methodMetadata->result[1];
-        } else {
-            return null;
-        }
+        return $this->getResultMetadata(1);
     }
 
     /**
@@ -136,8 +157,17 @@ class ServiceReference
      */
     public function getResultSerializationVersion()
     {
-        if ($this->methodMetadata->result !== null) {
-            return $this->methodMetadata->result[2];
+        return $this->getResultMetadata(2);
+    }
+
+    /**
+     * @param int $index
+     * @return mixed|null
+     */
+    private function getResultMetadata($index)
+    {
+        if ($this->methodMetadata->result && isset($this->methodMetadata->result[$index])) {
+            return $this->methodMetadata->result[$index];
         } else {
             return null;
         }

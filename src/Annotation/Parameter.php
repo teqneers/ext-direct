@@ -45,6 +45,21 @@ class Parameter
     public $strict = false;
 
     /**
+     * @var array<string>
+     */
+    public $serializationGroups = [];
+
+    /**
+     * @var array<string>
+     */
+    public $serializationAttributes = [];
+
+    /**
+     * @var int|null
+     */
+    public $serializationVersion = null;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
@@ -61,6 +76,15 @@ class Parameter
                 if (!empty($data['value'])) {
                     $data['strict'] = array_shift($data['value']);
                 }
+                if (!empty($data['value'])) {
+                    $data['serializationGroups'] = array_shift($data['value']);
+                }
+                if (!empty($data['value'])) {
+                    $data['serializationAttributes'] = array_shift($data['value']);
+                }
+                if (!empty($data['value'])) {
+                    $data['serializationVersion'] = array_shift($data['value']);
+                }
             } else {
                 $data['name'] = $data['value'];
             }
@@ -71,6 +95,10 @@ class Parameter
             if ($k == 'constraints' && !is_array($v)) {
                 $v = array($v);
             } elseif ($k == 'validationGroups' && !is_array($v)) {
+                $v = array($v);
+            } elseif ($k == 'serializationGroups' && !is_array($v)) {
+                $v = array($v);
+            } elseif ($k == 'serializationAttributes' && !is_array($v)) {
                 $v = array($v);
             }
 

@@ -9,6 +9,7 @@
 
 namespace TQ\ExtDirect\Router;
 
+use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Serializer;
 
 /**
@@ -50,8 +51,24 @@ class ArgumentConverter implements ArgumentConverterInterface
                 continue;
             }
 
+            $context    = DeserializationContext::create();
+            $groups     = $service->getParameterSerializationGroups($name);
+            $attributes = $service->getParameterSerializationAttributes($name);
+            $version    = $service->getParameterSerializationVersion($name);
+            if (!empty($groups)) {
+                $context->setGroups($groups);
+            }
+            if (!empty($attributes)) {
+                foreach ($attributes as $k => $v) {
+                    $context->setAttribute($k, $v);
+                }
+            }
+            if ($version !== null) {
+                $context->setVersion($version);
+            }
+
             $arguments[$name] = $this->serializer->fromArray(
-                $value, $parameter->getClass()->name
+                $value, $parameter->getClass()->name, $context
             );
         }
 
