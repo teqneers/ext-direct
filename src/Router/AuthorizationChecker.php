@@ -85,7 +85,7 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
             throw new \LogicException('To use the @Security annotation, your service needs to be behind a firewall.');
         }
 
-        return $this->language->evaluate('', $this->getVariables());
+        return $this->language->evaluate('true', $this->getVariables());
     }
 
     /**
