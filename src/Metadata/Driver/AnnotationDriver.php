@@ -10,8 +10,11 @@ namespace TQ\ExtDirect\Metadata\Driver;
 
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\DriverInterface;
+use TQ\ExtDirect\Annotation\Action;
+use TQ\ExtDirect\Annotation\Method;
 use TQ\ExtDirect\Annotation\Parameter;
 use TQ\ExtDirect\Annotation\Result;
+use TQ\ExtDirect\Annotation\Security;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 
@@ -22,9 +25,6 @@ use TQ\ExtDirect\Metadata\MethodMetadata;
  */
 class AnnotationDriver implements DriverInterface
 {
-    const ACTION_ANNOTATION_CLASS = 'TQ\ExtDirect\Annotation\Action';
-    const METHOD_ANNOTATION_CLASS = 'TQ\ExtDirect\Annotation\Method';
-
     /**
      * @var Reader
      */
@@ -47,15 +47,21 @@ class AnnotationDriver implements DriverInterface
 
         $actionMetadata->fileResources[] = $class->getFilename();
 
-        $actionAnnotation = $this->reader->getClassAnnotation($class, self::ACTION_ANNOTATION_CLASS);
+        $actionAnnotation = $this->reader->getClassAnnotation($class, Action::class);
 
-        /** @var \TQ\ExtDirect\Annotation\Action $actionAnnotation */
+        /** @var Action $actionAnnotation */
         if ($actionAnnotation !== null) {
             $actionMetadata->isAction  = true;
             $actionMetadata->serviceId = $actionAnnotation->serviceId ?: null;
             $actionMetadata->alias     = $actionAnnotation->alias ?: null;
         } else {
             return null;
+        }
+
+        /** @var Security $securityAnnotation */
+        $securityAnnotation = $this->reader->getClassAnnotation($class, Security::class);
+        if ($securityAnnotation) {
+            $actionMetadata->authorizationExpression = $securityAnnotation->expression;
         }
 
         $methodCount = 0;
@@ -85,12 +91,12 @@ class AnnotationDriver implements DriverInterface
      */
     private function loadMetadataForMethod(\ReflectionClass $class, \ReflectionMethod $method)
     {
-        $methodAnnotation = $this->reader->getMethodAnnotation($method, self::METHOD_ANNOTATION_CLASS);
+        $methodAnnotation = $this->reader->getMethodAnnotation($method, Method::class);
         if ($methodAnnotation === null) {
             return null;
         }
 
-        /** @var \TQ\ExtDirect\Annotation\Method $methodAnnotation */
+        /** @var Method $methodAnnotation */
         $methodMetadata                 = new MethodMetadata($class->name, $method->name);
         $methodMetadata->isMethod       = true;
         $methodMetadata->isFormHandler  = $methodAnnotation->formHandler;
@@ -111,13 +117,23 @@ class AnnotationDriver implements DriverInterface
                         $annotation->serializationVersion
                     );
                 }
-            } elseif ($annotation instanceof Result) {
-                $methodMetadata->setResult(
-                    $annotation->groups,
-                    $annotation->attributes,
-                    $annotation->version
-                );
             }
+        }
+
+        /** @var Result $resultAnnotation */
+        $resultAnnotation = $this->reader->getMethodAnnotation($method, Result::class);
+        if ($resultAnnotation) {
+            $methodMetadata->setResult(
+                $resultAnnotation->groups,
+                $resultAnnotation->attributes,
+                $resultAnnotation->version
+            );
+        }
+
+        /** @var Security $securityAnnotation */
+        $securityAnnotation = $this->reader->getMethodAnnotation($method, Security::class);
+        if ($securityAnnotation) {
+            $methodMetadata->authorizationExpression = $securityAnnotation->expression;
         }
 
         return $methodMetadata;

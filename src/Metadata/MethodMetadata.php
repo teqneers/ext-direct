@@ -50,6 +50,11 @@ class MethodMetadata extends BaseMethodMetadata
     public $parameterMetadata = [];
 
     /**
+     * @var string|null
+     */
+    public $authorizationExpression;
+
+    /**
      * @var array|null
      */
     public $result;
@@ -130,6 +135,7 @@ class MethodMetadata extends BaseMethodMetadata
             $parameterNames,
             $this->parameterMetadata,
             $this->result,
+            $this->authorizationExpression,
             parent::serialize(),
         ));
     }
@@ -147,6 +153,7 @@ class MethodMetadata extends BaseMethodMetadata
             $parameterNames,
             $this->parameterMetadata,
             $this->result,
+            $this->authorizationExpression,
             $parentStr
             ) = unserialize($str);
         parent::unserialize($parentStr);

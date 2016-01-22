@@ -10,6 +10,7 @@
 namespace TQ\ExtDirect\Router;
 
 use Symfony\Component\Validator\Constraint;
+use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
 
 /**
@@ -25,17 +26,24 @@ class ServiceReference
     private $service;
 
     /**
+     * @var ActionMetadata
+     */
+    private $actionMetadata;
+
+    /**
      * @var MethodMetadata
      */
     private $methodMetadata;
 
     /**
      * @param object|string  $service
+     * @param ActionMetadata $actionMetadata
      * @param MethodMetadata $methodMetadata
      */
-    public function __construct($service, MethodMetadata $methodMetadata)
+    public function __construct($service, ActionMetadata $actionMetadata, MethodMetadata $methodMetadata)
     {
         $this->service        = $service;
+        $this->actionMetadata = $actionMetadata;
         $this->methodMetadata = $methodMetadata;
     }
 
@@ -171,6 +179,19 @@ class ServiceReference
         } else {
             return null;
         }
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAuthorizationExpression()
+    {
+        if (!empty($this->methodMetadata->authorizationExpression)) {
+            return $this->methodMetadata->authorizationExpression;
+        } elseif (!empty($this->actionMetadata->authorizationExpression)) {
+            return $this->actionMetadata->authorizationExpression;
+        }
+        return null;
     }
 
     /**

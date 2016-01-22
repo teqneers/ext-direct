@@ -23,22 +23,22 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 class AuthorizationChecker implements AuthorizationCheckerInterface
 {
     /**
-     * @var ExpressionLanguage|null
+     * @var ExpressionLanguage
      */
     private $language;
 
     /**
-     * @var AuthenticationTrustResolverInterface|null
+     * @var AuthenticationTrustResolverInterface
      */
     private $trustResolver;
 
     /**
-     * @var TokenStorageInterface|null
+     * @var TokenStorageInterface
      */
     private $tokenStorage;
 
     /**
-     * @var BaseAuthorizationCheckerInterface|null
+     * @var BaseAuthorizationCheckerInterface
      */
     private $authChecker;
 
@@ -48,17 +48,17 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
     private $roleHierarchy;
 
     /**
-     * @param ExpressionLanguage|null                   $language
-     * @param AuthenticationTrustResolverInterface|null $trustResolver
-     * @param TokenStorageInterface|null                $tokenStorage
-     * @param BaseAuthorizationCheckerInterface|null    $authChecker
-     * @param RoleHierarchyInterface|null               $roleHierarchy
+     * @param ExpressionLanguage                   $language
+     * @param AuthenticationTrustResolverInterface $trustResolver
+     * @param TokenStorageInterface                $tokenStorage
+     * @param BaseAuthorizationCheckerInterface    $authChecker
+     * @param RoleHierarchyInterface|null          $roleHierarchy
      */
     public function __construct(
-        ExpressionLanguage $language = null,
-        AuthenticationTrustResolverInterface $trustResolver = null,
-        TokenStorageInterface $tokenStorage = null,
-        BaseAuthorizationCheckerInterface $authChecker = null,
+        ExpressionLanguage $language,
+        AuthenticationTrustResolverInterface $trustResolver,
+        TokenStorageInterface $tokenStorage,
+        BaseAuthorizationCheckerInterface $authChecker,
         RoleHierarchyInterface $roleHierarchy = null
     ) {
         $this->language      = $language;
@@ -75,23 +75,24 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
      */
     public function isGranted(ServiceReference $service, array $arguments)
     {
-        if ($this->language === null) {
-            throw new \LogicException('To use the @Security annotation, you need to use the Security component 2.4 or newer and to install the ExpressionLanguage component.');
-        }
-        if ($this->trustResolver === null || $this->tokenStorage === null || $this->authChecker === null) {
-            throw new \LogicException('To use the @Security annotation, you need to install the Symfony Security bundle.');
-        }
         if ($this->tokenStorage->getToken() === null) {
-            throw new \LogicException('To use the @Security annotation, your service needs to be behind a firewall.');
+            return true;
         }
 
-        return $this->language->evaluate('true', $this->getVariables());
+
+        $authorizationExpression = $service->getAuthorizationExpression();
+        if (empty($authorizationExpression)) {
+            return true;
+        }
+
+        return $this->language->evaluate($authorizationExpression, $this->getVariables($arguments));
     }
 
     /**
+     * @param array $arguments
      * @return array
      */
-    private function getVariables()
+    private function getVariables(array $arguments)
     {
         $token = $this->tokenStorage->getToken();
 
@@ -109,6 +110,7 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
             }, $roles),
             'trust_resolver' => $this->trustResolver,
             'auth_checker'   => $this->authChecker,
+            'args'           => $arguments
         );
 
         return $variables;
