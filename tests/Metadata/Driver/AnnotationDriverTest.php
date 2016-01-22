@@ -308,4 +308,39 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['a' => 1, 'b' => 2], $attributes);
         $this->assertEquals(1, $version);
     }
+
+    public function testClassWithSecurityAnnotation()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service11');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertEquals('true', $classMetadata->authorizationExpression);
+    }
+
+    public function tesMethodWithSecurityAnnotation()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service11');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadataA */
+        $methodMetadataA = $classMetadata->methodMetadata['methodA'];
+        $this->assertNull($methodMetadataA->authorizationExpression);
+
+        $this->assertArrayHasKey('methodB', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadataB */
+        $methodMetadataB = $classMetadata->methodMetadata['methodB'];
+        $this->assertEquals('true and false', $methodMetadataB->authorizationExpression);
+
+        $this->assertArrayHasKey('methodC', $classMetadata->methodMetadata);
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadataC */
+        $methodMetadataC = $classMetadata->methodMetadata['methodC'];
+        $this->assertEquals('true and true', $methodMetadataC->authorizationExpression);
+    }
 }
