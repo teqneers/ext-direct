@@ -16,15 +16,19 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @package TQ\ExtDirect\Tests\Metadata\Services
  *
- * @Direct\Action("app.direct.test")
+ * @Direct\Action(serviceId="app.direct.test", alias="alias")
+ * @Direct\Security("true")
  */
 class Service1
 {
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
+     * @Direct\Security("true and true")
+     * @Direct\Result(version=1)
      *
      * @param mixed $a
+     * @return true
      */
     public function methodA($a)
     {

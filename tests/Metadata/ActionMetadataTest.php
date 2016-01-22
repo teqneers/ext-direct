@@ -31,6 +31,8 @@ class ActionMetadataTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($origMetadata->isAction, $restoredMetadata->isAction);
         $this->assertEquals($origMetadata->serviceId, $restoredMetadata->serviceId);
+        $this->assertEquals($origMetadata->alias, $restoredMetadata->alias);
+        $this->assertEquals($origMetadata->authorizationExpression, $restoredMetadata->authorizationExpression);
 
         $this->assertEquals(count($origMetadata->methodMetadata), count($restoredMetadata->methodMetadata));
     }

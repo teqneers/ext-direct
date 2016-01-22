@@ -41,5 +41,8 @@ class MethodMetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($origMethodMetadata->parameters), count($restoredMethodMetadata->parameters));
         $this->assertEquals(count($origMethodMetadata->parameterMetadata),
             count($restoredMethodMetadata->parameterMetadata));
+
+        $this->assertEquals($origMethodMetadata->authorizationExpression, $restoredMethodMetadata->authorizationExpression);
+        $this->assertEquals($origMethodMetadata->result, $restoredMethodMetadata->result);
     }
 }
