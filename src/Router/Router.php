@@ -102,7 +102,7 @@ class Router
                 if ($result instanceof AbstractResponse) {
                     $responses[] = $result;
                 } else {
-                    $responses[] = Response::fromRequest($singleRequest, $result);
+                    $responses[] = RPCResponse::fromRequest($singleRequest, $result);
                 }
             } catch (\Exception $e) {
                 /** @var ExceptionEvent $exceptionEvent */

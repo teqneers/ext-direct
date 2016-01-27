@@ -9,7 +9,7 @@
 namespace TQ\ExtDirect\Tests\Http;
 
 use TQ\ExtDirect\Http\UploadResponse;
-use TQ\ExtDirect\Router\Response;
+use TQ\ExtDirect\Router\RPCResponse;
 
 /**
  * Class UploadResponseTest
@@ -20,7 +20,7 @@ class UploadResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testUploadResponse()
     {
-        $directResponse = new Response(1, 'My.Action', 'method', array('success' => true));
+        $directResponse = new RPCResponse(1, 'My.Action', 'method', array('success' => true));
         $httpResponse   = new UploadResponse($directResponse);
 
         $this->expectOutputString(<<<'OUT'
@@ -32,7 +32,7 @@ OUT
 
     public function testQuoteEscaping()
     {
-        $directResponse = new Response(1, 'My.Action', 'method', array('content' => '&quot;'));
+        $directResponse = new RPCResponse(1, 'My.Action', 'method', array('content' => '&quot;'));
         $httpResponse   = new UploadResponse($directResponse);
 
         $this->expectOutputString(<<<'OUT'

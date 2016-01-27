@@ -10,11 +10,11 @@
 namespace TQ\ExtDirect\Router;
 
 /**
- * Class Response
+ * Class RpcResponse
  *
  * @package TQ\ExtDirect
  */
-class Response extends AbstractTransactionResponse
+class RPCResponse extends AbstractTransactionResponse
 {
     /**
      * @var mixed
@@ -24,7 +24,7 @@ class Response extends AbstractTransactionResponse
     /**
      * @param Request $request
      * @param mixed   $result
-     * @return self
+     * @return RPCResponse
      */
     public static function fromRequest(Request $request, $result = null)
     {

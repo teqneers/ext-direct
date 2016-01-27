@@ -76,9 +76,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('TQ\ExtDirect\Router\ResponseCollection', $response);
         $this->assertCount(1, $response);
 
-        /** @var \TQ\ExtDirect\Router\Response $firstResponse */
+        /** @var \TQ\ExtDirect\Router\RPCResponse $firstResponse */
         $firstResponse = $response->getFirst();
-        $this->assertInstanceOf('TQ\ExtDirect\Router\Response', $firstResponse);
+        $this->assertInstanceOf('TQ\ExtDirect\Router\RPCResponse', $firstResponse);
 
         $this->assertEquals(1, $firstResponse->getTid());
         $this->assertEquals('My.Action', $firstResponse->getAction());
@@ -180,18 +180,18 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('TQ\ExtDirect\Router\ResponseCollection', $response);
         $this->assertCount(2, $response);
 
-        /** @var \TQ\ExtDirect\Router\Response $firstResponse */
+        /** @var \TQ\ExtDirect\Router\RPCResponse $firstResponse */
         $firstResponse = $response->getAt(0);
-        $this->assertInstanceOf('TQ\ExtDirect\Router\Response', $firstResponse);
+        $this->assertInstanceOf('TQ\ExtDirect\Router\RPCResponse', $firstResponse);
 
         $this->assertEquals(1, $firstResponse->getTid());
         $this->assertEquals('My.Action', $firstResponse->getAction());
         $this->assertEquals('myMethod1', $firstResponse->getMethod());
         $this->assertEquals(1, $firstResponse->getResult());
 
-        /** @var \TQ\ExtDirect\Router\Response $secondResponse */
+        /** @var \TQ\ExtDirect\Router\RPCResponse $secondResponse */
         $secondResponse = $response->getAt(1);
-        $this->assertInstanceOf('TQ\ExtDirect\Router\Response', $secondResponse);
+        $this->assertInstanceOf('TQ\ExtDirect\Router\RPCResponse', $secondResponse);
 
         $this->assertEquals(2, $secondResponse->getTid());
         $this->assertEquals('My.Action', $secondResponse->getAction());
@@ -360,9 +360,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('TQ\ExtDirect\Router\ResponseCollection', $response);
         $this->assertCount(2, $response);
 
-        /** @var \TQ\ExtDirect\Router\Response $firstResponse */
+        /** @var \TQ\ExtDirect\Router\RPCResponse $firstResponse */
         $firstResponse = $response->getAt(0);
-        $this->assertInstanceOf('TQ\ExtDirect\Router\Response', $firstResponse);
+        $this->assertInstanceOf('TQ\ExtDirect\Router\RPCResponse', $firstResponse);
 
         $this->assertEquals(1, $firstResponse->getTid());
         $this->assertEquals('My.Action', $firstResponse->getAction());

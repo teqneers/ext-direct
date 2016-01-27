@@ -8,7 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
-use TQ\ExtDirect\Router\Response;
+use TQ\ExtDirect\Router\RPCResponse;
 use TQ\ExtDirect\Router\ResponseCollection;
 
 /**
@@ -20,9 +20,9 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testIteration()
     {
-        $response1  = new Response(1, 'My.Action', 'method');
-        $response2  = new Response(2, 'My.Action', 'method');
-        $response3  = new Response(3, 'My.Action', 'method');
+        $response1  = new RPCResponse(1, 'My.Action', 'method');
+        $response2  = new RPCResponse(2, 'My.Action', 'method');
+        $response3  = new RPCResponse(3, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response1, $response2, $response3));
 
         foreach ($collection as $i => $r) {
@@ -32,9 +32,9 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAll()
     {
-        $response1  = new Response(1, 'My.Action', 'method');
-        $response2  = new Response(2, 'My.Action', 'method');
-        $response3  = new Response(3, 'My.Action', 'method');
+        $response1  = new RPCResponse(1, 'My.Action', 'method');
+        $response2  = new RPCResponse(2, 'My.Action', 'method');
+        $response3  = new RPCResponse(3, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response1, $response2, $response3));
 
         $this->assertSame(
@@ -45,9 +45,9 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testCountable()
     {
-        $response1  = new Response(1, 'My.Action', 'method');
-        $response2  = new Response(2, 'My.Action', 'method');
-        $response3  = new Response(3, 'My.Action', 'method');
+        $response1  = new RPCResponse(1, 'My.Action', 'method');
+        $response2  = new RPCResponse(2, 'My.Action', 'method');
+        $response3  = new RPCResponse(3, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response1, $response2, $response3));
 
         $this->assertCount(3, $collection);
@@ -69,9 +69,9 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFirst()
     {
-        $response1  = new Response(1, 'My.Action', 'method');
-        $response2  = new Response(2, 'My.Action', 'method');
-        $response3  = new Response(3, 'My.Action', 'method');
+        $response1  = new RPCResponse(1, 'My.Action', 'method');
+        $response2  = new RPCResponse(2, 'My.Action', 'method');
+        $response3  = new RPCResponse(3, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response1, $response2, $response3));
 
         $this->assertSame($response1, $collection->getFirst());
@@ -87,9 +87,9 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAt()
     {
-        $response1  = new Response(1, 'My.Action', 'method');
-        $response2  = new Response(2, 'My.Action', 'method');
-        $response3  = new Response(3, 'My.Action', 'method');
+        $response1  = new RPCResponse(1, 'My.Action', 'method');
+        $response2  = new RPCResponse(2, 'My.Action', 'method');
+        $response3  = new RPCResponse(3, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response1, $response2, $response3));
 
         $this->assertNull($collection->getAt(-1));
@@ -111,7 +111,7 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testJsonSerializeOneResponse()
     {
-        $response   = new Response(1, 'My.Action', 'method');
+        $response   = new RPCResponse(1, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response));
 
         $this->assertEquals(
@@ -122,9 +122,9 @@ class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testJsonSerialize()
     {
-        $response1  = new Response(1, 'My.Action', 'method');
-        $response2  = new Response(2, 'My.Action', 'method');
-        $response3  = new Response(3, 'My.Action', 'method');
+        $response1  = new RPCResponse(1, 'My.Action', 'method');
+        $response2  = new RPCResponse(2, 'My.Action', 'method');
+        $response3  = new RPCResponse(3, 'My.Action', 'method');
         $collection = new ResponseCollection(array($response1, $response2, $response3));
 
         $this->assertEquals(
