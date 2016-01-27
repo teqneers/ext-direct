@@ -14,7 +14,7 @@ namespace TQ\ExtDirect\Router;
  *
  * @package TQ\ExtDirect
  */
-abstract class AbstractTransactionResponse extends AbstractResponse
+abstract class AbstractTransactionResponse extends Response
 {
     /**
      * @var int

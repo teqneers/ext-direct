@@ -13,17 +13,17 @@ namespace TQ\ExtDirect\Router;
  *
  * @package TQ\ExtDirect\Router
  */
-abstract class AbstractResponseDecorator extends AbstractResponse
+abstract class AbstractResponseDecorator extends Response
 {
     /**
-     * @var AbstractResponse
+     * @var Response
      */
     private $decorated;
 
     /**
-     * @param AbstractResponse $decorated
+     * @param Response $decorated
      */
-    public function __construct(AbstractResponse $decorated)
+    public function __construct(Response $decorated)
     {
         parent::__construct($decorated->getType());
         $this->decorated = $decorated;
@@ -43,7 +43,7 @@ abstract class AbstractResponseDecorator extends AbstractResponse
     }
 
     /**
-     * @return AbstractResponse
+     * @return Response
      */
     protected function getDecorated()
     {

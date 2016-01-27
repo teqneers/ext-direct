@@ -10,7 +10,7 @@
 namespace TQ\ExtDirect\Router\Event;
 
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use TQ\ExtDirect\Router\AbstractResponse;
+use TQ\ExtDirect\Router\Response;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Router\ServiceReference;
 
@@ -27,7 +27,7 @@ class ExceptionEvent extends AbstractRouterEvent
     private $exception;
 
     /**
-     * @var AbstractResponse
+     * @var Response
      */
     private $response;
 
@@ -45,7 +45,7 @@ class ExceptionEvent extends AbstractRouterEvent
      * @param DirectRequest         $directRequest
      * @param HttpRequest           $httpRequest
      * @param \Exception            $exception
-     * @param AbstractResponse      $response
+     * @param Response      $response
      * @param ServiceReference|null $service
      * @param array|null            $arguments
      */
@@ -53,7 +53,7 @@ class ExceptionEvent extends AbstractRouterEvent
         DirectRequest $directRequest,
         HttpRequest $httpRequest,
         \Exception $exception,
-        AbstractResponse $response,
+        Response $response,
         ServiceReference $service = null,
         array $arguments = null
     ) {
@@ -73,7 +73,7 @@ class ExceptionEvent extends AbstractRouterEvent
     }
 
     /**
-     * @return AbstractResponse
+     * @return Response
      */
     public function getResponse()
     {
@@ -81,10 +81,10 @@ class ExceptionEvent extends AbstractRouterEvent
     }
 
     /**
-     * @param AbstractResponse $response
+     * @param Response $response
      * @return $this
      */
-    public function setResponse(AbstractResponse $response)
+    public function setResponse(Response $response)
     {
         $this->response = $response;
         return $this;

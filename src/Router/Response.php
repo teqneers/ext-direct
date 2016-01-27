@@ -10,11 +10,11 @@
 namespace TQ\ExtDirect\Router;
 
 /**
- * Class AbstractResponse
+ * Class Response
  *
  * @package TQ\ExtDirect
  */
-class AbstractResponse implements \JsonSerializable
+class Response implements \JsonSerializable
 {
     const TYPE_RPC       = 'rpc';
     const TYPE_EXCEPTION = 'exception';

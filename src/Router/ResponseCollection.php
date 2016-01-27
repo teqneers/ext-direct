@@ -17,12 +17,12 @@ namespace TQ\ExtDirect\Router;
 class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
-     * @var AbstractResponse[]
+     * @var Response[]
      */
     private $responses;
 
     /**
-     * @param AbstractResponse[] $responses
+     * @param Response[] $responses
      */
     public function __construct(array $responses)
     {
@@ -30,7 +30,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     }
 
     /**
-     * @return AbstractResponse[]
+     * @return Response[]
      */
     public function all()
     {
@@ -54,7 +54,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     }
 
     /**
-     * @return AbstractResponse|null
+     * @return Response|null
      */
     public function getFirst()
     {
@@ -66,7 +66,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
 
     /**
      * @param int $index
-     * @return AbstractResponse|null
+     * @return Response|null
      */
     public function getAt($index)
     {

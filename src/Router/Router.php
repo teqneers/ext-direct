@@ -99,7 +99,7 @@ class Router
 
                 $result = $this->invokeService($service, $arguments, $singleRequest, $httpRequest);
 
-                if ($result instanceof AbstractResponse) {
+                if ($result instanceof Response) {
                     $responses[] = $result;
                 } else {
                     $responses[] = RPCResponse::fromRequest($singleRequest, $result);

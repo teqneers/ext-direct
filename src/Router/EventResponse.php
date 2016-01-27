@@ -15,7 +15,7 @@ namespace TQ\ExtDirect\Router;
  *
  * @package TQ\ExtDirect
  */
-class EventResponse extends AbstractResponse
+class EventResponse extends Response
 {
     /**
      * @var string

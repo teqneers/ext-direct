@@ -11,7 +11,7 @@ namespace TQ\ExtDirect\Http;
 
 
 use Symfony\Component\HttpFoundation\JsonResponse;
-use TQ\ExtDirect\Router\AbstractResponse;
+use TQ\ExtDirect\Router\Response;
 
 /**
  * Class UploadResponse
@@ -21,17 +21,17 @@ use TQ\ExtDirect\Router\AbstractResponse;
 class UploadResponse extends JsonResponse
 {
     /**
-     * @var AbstractResponse|null
+     * @var Response|null
      */
     private $response;
 
     /**
-     * @param AbstractResponse|null $response
+     * @param Response|null $response
      * @param int                   $status
      * @param array                 $headers
      */
     public function __construct(
-        AbstractResponse $response = null,
+        Response $response = null,
         $status = 200,
         $headers = array()
     ) {
@@ -43,7 +43,7 @@ class UploadResponse extends JsonResponse
     }
 
     /**
-     * @return AbstractResponse|null
+     * @return Response|null
      */
     public function geResponse()
     {
@@ -51,10 +51,10 @@ class UploadResponse extends JsonResponse
     }
 
     /**
-     * @param AbstractResponse $response
+     * @param Response $response
      * @return $this
      */
-    public function setResponse(AbstractResponse $response)
+    public function setResponse(Response $response)
     {
         $this->response = $response;
         $this->setData($this->response);
