@@ -79,7 +79,6 @@ class DefaultServiceRegistry implements ServiceRegistry
     private function findServiceConfig($service)
     {
         if (!isset($this->services[$service])) {
-            $serviceConfig = null;
             foreach ($this->services as $sc) {
                 if ($sc[2] === $service) {
                     return $sc;
