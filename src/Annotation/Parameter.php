@@ -9,9 +9,6 @@
 
 namespace TQ\ExtDirect\Annotation;
 
-use Doctrine\Common\Annotations\Annotation\Required;
-
-
 /**
  * Class Parameter
  *
@@ -23,7 +20,7 @@ use Doctrine\Common\Annotations\Annotation\Required;
 class Parameter
 {
     /**
-     * @Required
+     * @Doctrine\Common\Annotations\Annotation\Required
      *
      * @var string
      */

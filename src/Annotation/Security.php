@@ -8,8 +8,6 @@
 
 namespace TQ\ExtDirect\Annotation;
 
-use Doctrine\Common\Annotations\Annotation\Required;
-
 /**
  * Class Security
  *
@@ -21,7 +19,7 @@ use Doctrine\Common\Annotations\Annotation\Required;
 class Security
 {
     /**
-     * @Required
+     * @Doctrine\Common\Annotations\Annotation\Required
      *
      * @var string
      */
