@@ -19,7 +19,7 @@ namespace TQ\ExtDirect\Annotation;
 class Security
 {
     /**
-     * @Doctrine\Common\Annotations\Annotation\Required
+     * @\Doctrine\Common\Annotations\Annotation\Required
      *
      * @var string
      */

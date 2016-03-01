@@ -20,7 +20,7 @@ namespace TQ\ExtDirect\Annotation;
 class Parameter
 {
     /**
-     * @Doctrine\Common\Annotations\Annotation\Required
+     * @\Doctrine\Common\Annotations\Annotation\Required
      *
      * @var string
      */
