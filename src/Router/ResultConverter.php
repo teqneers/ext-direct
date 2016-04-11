@@ -64,6 +64,7 @@ class ResultConverter implements ResultConverterInterface
         if ($version !== null) {
             $context->setVersion($version);
         }
+        $context->setSerializeNull(true);
         return $context;
     }
 }
