@@ -39,7 +39,7 @@ class Parameter
     /**
      * @var bool
      */
-    public $strict = false;
+    public $strict = true;
 
     /**
      * @var array<string>

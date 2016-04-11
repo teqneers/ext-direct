@@ -133,7 +133,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
             $this->assertNull($validationGroup);
 
-            $this->assertFalse($strict);
+            $this->assertTrue($strict);
         }
     }
 
@@ -162,7 +162,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Symfony\Component\Validator\Constraint', $constraint);
             $this->assertEquals(['myGroup'], $validationGroups);
 
-            $this->assertFalse($strict);
+            $this->assertTrue($strict);
         }
     }
 
