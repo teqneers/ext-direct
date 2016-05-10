@@ -40,6 +40,11 @@ class MethodMetadata extends BaseMethodMetadata
     public $isStrict = true;
 
     /**
+     * @var bool
+     */
+    public $hasSession = true;
+
+    /**
      * @var \ReflectionParameter[]
      */
     public $parameters = [];
@@ -132,6 +137,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->isFormHandler,
             $this->hasNamedParams,
             $this->isStrict,
+            $this->hasSession,
             $parameterNames,
             $this->parameterMetadata,
             $this->result,
@@ -150,6 +156,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->isFormHandler,
             $this->hasNamedParams,
             $this->isStrict,
+            $this->hasSession,
             $parameterNames,
             $this->parameterMetadata,
             $this->result,

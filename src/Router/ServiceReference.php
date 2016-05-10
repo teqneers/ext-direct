@@ -56,6 +56,14 @@ class ServiceReference
     }
 
     /**
+     * @return bool
+     */
+    public function hasSession()
+    {
+        return $this->methodMetadata->hasSession;
+    }
+
+    /**
      * @return \ReflectionParameter[]
      */
     public function getParameters()

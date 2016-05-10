@@ -88,15 +88,25 @@ class Router
             )
         );
 
-        $responses = array();
+        $invocations  = [];
+        $closeSession = true;
         foreach ($directRequest as $singleRequest) {
             /** @var Request $singleRequest */
+            /** @var ServiceReference $service */
+            /** @var array $arguments */
+            list($service, $arguments) = $this->getInvocationParameters($singleRequest, $httpRequest);
+            if ($closeSession && $service->hasSession()) {
+                $closeSession = false;
+            }
+            $invocations[] = array($service, $arguments, $singleRequest);
+        }
 
+        $responses = array();
+        foreach ($invocations as $invocation) {
+            /** @var ServiceReference $service */
+            /** @var array $arguments */
+            list($service, $arguments, $singleRequest) = $invocation;
             try {
-                /** @var ServiceReference $service */
-                /** @var array $arguments */
-                list($service, $arguments) = $this->getInvocationParameters($singleRequest, $httpRequest);
-
                 $result = $this->invokeService($service, $arguments, $singleRequest, $httpRequest);
 
                 if ($result instanceof Response) {

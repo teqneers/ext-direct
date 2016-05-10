@@ -31,7 +31,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -55,6 +55,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                             'b'                         => 'b'
                         ));
 
+        $service->expects($this->any())
+                ->method('hasSession')
+                ->willReturn(true);
         $service->expects($this->once())
                 ->method('__invoke')
                 ->with(
@@ -97,7 +100,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service1 = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -106,7 +109,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service2 = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -145,6 +148,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
+        $service1->expects($this->any())
+                 ->method('hasSession')
+                 ->willReturn(true);
         $service1->expects($this->once())
                  ->method('__invoke')
                  ->with(
@@ -159,6 +165,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                  )
                  ->willReturn(1);
 
+        $service2->expects($this->any())
+                 ->method('hasSession')
+                 ->willReturn(true);
         $service2->expects($this->once())
                  ->method('__invoke')
                  ->with(
@@ -210,7 +219,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -234,6 +243,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                             'b'                         => 'b'
                         ));
 
+        $service->expects($this->any())
+                ->method('hasSession')
+                ->willReturn(true);
         $exception = new \RuntimeException('Something has happened');
         $service->expects($this->once())
                 ->method('__invoke')
@@ -276,7 +288,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service1 = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -285,7 +297,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service2 = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -324,6 +336,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
+        $service1->expects($this->any())
+                 ->method('hasSession')
+                 ->willReturn(true);
         $service1->expects($this->once())
                  ->method('__invoke')
                  ->with(
@@ -338,6 +353,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                  )
                  ->willReturn(1);
 
+        $service2->expects($this->any())
+                 ->method('hasSession')
+                 ->willReturn(true);
         $exception = new \RuntimeException('Something has happened');
         $service2->expects($this->once())
                  ->method('__invoke')
@@ -390,7 +408,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -414,6 +432,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                             'b'                         => 'b'
                         ));
 
+        $service->expects($this->any())
+                ->method('hasSession')
+                ->willReturn(true);
         $service->expects($this->once())
                 ->method('__invoke')
                 ->with(
@@ -489,7 +510,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->getMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke'),
+            array('__invoke', 'hasSession'),
             array(),
             '',
             false
@@ -513,6 +534,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                             'b'                         => 'b'
                         ));
 
+        $service->expects($this->any())
+                ->method('hasSession')
+                ->willReturn(true);
         $exception = new \RuntimeException('Something has happened');
         $service->expects($this->once())
                 ->method('__invoke')

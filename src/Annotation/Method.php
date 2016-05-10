@@ -34,4 +34,9 @@ class Method
      * @var bool
      */
     public $strict = true;
+
+    /**
+     * @var bool
+     */
+    public $session = true;
 }
