@@ -88,20 +88,8 @@ class Router
             )
         );
 
-        $invocations  = [];
-        $closeSession = true;
-        foreach ($directRequest as $singleRequest) {
-            /** @var Request $singleRequest */
-            /** @var ServiceReference $service */
-            /** @var array $arguments */
-            list($service, $arguments) = $this->getInvocationParameters($singleRequest, $httpRequest);
-            if ($closeSession && $service->hasSession()) {
-                $closeSession = false;
-            }
-            $invocations[] = array($service, $arguments, $singleRequest);
-        }
-
-        $responses = array();
+        $invocations = $this->prepareInvocation($directRequest, $httpRequest);
+        $responses   = array();
         foreach ($invocations as $invocation) {
             /** @var ServiceReference $service */
             /** @var array $arguments */
@@ -143,6 +131,36 @@ class Router
         );
 
         return $endRequestEvent->getDirectResponse();
+    }
+
+    /**
+     * @param RequestCollection $directRequest
+     * @param HttpRequest       $httpRequest
+     * @return array
+     */
+    protected function prepareInvocation(RequestCollection $directRequest, HttpRequest $httpRequest)
+    {
+        $invocations  = [];
+        $closeSession = true;
+        foreach ($directRequest as $singleRequest) {
+            /** @var Request $singleRequest */
+            /** @var ServiceReference $service */
+            /** @var array $arguments */
+            list($service, $arguments) = $this->getInvocationParameters($singleRequest, $httpRequest);
+            if ($closeSession && $service->hasSession()) {
+                $closeSession = false;
+            }
+            $invocations[] = array($service, $arguments, $singleRequest);
+        }
+
+        if ($closeSession) {
+            $session = $httpRequest->getSession();
+            if ($session && $session->isStarted()) {
+                $session->save();
+            }
+        }
+
+        return $invocations;
     }
 
     /**
