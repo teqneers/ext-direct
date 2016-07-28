@@ -65,6 +65,7 @@ class ResultConverter implements ResultConverterInterface
             $context->setVersion($version);
         }
         $context->setSerializeNull(true);
+        $context->enableMaxDepthChecks();
         return $context;
     }
 }
