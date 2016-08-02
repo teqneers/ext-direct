@@ -37,10 +37,13 @@ class ResultConverter implements ResultConverterInterface
      */
     public function convert(ServiceReference $service, $result)
     {
-        if (is_object($result) || is_array($result)) {
+        if (is_callable($result)) {
+            return $result($this->serializer, $this->createSerializationContext($service));
+        } elseif (is_object($result) || is_array($result)) {
             return $this->serializer->toArray($result, $this->createSerializationContext($service));
+        } else {
+            return $result;
         }
-        return $result;
     }
 
     /**

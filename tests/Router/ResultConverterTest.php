@@ -99,6 +99,37 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
             )
         ), $converter->convert($service, $result));
     }
+
+    public function testCallableIsCalledForSerialization()
+    {
+        /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
+        $serializer = $this->getMock('JMS\Serializer\Serializer', ['toArray'], [], '', false);
+
+        $called = false;
+        $result = function (\JMS\Serializer\Serializer $s, \JMS\Serializer\SerializationContext $c) use (
+            &$called,
+            $serializer
+        ) {
+            $called = true;
+            $this->assertSame($serializer, $s);
+            $this->assertInstanceOf(\JMS\Serializer\SerializationContext::class, $c);
+            return [
+                'serialized_from_callable' => true,
+            ];
+        };
+
+        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        $service = $this->getMock('TQ\ExtDirect\Router\ServiceReference', [], [], '', false);
+
+        $converter = new ResultConverter($serializer);
+        $this->assertEquals(
+            [
+                'serialized_from_callable' => true,
+            ],
+            $converter->convert($service, $result)
+        );
+        $this->assertTrue($called);
+    }
 }
 
 /**
