@@ -84,8 +84,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
         if (count($this->responses) !== 1) {
             return $this->responses;
         } else {
-            $singleResponse = reset($this->responses);
-            return $singleResponse;
+            return reset($this->responses);
         }
     }
 }

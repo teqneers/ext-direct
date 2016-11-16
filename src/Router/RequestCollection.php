@@ -14,7 +14,7 @@ namespace TQ\ExtDirect\Router;
  *
  * @package TQ\ExtDirect
  */
-class RequestCollection implements \IteratorAggregate, \Countable
+class RequestCollection implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * @var Request[]
@@ -95,5 +95,17 @@ class RequestCollection implements \IteratorAggregate, \Countable
     public function isFormUpload()
     {
         return $this->isForm() && $this->isUpload();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        if (count($this->requests) !== 1) {
+            return $this->requests;
+        } else {
+            return reset($this->requests);
+        }
     }
 }
