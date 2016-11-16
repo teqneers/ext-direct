@@ -14,7 +14,7 @@ namespace TQ\ExtDirect\Router;
  *
  * @package TQ\ExtDirect
  */
-class Request
+class Request implements \JsonSerializable
 {
     /**
      * @var int
@@ -126,5 +126,21 @@ class Request
     public function isFormUpload()
     {
         return $this->isForm() && $this->isUpload();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'tid'          => $this->getTid(),
+            'action'       => $this->getAction(),
+            'method'       => $this->getMethod(),
+            'data'         => $this->getData(),
+            'isForm'       => $this->isForm(),
+            'isUpload'     => $this->isUpload(),
+            'isFormUpload' => $this->isFormUpload(),
+        ];
     }
 }
