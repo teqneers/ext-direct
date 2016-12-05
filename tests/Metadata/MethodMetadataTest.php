@@ -37,6 +37,7 @@ class MethodMetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($origMethodMetadata->isFormHandler, $restoredMethodMetadata->isFormHandler);
         $this->assertEquals($origMethodMetadata->hasNamedParams, $restoredMethodMetadata->hasNamedParams);
         $this->assertEquals($origMethodMetadata->isStrict, $restoredMethodMetadata->isStrict);
+        $this->assertEquals($origMethodMetadata->batched, $restoredMethodMetadata->batched);
 
         $this->assertEquals(count($origMethodMetadata->parameters), count($restoredMethodMetadata->parameters));
         $this->assertEquals(count($origMethodMetadata->parameterMetadata),

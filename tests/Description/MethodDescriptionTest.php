@@ -26,10 +26,15 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($m->hasNamedParams());
         $this->assertTrue($m->isStrict());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'name' => 'method',
-            'len'  => 0
-        )), json_encode($m));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name' => 'method',
+                    'len'  => 0,
+                ]
+            ),
+            json_encode($m)
+        );
     }
 
     public function testFormHandlerMethod()
@@ -41,72 +46,97 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($m->hasNamedParams());
         $this->assertTrue($m->isStrict());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'name'        => 'method',
-            'formHandler' => true
-        )), json_encode($m));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name'        => 'method',
+                    'formHandler' => true,
+                ]
+            ),
+            json_encode($m)
+        );
     }
 
     public function testMethodWithTwoParameters()
     {
-        $m = new MethodDescription('method', false, array('a', 'b'));
+        $m = new MethodDescription('method', false, ['a', 'b']);
         $this->assertEquals('method', $m->getName());
         $this->assertFalse($m->isFormHandler());
         $this->assertCount(2, $m->getParams());
         $this->assertFalse($m->hasNamedParams());
         $this->assertTrue($m->isStrict());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'name' => 'method',
-            'len'  => 2
-        )), json_encode($m));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name' => 'method',
+                    'len'  => 2,
+                ]
+            ),
+            json_encode($m)
+        );
     }
 
     public function testMethodWithTwoNamedParameters()
     {
-        $m = new MethodDescription('method', false, array('a', 'b'), true);
+        $m = new MethodDescription('method', false, ['a', 'b'], true);
         $this->assertEquals('method', $m->getName());
         $this->assertFalse($m->isFormHandler());
         $this->assertCount(2, $m->getParams());
         $this->assertTrue($m->hasNamedParams());
         $this->assertTrue($m->isStrict());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'name'   => 'method',
-            'strict' => true,
-            'params' => array('a', 'b')
-        )), json_encode($m));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name'   => 'method',
+                    'strict' => true,
+                    'params' => ['a', 'b'],
+                ]
+            ),
+            json_encode($m)
+        );
     }
 
     public function testMethodWithFreeParameters()
     {
-        $m = new MethodDescription('method', false, array(), true, false);
+        $m = new MethodDescription('method', false, [], true, false);
         $this->assertEquals('method', $m->getName());
         $this->assertFalse($m->isFormHandler());
         $this->assertCount(0, $m->getParams());
         $this->assertTrue($m->hasNamedParams());
         $this->assertFalse($m->isStrict());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'name'   => 'method',
-            'strict' => false,
-            'params' => array()
-        )), json_encode($m));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name'   => 'method',
+                    'strict' => false,
+                    'params' => [],
+                ]
+            ),
+            json_encode($m)
+        );
     }
 
     public function testFormHandlerMethodDoesNotUseParameters()
     {
-        $m = new MethodDescription('method', true, array('a', 'b'));
+        $m = new MethodDescription('method', true, ['a', 'b']);
         $this->assertEquals('method', $m->getName());
         $this->assertTrue($m->isFormHandler());
         $this->assertEmpty($m->getParams());
         $this->assertFalse($m->hasNamedParams());
         $this->assertTrue($m->isStrict());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'name'        => 'method',
-            'formHandler' => true
-        )), json_encode($m));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name'        => 'method',
+                    'formHandler' => true,
+                ]
+            ),
+            json_encode($m)
+        );
     }
 
     public function testFormHandlerMethodAddParameterFails()
@@ -135,22 +165,56 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddParameter()
     {
-        $m = new MethodDescription('method', false, array('a'));
+        $m = new MethodDescription('method', false, ['a']);
         $m->addParam('b');
-        $this->assertEquals(array('a', 'b'), $m->getParams());
+        $this->assertEquals(['a', 'b'], $m->getParams());
     }
 
     public function testAddParameters()
     {
-        $m = new MethodDescription('method', false, array('a'));
-        $m->addParams(array('b', 'c'));
-        $this->assertEquals(array('a', 'b', 'c'), $m->getParams());
+        $m = new MethodDescription('method', false, ['a']);
+        $m->addParams(['b', 'c']);
+        $this->assertEquals(['a', 'b', 'c'], $m->getParams());
     }
 
     public function testSetParameters()
     {
-        $m = new MethodDescription('method', false, array('a'));
-        $m->setParams(array('b', 'c'));
-        $this->assertEquals(array('b', 'c'), $m->getParams());
+        $m = new MethodDescription('method', false, ['a']);
+        $m->setParams(['b', 'c']);
+        $this->assertEquals(['b', 'c'], $m->getParams());
+    }
+
+    public function testBatchedMethod()
+    {
+        $m = new MethodDescription('method', false, [], false, true, true);
+        $this->assertTrue($m->isBatched());
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name'    => 'method',
+                    'batched' => true,
+                    'len'     => 0,
+                ]
+            ),
+            json_encode($m)
+        );
+    }
+
+    public function testNotBatchedMethod()
+    {
+        $m = new MethodDescription('method', false, [], false, true, false);
+        $this->assertFalse($m->isBatched());
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'name'    => 'method',
+                    'batched' => false,
+                    'len'     => 0,
+                ]
+            ),
+            json_encode($m)
+        );
     }
 }

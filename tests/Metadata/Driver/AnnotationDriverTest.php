@@ -67,8 +67,8 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($methodMetadata->isFormHandler);
         $this->assertFalse($methodMetadata->hasNamedParams);
         $this->assertTrue($methodMetadata->isStrict);
-        $this->assertEquals(array(), $methodMetadata->parameters);
-        $this->assertEquals(array(), $methodMetadata->parameterMetadata);
+        $this->assertEquals([], $methodMetadata->parameters);
+        $this->assertEquals([], $methodMetadata->parameterMetadata);
     }
 
     public function testClassWithoutServiceId()
@@ -104,8 +104,8 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($methodMetadata->isFormHandler);
         $this->assertFalse($methodMetadata->hasNamedParams);
         $this->assertTrue($methodMetadata->isStrict);
-        $this->assertEquals(array(), $methodMetadata->parameters);
-        $this->assertEquals(array(), $methodMetadata->parameterMetadata);
+        $this->assertEquals([], $methodMetadata->parameters);
+        $this->assertEquals([], $methodMetadata->parameterMetadata);
     }
 
     public function testMethodParameterConstraints()
@@ -116,7 +116,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
-        foreach (array('methodA', 'methodB', 'methodC') as $m) {
+        foreach (['methodA', 'methodB', 'methodC'] as $m) {
             /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
             $methodMetadata = $classMetadata->methodMetadata[$m];
 
@@ -145,7 +145,7 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
-        foreach (array('methodD', 'methodE', 'methodF', 'methodG', 'methodH') as $m) {
+        foreach (['methodD', 'methodE', 'methodF', 'methodG', 'methodH'] as $m) {
             /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
             $methodMetadata = $classMetadata->methodMetadata[$m];
 
@@ -209,8 +209,8 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($methodMetadata->isFormHandler);
         $this->assertFalse($methodMetadata->hasNamedParams);
         $this->assertTrue($methodMetadata->isStrict);
-        $this->assertEquals(array(), $methodMetadata->parameters);
-        $this->assertEquals(array(), $methodMetadata->parameterMetadata);
+        $this->assertEquals([], $methodMetadata->parameters);
+        $this->assertEquals([], $methodMetadata->parameterMetadata);
     }
 
     public function testClassWithStrictParameterAnnotation()
@@ -342,5 +342,59 @@ class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadataC */
         $methodMetadataC = $classMetadata->methodMetadata['methodC'];
         $this->assertEquals('true and true', $methodMetadataC->authorizationExpression);
+    }
+
+    public function testClassMethodWithBatchingNull()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\ActionMetadata', $classMetadata);
+        $this->assertArrayHasKey('methodA', $classMetadata->methodMetadata);
+
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodA'];
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\MethodMetadata', $methodMetadata);
+
+        $this->assertNull($methodMetadata->batched);
+    }
+
+    public function testClassMethodWithBatchingEnabled()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\ActionMetadata', $classMetadata);
+        $this->assertArrayHasKey('methodB', $classMetadata->methodMetadata);
+
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodB'];
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\MethodMetadata', $methodMetadata);
+
+        $this->assertTrue($methodMetadata->batched);
+    }
+
+    public function testClassMethodWithBatchingDisabled()
+    {
+        $driver = $this->getDriver();
+
+        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
+        /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
+
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\ActionMetadata', $classMetadata);
+        $this->assertArrayHasKey('methodC', $classMetadata->methodMetadata);
+
+        /** @var \TQ\ExtDirect\Metadata\MethodMetadata $methodMetadata */
+        $methodMetadata = $classMetadata->methodMetadata['methodC'];
+        $this->assertInstanceOf('TQ\ExtDirect\Metadata\MethodMetadata', $methodMetadata);
+
+        $this->assertFalse($methodMetadata->batched);
     }
 }

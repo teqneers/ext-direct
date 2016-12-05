@@ -53,12 +53,12 @@ class ServiceDescriptionFactory
     private $maxRetries;
 
     /**
-     * @param ServiceRegistry $serviceRegistry
-     * @param string $namespace
+     * @param ServiceRegistry  $serviceRegistry
+     * @param string           $namespace
      * @param boolean|int|null $enableBuffer
-     * @param int|null $bufferLimit
-     * @param int|null $timeout
-     * @param int|null $maxRetries
+     * @param int|null         $bufferLimit
+     * @param int|null         $timeout
+     * @param int|null         $maxRetries
      */
     public function __construct(
         ServiceRegistry $serviceRegistry,
@@ -123,7 +123,8 @@ class ServiceDescriptionFactory
                         $methodMetadata->isFormHandler,
                         $parameters,
                         $methodMetadata->hasNamedParams,
-                        $methodMetadata->isStrict
+                        $methodMetadata->isStrict,
+                        $methodMetadata->batched
                     )
                 );
             }

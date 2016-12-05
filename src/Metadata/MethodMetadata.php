@@ -40,6 +40,11 @@ class MethodMetadata extends BaseMethodMetadata
     public $isStrict = true;
 
     /**
+     * @var bool|null
+     */
+    public $batched = null;
+
+    /**
      * @var bool
      */
     public $hasSession = true;
@@ -106,7 +111,7 @@ class MethodMetadata extends BaseMethodMetadata
             (bool)$strict,
             $serializationGroups,
             $serializationAttributes,
-            $serializationVersion
+            $serializationVersion,
         ];
     }
 
@@ -132,18 +137,21 @@ class MethodMetadata extends BaseMethodMetadata
             $this->parameters
         );
 
-        return serialize(array(
-            $this->isMethod,
-            $this->isFormHandler,
-            $this->hasNamedParams,
-            $this->isStrict,
-            $this->hasSession,
-            $parameterNames,
-            $this->parameterMetadata,
-            $this->result,
-            $this->authorizationExpression,
-            parent::serialize(),
-        ));
+        return serialize(
+            [
+                $this->isMethod,
+                $this->isFormHandler,
+                $this->hasNamedParams,
+                $this->isStrict,
+                $this->batched,
+                $this->hasSession,
+                $parameterNames,
+                $this->parameterMetadata,
+                $this->result,
+                $this->authorizationExpression,
+                parent::serialize(),
+            ]
+        );
     }
 
     /**
@@ -156,6 +164,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->isFormHandler,
             $this->hasNamedParams,
             $this->isStrict,
+            $this->batched,
             $this->hasSession,
             $parameterNames,
             $this->parameterMetadata,
@@ -167,13 +176,13 @@ class MethodMetadata extends BaseMethodMetadata
 
         foreach ($parameterNames as $parameterName) {
             $this->parameters[$parameterName] = new \ReflectionParameter(
-                array(
+                [
                     $this->reflection
                         ->getDeclaringClass()
                         ->name,
                     $this->reflection
-                        ->name
-                ),
+                        ->name,
+                ],
                 $parameterName
             );
         }
