@@ -36,6 +36,11 @@ class Method
     public $strict = true;
 
     /**
+     * @var mixed
+     */
+    public $batched = null;
+
+    /**
      * @var bool
      */
     public $session = true;

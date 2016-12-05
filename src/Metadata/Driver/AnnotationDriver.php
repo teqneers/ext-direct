@@ -102,6 +102,7 @@ class AnnotationDriver implements DriverInterface
         $methodMetadata->isFormHandler  = $methodAnnotation->formHandler;
         $methodMetadata->hasNamedParams = $methodAnnotation->namedParams;
         $methodMetadata->isStrict       = $methodAnnotation->strict;
+        $methodMetadata->batched        = $methodAnnotation->batched;
         $methodMetadata->hasSession     = $methodAnnotation->session;
         $methodMetadata->addParameters($method->getParameters());
 

@@ -31,7 +31,7 @@ class ServiceDescription implements \JsonSerializable
     /**
      * @var ActionDescription[]
      */
-    protected $actions = array();
+    protected $actions = [];
 
     /**
      * @var string
@@ -39,13 +39,47 @@ class ServiceDescription implements \JsonSerializable
     protected $namespace;
 
     /**
-     * @param string $url
-     * @param string $namespace
+     * @var bool|int|null
      */
-    public function __construct($url, $namespace = 'Ext.global')
-    {
+    private $enableBuffer;
+
+    /**
+     * @var int|null
+     */
+    private $bufferLimit;
+
+    /**
+     * @var int|null
+     */
+    private $timeout;
+
+    /**
+     * @var int|null
+     */
+    private $maxRetries;
+
+    /**
+     * @param string           $url
+     * @param string           $namespace
+     * @param boolean|int|null $enableBuffer
+     * @param int|null         $bufferLimit
+     * @param int|null         $timeout
+     * @param int|null         $maxRetries
+     */
+    public function __construct(
+        $url,
+        $namespace = 'Ext.global',
+        $enableBuffer = null,
+        $bufferLimit = null,
+        $timeout = null,
+        $maxRetries = null
+    ) {
         $this->setUrl($url);
         $this->setNamespace($namespace);
+        $this->setEnableBuffer($enableBuffer);
+        $this->setBufferLimit($bufferLimit);
+        $this->setTimeout($timeout);
+        $this->setMaxRetries($maxRetries);
     }
 
     /**
@@ -93,6 +127,70 @@ class ServiceDescription implements \JsonSerializable
     }
 
     /**
+     * @return bool|int|null
+     */
+    public function getEnableBuffer()
+    {
+        return $this->enableBuffer;
+    }
+
+    /**
+     * @param bool|int|null $enableBuffer
+     */
+    public function setEnableBuffer($enableBuffer)
+    {
+        $this->enableBuffer = (is_int($enableBuffer) || is_bool($enableBuffer)) ? $enableBuffer : null;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBufferLimit()
+    {
+        return $this->bufferLimit;
+    }
+
+    /**
+     * @param int|null $bufferLimit
+     */
+    public function setBufferLimit($bufferLimit)
+    {
+        $this->bufferLimit = is_int($bufferLimit) ? $bufferLimit : null;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int|null $timeout
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = is_int($timeout) ? $timeout : null;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMaxRetries()
+    {
+        return $this->maxRetries;
+    }
+
+    /**
+     * @param int|null $maxRetries
+     */
+    public function setMaxRetries($maxRetries)
+    {
+        $this->maxRetries = is_int($maxRetries) ? $maxRetries : null;
+    }
+
+    /**
      * @return ActionDescription[]
      */
     public function getActions()
@@ -106,7 +204,7 @@ class ServiceDescription implements \JsonSerializable
      */
     public function setActions(array $actions)
     {
-        $this->actions = array();
+        $this->actions = [];
         return $this->addActions($actions);
     }
 
@@ -137,16 +235,30 @@ class ServiceDescription implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        $actions = array();
-        foreach ($this->getActions() as $action) {
-            $actions[$action->getName()] = $action->getMethods();
-        }
-
-        return array(
+        $api = [
             'type'      => $this->getType(),
             'url'       => $this->getUrl(),
             'namespace' => $this->getNamespace(),
-            'actions'   => $actions
-        );
+        ];
+
+        if ($this->getEnableBuffer() !== null) {
+            $api['enableBuffer'] = $this->getEnableBuffer();
+        }
+        if ($this->getBufferLimit() !== null) {
+            $api['bufferLimit'] = $this->getBufferLimit();
+        }
+        if ($this->getTimeout() !== null) {
+            $api['timeout'] = $this->getTimeout();
+        }
+        if ($this->getMaxRetries() !== null) {
+            $api['maxRetries'] = $this->getMaxRetries();
+        }
+
+        $api['actions'] = [];
+        foreach ($this->getActions() as $action) {
+            $api['actions'][$action->getName()] = $action->getMethods();
+        }
+
+        return $api;
     }
 }

@@ -29,7 +29,7 @@ class MethodDescription implements \JsonSerializable
     /**
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * @var bool
@@ -42,18 +42,25 @@ class MethodDescription implements \JsonSerializable
     protected $strict = true;
 
     /**
-     * @param string $name
-     * @param bool   $formHandler
-     * @param array  $params
-     * @param bool   $namedParams
-     * @param bool   $strict
+     * @var bool
+     */
+    protected $batched = true;
+
+    /**
+     * @param string    $name
+     * @param bool      $formHandler
+     * @param array     $params
+     * @param bool      $namedParams
+     * @param bool      $strict
+     * @param bool|null $batched
      */
     public function __construct(
         $name,
         $formHandler = false,
-        array $params = array(),
+        array $params = [],
         $namedParams = false,
-        $strict = true
+        $strict = true,
+        $batched = null
     ) {
         $this->setName($name);
         $this->setFormHandler($formHandler);
@@ -62,6 +69,7 @@ class MethodDescription implements \JsonSerializable
             $this->setNamedParams($namedParams);
             $this->setStrict($strict);
         }
+        $this->setBatched($batched);
     }
 
     /**
@@ -114,7 +122,7 @@ class MethodDescription implements \JsonSerializable
      */
     public function setParams(array $params)
     {
-        $this->params = array();
+        $this->params = [];
         return $this->addParams($params);
     }
 
@@ -186,13 +194,35 @@ class MethodDescription implements \JsonSerializable
     }
 
     /**
+     * @return bool|null
+     */
+    public function isBatched()
+    {
+        return $this->batched;
+    }
+
+    /**
+     * @param bool|null $batched
+     * @return $this
+     */
+    public function setBatched($batched)
+    {
+        $this->batched = is_bool($batched) ? $batched : null;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
     {
-        $description = array(
+        $description = [
             'name' => $this->getName(),
-        );
+        ];
+
+        if ($this->isBatched() !== null) {
+            $description['batched'] = $this->isBatched();
+        }
 
         if ($this->isFormHandler()) {
             $description['formHandler'] = true;

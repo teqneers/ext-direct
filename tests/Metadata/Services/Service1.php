@@ -22,7 +22,7 @@ use TQ\ExtDirect\Annotation as Direct;
 class Service1
 {
     /**
-     * @Direct\Method()
+     * @Direct\Method(batched=true)
      * @Direct\Parameter("a", { @Assert\NotNull() })
      * @Direct\Security("true and true")
      * @Direct\Result(version=1)

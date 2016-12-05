@@ -38,49 +38,54 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('remoting', $d->getType());
         $this->assertCount(2, $d->getActions());
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'type'      => 'remoting',
-            'url'       => 'https://example.com/router',
-            'namespace' => 'My.namespace',
-            'actions'   => array(
-                'TQ.ExtDirect.Tests.Description.Services.Service1' => array(
-                    array(
-                        'name' => 'methodA',
-                        'len'  => 0
-                    ),
-                    array(
-                        'name'        => 'methodB',
-                        'formHandler' => true
-                    ),
-                    array(
-                        'name' => 'methodC',
-                        'len'  => 1
-                    ),
-                    array(
-                        'name' => 'methodD',
-                        'len'  => 1
-                    ),
-                    array(
-                        'name' => 'methodE',
-                        'len'  => 1
-                    ),
-                    array(
-                        'name' => 'methodF',
-                        'len'  => 1
-                    )
-                ),
-                'TQ.ExtDirect.Tests.Description.Services.Service4' => array(
-                    array(
-                        'name' => 'methodA',
-                        'len'  => 0
-                    ),
-                    array(
-                        'name'        => 'methodB',
-                        'formHandler' => true
-                    )
-                )
-            )
-        )), json_encode($d));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'type'      => 'remoting',
+                    'url'       => 'https://example.com/router',
+                    'namespace' => 'My.namespace',
+                    'actions'   => [
+                        'TQ.ExtDirect.Tests.Description.Services.Service1' => [
+                            [
+                                'name' => 'methodA',
+                                'len'  => 0,
+                            ],
+                            [
+                                'name'        => 'methodB',
+                                'formHandler' => true,
+                            ],
+                            [
+                                'name' => 'methodC',
+                                'len'  => 1,
+                            ],
+                            [
+                                'name' => 'methodD',
+                                'len'  => 1,
+                            ],
+                            [
+                                'name' => 'methodE',
+                                'len'  => 1,
+                            ],
+                            [
+                                'name' => 'methodF',
+                                'len'  => 1,
+                            ],
+                        ],
+                        'TQ.ExtDirect.Tests.Description.Services.Service4' => [
+                            [
+                                'name' => 'methodA',
+                                'len'  => 0,
+                            ],
+                            [
+                                'name'        => 'methodB',
+                                'formHandler' => true,
+                            ],
+                        ],
+                    ],
+                ]
+            ),
+            json_encode($d)
+        );
     }
 
     /**
@@ -94,5 +99,23 @@ class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
         );
         $registry->importServices(new PathServiceLoader([__DIR__ . '/Services']));
         return $registry;
+    }
+
+    public function testServiceParametersAreSetOnServiceDefinition()
+    {
+        $factory = new ServiceDescriptionFactory(
+            $this->createServiceRegistry(),
+            'My.namespace',
+            10,
+            5,
+            1000,
+            5
+        );
+
+        $d = $factory->createServiceDescription('https://example.com/router');
+        $this->assertEquals(10, $d->getEnableBuffer());
+        $this->assertEquals(5, $d->getBufferLimit());
+        $this->assertEquals(1000, $d->getTimeout());
+        $this->assertEquals(5, $d->getMaxRetries());
     }
 }
