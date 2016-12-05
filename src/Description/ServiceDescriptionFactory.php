@@ -33,13 +33,47 @@ class ServiceDescriptionFactory
     private $namespace;
 
     /**
-     * @param ServiceRegistry $serviceRegistry
-     * @param string          $namespace
+     * @var bool|int|null
      */
-    public function __construct(ServiceRegistry $serviceRegistry, $namespace)
-    {
+    private $enableBuffer;
+
+    /**
+     * @var int|null
+     */
+    private $bufferLimit;
+
+    /**
+     * @var int|null
+     */
+    private $timeout;
+
+    /**
+     * @var int|null
+     */
+    private $maxRetries;
+
+    /**
+     * @param ServiceRegistry $serviceRegistry
+     * @param string $namespace
+     * @param boolean|int|null $enableBuffer
+     * @param int|null $bufferLimit
+     * @param int|null $timeout
+     * @param int|null $maxRetries
+     */
+    public function __construct(
+        ServiceRegistry $serviceRegistry,
+        $namespace,
+        $enableBuffer = null,
+        $bufferLimit = null,
+        $timeout = null,
+        $maxRetries = null
+    ) {
         $this->serviceRegistry = $serviceRegistry;
         $this->namespace       = $namespace;
+        $this->enableBuffer    = (is_int($enableBuffer) || is_bool($enableBuffer)) ? $enableBuffer : null;
+        $this->bufferLimit     = is_int($bufferLimit) ? $bufferLimit : null;
+        $this->timeout         = is_int($timeout) ? $timeout : null;
+        $this->maxRetries      = is_int($maxRetries) ? $maxRetries : null;
     }
 
     /**
@@ -48,7 +82,14 @@ class ServiceDescriptionFactory
      */
     public function createServiceDescription($url)
     {
-        $serviceDescription = new ServiceDescription($url, $this->namespace);
+        $serviceDescription = new ServiceDescription(
+            $url,
+            $this->namespace,
+            $this->enableBuffer,
+            $this->bufferLimit,
+            $this->timeout,
+            $this->maxRetries
+        );
 
         foreach ($this->serviceRegistry->getAllServices() as $actionMetadata) {
             if (!$actionMetadata) {
@@ -63,7 +104,7 @@ class ServiceDescriptionFactory
                     continue;
                 }
 
-                $parameters = array();
+                $parameters = [];
                 foreach ($methodMetadata->parameters as $parameter) {
                     if (($class = $parameter->getClass()) === null
                         || (
@@ -76,13 +117,15 @@ class ServiceDescriptionFactory
                     }
                 }
 
-                $actionDescription->addMethod(new MethodDescription(
-                    $methodMetadata->name,
-                    $methodMetadata->isFormHandler,
-                    $parameters,
-                    $methodMetadata->hasNamedParams,
-                    $methodMetadata->isStrict
-                ));
+                $actionDescription->addMethod(
+                    new MethodDescription(
+                        $methodMetadata->name,
+                        $methodMetadata->isFormHandler,
+                        $parameters,
+                        $methodMetadata->hasNamedParams,
+                        $methodMetadata->isStrict
+                    )
+                );
             }
 
             if (count($actionDescription->getMethods())) {
