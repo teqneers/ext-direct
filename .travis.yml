@@ -15,8 +15,8 @@ php:
 
 env:
   matrix:
-    - COMPOSER_PARAM="update --prefer-source --prefer-lowest"
-    - COMPOSER_PARAM="update --prefer-source"
+    - COMPOSER_PARAM="update --ansi --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress --prefer-lowest"
+    - COMPOSER_PARAM="update --ansi --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress"
 
 matrix:
   allow_failures:
