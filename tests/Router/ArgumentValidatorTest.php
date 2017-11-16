@@ -24,7 +24,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testInternalParameterIsNotValidated()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -40,12 +40,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   ->method('validate');
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints')
         );
         $service->expects($this->never())
                 ->method('getParameterConstraints');
@@ -60,7 +57,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testParameterWithoutConstraintsIsNotValidated()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -76,12 +73,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   ->method('validate');
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints')
         );
         $service->expects($this->once())
                 ->method('getParameterConstraints')
@@ -98,7 +92,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testParameterWithoutConstraintsIsNotValidatedAndFailsInStrictMode()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -114,12 +108,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   ->method('validate');
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints')
         );
         $service->expects($this->once())
                 ->method('getParameterConstraints')
@@ -141,7 +132,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testParameterConstraintsAreValidated()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -164,12 +155,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   ->willReturn(new ConstraintViolationList());
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints')
         );
         $service->expects($this->once())
                 ->method('getParameterConstraints')
@@ -186,7 +174,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidatorFailsWhenValidationFails()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -215,12 +203,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints')
         );
         $service->expects($this->once())
                 ->method('getParameterConstraints')
@@ -242,7 +227,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testParameterConstraintsWithValidationGroupsAreValidated()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -268,12 +253,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   ->willReturn(new ConstraintViolationList());
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints', 'getParameterValidationGroups'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints', 'getParameterValidationGroups')
         );
         $service->expects($this->once())
                 ->method('getParameterConstraints')
@@ -294,7 +276,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testStrictParameterConstraintAreValidated()
     {
         /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
-        $validator = $this->getMock(
+        $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
                 'validate',
@@ -323,12 +305,9 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
                   );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('getParameterConstraints', 'getParameterValidationGroups', 'isStrictParameterValidation'),
-            array(),
-            '',
-            false
+            array('getParameterConstraints', 'getParameterValidationGroups', 'isStrictParameterValidation')
         );
         $service->expects($this->once())
                 ->method('getParameterConstraints')

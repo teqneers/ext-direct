@@ -23,18 +23,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testSuccessfulMethodCall()
     {
         /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
-        $serviceResolver = $this->getMock(
+        $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         $httpRequest   = new HttpRequest();
@@ -92,27 +89,21 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testSuccessfulBatchedMethodsCall()
     {
         /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
-        $serviceResolver = $this->getMock(
+        $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service1 = $this->getMock(
+        $service1 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service2 = $this->getMock(
+        $service2 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         $httpRequest    = new HttpRequest();
@@ -211,18 +202,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testFailedMethodCall()
     {
         /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
-        $serviceResolver = $this->getMock(
+        $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         $httpRequest   = new HttpRequest();
@@ -280,27 +268,21 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testPartiallySuccessfulBatchedMethodsCall()
     {
         /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
-        $serviceResolver = $this->getMock(
+        $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service1 = $this->getMock(
+        $service1 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service2 = $this->getMock(
+        $service2 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         $httpRequest    = new HttpRequest();
@@ -400,18 +382,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testEventDispatcherIsCalledCorrectlyForSuccessfulCall()
     {
         /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
-        $serviceResolver = $this->getMock(
+        $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         $httpRequest   = new HttpRequest();
@@ -450,7 +429,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 ->willReturn(1);
 
 
-        $eventDispatcher = $this->getMock(
+        $eventDispatcher = $this->createPartialMock(
             'Symfony\Component\EventDispatcher\EventDispatcherInterface',
             array(
                 'dispatch',
@@ -502,18 +481,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testEventDispatcherIsCalledCorrectlyForFailedCall()
     {
         /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
-        $serviceResolver = $this->getMock(
+        $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock(
+        $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
-            array('__invoke', 'hasSession'),
-            array(),
-            '',
-            false
+            array('__invoke', 'hasSession')
         );
 
         $httpRequest   = new HttpRequest();
@@ -553,7 +529,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 ->willThrowException($exception);
 
 
-        $eventDispatcher = $this->getMock(
+        $eventDispatcher = $this->createPartialMock(
             'Symfony\Component\EventDispatcher\EventDispatcherInterface',
             array(
                 'dispatch',

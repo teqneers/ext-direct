@@ -11,12 +11,17 @@ php:
     - 5.6
     - 7.0
     - 7.1
+    - 7.2
     - nightly
 
 env:
   matrix:
     - COMPOSER_PARAM="update --prefer-source --prefer-lowest"
     - COMPOSER_PARAM="update --prefer-source"
+
+matrix:
+  allow_failures:
+    - php: nightly
 
 before_script:
     - composer selfupdate

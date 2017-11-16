@@ -47,9 +47,8 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
     protected function createMetadataFactory()
     {
         /** @var \Metadata\MetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
-        $metadataFactory = $this->getMock(
-            'Metadata\MetadataFactoryInterface',
-            array('getMetadataForClass')
+        $metadataFactory = $this->createMock(
+            'Metadata\MetadataFactoryInterface'
         );
         return $metadataFactory;
     }
