@@ -29,10 +29,10 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetService()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
 
         /** @var \TQ\ExtDirect\Tests\Router\Services\Service1|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('TQ\ExtDirect\Tests\Router\Services\Service1');
+        $service = $this->createMock('TQ\ExtDirect\Tests\Router\Services\Service1');
 
         $serviceFactory->expects($this->once())
                        ->method('createService')
@@ -55,10 +55,10 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testInvokeService()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
 
         /** @var \TQ\ExtDirect\Tests\Router\Services\Service1|\PHPUnit_Framework_MockObject_MockObject $service */
-        $service = $this->getMock('TQ\ExtDirect\Tests\Router\Services\Service1');
+        $service = $this->createMock('TQ\ExtDirect\Tests\Router\Services\Service1');
 
         $service->expects($this->once())
                 ->method('methodA')
@@ -87,7 +87,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetNoArguments()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -105,7 +105,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetOneArgument()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -124,7 +124,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetOneArgumentWithHttpRequest()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -143,7 +143,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetOneArgumentWithDirectRequest()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -163,7 +163,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetOneArgumentWithHttpAndDirectRequest()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -189,7 +189,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetArgumentWithTooManyArguments()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -208,7 +208,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetArgumentWithTooFewArguments()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -227,7 +227,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetArgumentWithOptionalArgumentValidationResult()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -249,7 +249,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetArgumentWithArgumentValidationResult()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
         $resolver       = new ServiceResolver(
             $this->createServiceRegistry(),
             $serviceFactory
@@ -271,7 +271,7 @@ class ServiceResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetStaticService()
     {
         /** @var \TQ\ExtDirect\Service\ServiceFactory|\PHPUnit_Framework_MockObject_MockObject $serviceFactory */
-        $serviceFactory = $this->getMock('TQ\ExtDirect\Service\ServiceFactory');
+        $serviceFactory = $this->createMock('TQ\ExtDirect\Service\ServiceFactory');
 
         $serviceFactory->expects($this->never())
                        ->method('createService');

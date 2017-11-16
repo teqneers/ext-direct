@@ -92,7 +92,7 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
     protected function createContainer()
     {
         /** @var \Symfony\Component\DependencyInjection\ContainerInterface|\PHPUnit_Framework_MockObject_MockObject $container */
-        $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         return $container;
     }
 
