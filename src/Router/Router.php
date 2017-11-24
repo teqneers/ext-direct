@@ -91,9 +91,16 @@ class Router
         $invocations = $this->prepareInvocation($directRequest, $httpRequest);
         $responses   = array();
         foreach ($invocations as $invocation) {
-            /** @var ServiceReference $service */
-            /** @var array $arguments */
+            /** @var ServiceReference|Response $service */
+            /** @var array|\Exception $arguments */
             list($service, $arguments, $singleRequest) = $invocation;
+
+            // if $service is a response, then an exception occurred during invocation preparation
+            if ($service instanceof Response) {
+                $responses[] = $service;
+                continue;
+            }
+
             try {
                 $result = $this->invokeService($service, $arguments, $singleRequest, $httpRequest);
 
@@ -140,17 +147,33 @@ class Router
      */
     protected function prepareInvocation(RequestCollection $directRequest, HttpRequest $httpRequest)
     {
-        $invocations  = [];
+        $invocations  = array();
         $closeSession = true;
         foreach ($directRequest as $singleRequest) {
             /** @var Request $singleRequest */
-            /** @var ServiceReference $service */
-            /** @var array $arguments */
-            list($service, $arguments) = $this->getInvocationParameters($singleRequest, $httpRequest);
-            if ($closeSession && $service->hasSession()) {
-                $closeSession = false;
+            try {
+                /** @var ServiceReference $service */
+                /** @var array $arguments */
+                list($service, $arguments) = $this->getInvocationParameters($singleRequest, $httpRequest);
+                if ($closeSession && $service->hasSession()) {
+                    $closeSession = false;
+                }
+                $invocations[] = array($service, $arguments, $singleRequest);
+            } catch (\Exception $e) {
+                /** @var ExceptionEvent $exceptionEvent */
+                $exceptionEvent = $this->dispatchEvent(
+                    RouterEvents::EXCEPTION,
+                    new ExceptionEvent(
+                        $singleRequest,
+                        $httpRequest,
+                        $e,
+                        ExceptionResponse::fromRequest($singleRequest, $e, $this->debug),
+                        null,
+                        null
+                    )
+                );
+                $invocations[]  = array($exceptionEvent->getResponse(), $e, $singleRequest);
             }
-            $invocations[] = array($service, $arguments, $singleRequest);
         }
 
         if ($closeSession) {
