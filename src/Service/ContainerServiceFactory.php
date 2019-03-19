@@ -23,7 +23,7 @@ class ContainerServiceFactory implements ServiceFactory
      * @var ContainerInterface
      */
     private $container;
-
+    
     /**
      * @param ContainerInterface $container
      */
@@ -31,7 +31,7 @@ class ContainerServiceFactory implements ServiceFactory
     {
         $this->container = $container;
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -43,17 +43,17 @@ class ContainerServiceFactory implements ServiceFactory
         if (!empty($metadata->serviceId)) {
             return $this->container->get($metadata->serviceId);
         }
-
-        $constructor = $metadata->reflection->getConstructor();
+        $reflection  = new \ReflectionClass($metadata->name);
+        $constructor = $reflection->getConstructor();
         if (!$constructor || $constructor->getNumberOfParameters() === 0) {
-            $service = $metadata->reflection->newInstance();
-            if ($metadata->reflection->implementsInterface('Symfony\Component\DependencyInjection\ContainerAwareInterface')) {
+            $service = $reflection->newInstance();
+            if ($reflection->implementsInterface('Symfony\Component\DependencyInjection\ContainerAwareInterface')) {
                 /** @var \Symfony\Component\DependencyInjection\ContainerAwareInterface $service */
                 $service->setContainer($this->container);
             }
             return $service;
         }
-
+        
         throw new \InvalidArgumentException('Cannot instantiate action');
     }
 }

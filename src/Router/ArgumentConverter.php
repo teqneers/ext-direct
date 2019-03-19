@@ -9,8 +9,8 @@
 
 namespace TQ\ExtDirect\Router;
 
+use JMS\Serializer\ArrayTransformerInterface;
 use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\Serializer;
 
 /**
  * Class ArgumentConverter
@@ -20,14 +20,14 @@ use JMS\Serializer\Serializer;
 class ArgumentConverter implements ArgumentConverterInterface
 {
     /**
-     * @var Serializer
+     * @var ArrayTransformerInterface
      */
     private $serializer;
 
     /**
-     * @param Serializer $serializer
+     * @param ArrayTransformerInterface $serializer
      */
-    public function __construct(Serializer $serializer)
+    public function __construct(ArrayTransformerInterface $serializer)
     {
         $this->serializer = $serializer;
     }

@@ -17,6 +17,7 @@ use TQ\ExtDirect\Annotation\Result;
 use TQ\ExtDirect\Annotation\Security;
 use TQ\ExtDirect\Metadata\ActionMetadata;
 use TQ\ExtDirect\Metadata\MethodMetadata;
+use Metadata\ClassMetadata;
 
 /**
  * Class AnnotationDriver
@@ -41,7 +42,7 @@ class AnnotationDriver implements DriverInterface
     /**
      * {@inheritdoc}
      */
-    public function loadMetadataForClass(\ReflectionClass $class)
+    public function loadMetadataForClass(\ReflectionClass $class): ?ClassMetadata
     {
         $actionMetadata = new ActionMetadata($class->name);
 

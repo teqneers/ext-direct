@@ -19,28 +19,28 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
 {
     public function testNonObjectIsNotConverted()
     {
-        /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
-        $serializer = $this->createPartialMock('JMS\Serializer\Serializer', array('toArray'));
+        /** @var \JMS\Serializer\ArrayTransformerInterface|\PHPUnit_Framework_MockObject_MockObject $transformer */
+        $transformer = $this->createMock('\JMS\Serializer\ArrayTransformerInterface');
 
-        $serializer->expects($this->never())
-                   ->method('toArray');
+        $transformer->expects($this->never())
+                    ->method('toArray');
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createPartialMock('TQ\ExtDirect\Router\ServiceReference', []);
 
-        $converter = new ResultConverter($serializer);
+        $converter = new ResultConverter($transformer);
         $value     = 'value';
         $this->assertEquals($value, $converter->convert($service, $value));
     }
 
     public function testObjectIsConverted()
     {
-        /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
-        $serializer = $this->createPartialMock('JMS\Serializer\Serializer', array('toArray'));
+        /** @var \JMS\Serializer\ArrayTransformerInterface|\PHPUnit_Framework_MockObject_MockObject $transformer */
+        $transformer = $this->createMock('\JMS\Serializer\ArrayTransformerInterface');
 
         $result = new ResultConverterTest_TestClass(1);
 
-        $serializer->expects($this->once())
+        $transformer->expects($this->once())
                    ->method('toArray')
                    ->with($this->equalTo($result))
                    ->willReturn(array(
@@ -50,7 +50,7 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock('TQ\ExtDirect\Router\ServiceReference');
 
-        $converter = new ResultConverter($serializer);
+        $converter = new ResultConverter($transformer);
         $this->assertEquals(array(
             'id' => 1
         ), $converter->convert($service, $result));
@@ -58,8 +58,8 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayIsConverted()
     {
-        /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
-        $serializer = $this->createPartialMock('JMS\Serializer\Serializer', array('toArray'));
+        /** @var \JMS\Serializer\ArrayTransformerInterface|\PHPUnit_Framework_MockObject_MockObject $transformer */
+        $transformer = $this->createMock('\JMS\Serializer\ArrayTransformerInterface');
 
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock('TQ\ExtDirect\Router\ServiceReference');
@@ -70,7 +70,7 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
             new ResultConverterTest_TestClass(3)
         ];
 
-        $serializer->expects($this->once())
+        $transformer->expects($this->once())
                    ->method('toArray')
                    ->with($this->equalTo($result))
                    ->willReturn(
@@ -86,7 +86,7 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
                            )
                        ));
 
-        $converter = new ResultConverter($serializer);
+        $converter = new ResultConverter($transformer);
         $this->assertEquals(array(
             array(
                 'id' => 1
@@ -102,16 +102,16 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testCallableIsCalledForSerialization()
     {
-        /** @var \JMS\Serializer\Serializer|\PHPUnit_Framework_MockObject_MockObject $serializer */
-        $serializer = $this->createPartialMock('JMS\Serializer\Serializer', ['toArray']);
+        /** @var \JMS\Serializer\ArrayTransformerInterface|\PHPUnit_Framework_MockObject_MockObject $transformer */
+        $transformer = $this->createMock('\JMS\Serializer\ArrayTransformerInterface');
 
         $called = false;
-        $result = function (\JMS\Serializer\Serializer $s, \JMS\Serializer\SerializationContext $c) use (
+        $result = function (\JMS\Serializer\ArrayTransformerInterface $s, \JMS\Serializer\SerializationContext $c) use (
             &$called,
-            $serializer
+            $transformer
         ) {
             $called = true;
-            $this->assertSame($serializer, $s);
+            $this->assertSame($transformer, $s);
             $this->assertInstanceOf(\JMS\Serializer\SerializationContext::class, $c);
             return [
                 'serialized_from_callable' => true,
@@ -121,7 +121,7 @@ class ResultConverterTest extends \PHPUnit_Framework_TestCase
         /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
         $service = $this->createMock('TQ\ExtDirect\Router\ServiceReference');
 
-        $converter = new ResultConverter($serializer);
+        $converter = new ResultConverter($transformer);
         $this->assertEquals(
             [
                 'serialized_from_callable' => true,
