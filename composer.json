@@ -8,7 +8,11 @@
         {
             "name": "Stefan Gehrig",
             "email": "gehrig@teqneers.de",
-            "homepage": "http://opensource.teqneers.de/"
+            "homepage": "https://www.teqneers.de/"
+        },
+        {
+            "name": "Erik Theoboldt",
+            "email": "theoboldt@teqneers.de"
         }
     ],
     "autoload": {
