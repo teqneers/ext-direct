@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Router\RPCResponse;
 use TQ\ExtDirect\Router\ResponseCollection;
 
@@ -16,7 +17,7 @@ use TQ\ExtDirect\Router\ResponseCollection;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class ResponseCollectionTest extends \PHPUnit_Framework_TestCase
+class ResponseCollectionTest extends TestCase
 {
     public function testIteration()
     {

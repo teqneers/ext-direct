@@ -8,6 +8,8 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -19,11 +21,11 @@ use TQ\ExtDirect\Router\Exception\ArgumentValidationException;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
+class ArgumentValidatorTest extends TestCase
 {
     public function testInternalParameterIsNotValidated()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -37,15 +39,15 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
             )
         );
         $validator->expects($this->never())
-                  ->method('validate');
+            ->method('validate');
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints')
         );
         $service->expects($this->never())
-                ->method('getParameterConstraints');
+            ->method('getParameterConstraints');
 
         $argValidator = new ArgumentValidator($validator, true);
 
@@ -56,7 +58,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testParameterWithoutConstraintsIsNotValidated()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -70,17 +72,17 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
             )
         );
         $validator->expects($this->never())
-                  ->method('validate');
+            ->method('validate');
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints')
         );
         $service->expects($this->once())
-                ->method('getParameterConstraints')
-                ->with($this->equalTo('a'))
-                ->willReturn(array());
+            ->method('getParameterConstraints')
+            ->with($this->equalTo('a'))
+            ->willReturn(array());
 
         $argValidator = new ArgumentValidator($validator, false);
 
@@ -91,7 +93,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testParameterWithoutConstraintsIsNotValidatedAndFailsInStrictMode()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -105,20 +107,22 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
             )
         );
         $validator->expects($this->never())
-                  ->method('validate');
+            ->method('validate');
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints')
         );
         $service->expects($this->once())
-                ->method('getParameterConstraints')
-                ->with($this->equalTo('a'))
-                ->willReturn(array());
+            ->method('getParameterConstraints')
+            ->with($this->equalTo('a'))
+            ->willReturn(array());
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\StrictArgumentValidationException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\StrictArgumentValidationException'
+        );
+        $this->expectExceptionMessage(
             'Strict argument validation failed: not all parameters could be validated'
         );
 
@@ -131,7 +135,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testParameterConstraintsAreValidated()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -150,19 +154,19 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $validator->expects($this->once())
-                  ->method('validate')
-                  ->with($this->equalTo(1), $this->equalTo($constraints))
-                  ->willReturn(new ConstraintViolationList());
+            ->method('validate')
+            ->with($this->equalTo(1), $this->equalTo($constraints))
+            ->willReturn(new ConstraintViolationList());
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints')
         );
         $service->expects($this->once())
-                ->method('getParameterConstraints')
-                ->with($this->equalTo('a'))
-                ->willReturn($constraints);
+            ->method('getParameterConstraints')
+            ->with($this->equalTo('a'))
+            ->willReturn($constraints);
 
         $argValidator = new ArgumentValidator($validator, false);
 
@@ -173,7 +177,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidatorFailsWhenValidationFails()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -192,30 +196,32 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $validator->expects($this->once())
-                  ->method('validate')
-                  ->with($this->equalTo(null), $this->equalTo($constraints))
-                  ->willReturn(
-                      new ConstraintViolationList(
-                          array(
-                              new ConstraintViolation('not null', 'not null', array(), '', '', null)
-                          )
-                      )
-                  );
+            ->method('validate')
+            ->with($this->equalTo(null), $this->equalTo($constraints))
+            ->willReturn(
+                new ConstraintViolationList(
+                    array(
+                        new ConstraintViolation('not null', 'not null', array(), '', '', null)
+                    )
+                )
+            );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints')
         );
         $service->expects($this->once())
-                ->method('getParameterConstraints')
-                ->with($this->equalTo('a'))
-                ->willReturn($constraints);
+            ->method('getParameterConstraints')
+            ->with($this->equalTo('a'))
+            ->willReturn($constraints);
 
         $argValidator = new ArgumentValidator($validator, false);
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\ArgumentValidationException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\ArgumentValidationException'
+        );
+        $this->expectExceptionMessage(
             'Argument validation failed: {"a":["not null []"]}'
         );
 
@@ -226,7 +232,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testParameterConstraintsWithValidationGroupsAreValidated()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -243,28 +249,28 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
         $constraints = array(
             new NotNull()
         );
-        $groups      = array(
+        $groups = array(
             'myGroup'
         );
 
         $validator->expects($this->once())
-                  ->method('validate')
-                  ->with($this->equalTo(1), $this->equalTo($constraints), $this->equalTo($groups))
-                  ->willReturn(new ConstraintViolationList());
+            ->method('validate')
+            ->with($this->equalTo(1), $this->equalTo($constraints), $this->equalTo($groups))
+            ->willReturn(new ConstraintViolationList());
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints', 'getParameterValidationGroups')
         );
         $service->expects($this->once())
-                ->method('getParameterConstraints')
-                ->with($this->equalTo('a'))
-                ->willReturn($constraints);
+            ->method('getParameterConstraints')
+            ->with($this->equalTo('a'))
+            ->willReturn($constraints);
         $service->expects($this->once())
-                ->method('getParameterValidationGroups')
-                ->with($this->equalTo('a'))
-                ->willReturn($groups);
+            ->method('getParameterValidationGroups')
+            ->with($this->equalTo('a'))
+            ->willReturn($groups);
 
         $argValidator = new ArgumentValidator($validator, false);
 
@@ -275,7 +281,7 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testStrictParameterConstraintAreValidated()
     {
-        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject $validator */
+        /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|MockObject $validator */
         $validator = $this->createPartialMock(
             'Symfony\Component\Validator\Validator\ValidatorInterface',
             array(
@@ -294,33 +300,33 @@ class ArgumentValidatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $validator->expects($this->once())
-                  ->method('validate')
-                  ->with($this->equalTo(null), $this->equalTo($constraints), $this->equalTo(array()))
-                  ->willReturn(
-                      new ConstraintViolationList(
-                          array(
-                              new ConstraintViolation('not null', 'not null', array(), '', '', null)
-                          )
-                      )
-                  );
+            ->method('validate')
+            ->with($this->equalTo(null), $this->equalTo($constraints), $this->equalTo(array()))
+            ->willReturn(
+                new ConstraintViolationList(
+                    array(
+                        new ConstraintViolation('not null', 'not null', array(), '', '', null)
+                    )
+                )
+            );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('getParameterConstraints', 'getParameterValidationGroups', 'isStrictParameterValidation')
         );
         $service->expects($this->once())
-                ->method('getParameterConstraints')
-                ->with($this->equalTo('a'))
-                ->willReturn($constraints);
+            ->method('getParameterConstraints')
+            ->with($this->equalTo('a'))
+            ->willReturn($constraints);
         $service->expects($this->once())
-                ->method('getParameterValidationGroups')
-                ->with($this->equalTo('a'))
-                ->willReturn(array());
+            ->method('getParameterValidationGroups')
+            ->with($this->equalTo('a'))
+            ->willReturn(array());
         $service->expects($this->once())
-                ->method('isStrictParameterValidation')
-                ->with($this->equalTo('a'))
-                ->willReturn(true);
+            ->method('isStrictParameterValidation')
+            ->with($this->equalTo('a'))
+            ->willReturn(true);
 
         $argValidator = new ArgumentValidator($validator, false);
 

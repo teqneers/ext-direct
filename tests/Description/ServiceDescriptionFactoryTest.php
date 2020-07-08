@@ -10,6 +10,7 @@ namespace TQ\ExtDirect\Tests\Description;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Metadata\MetadataFactory;
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Description\ServiceDescriptionFactory;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
@@ -21,7 +22,7 @@ use TQ\ExtDirect\Service\PathServiceLoader;
  *
  * @package TQ\ExtDirect\Tests\Description
  */
-class ServiceDescriptionFactoryTest extends \PHPUnit_Framework_TestCase
+class ServiceDescriptionFactoryTest extends TestCase
 {
 
     public function testCreateDescription()

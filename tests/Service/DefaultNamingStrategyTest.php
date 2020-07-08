@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Service;
 
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
 
 /**
@@ -16,7 +17,7 @@ use TQ\ExtDirect\Service\DefaultNamingStrategy;
  *
  * @package TQ\ExtDirect\Tests\Service
  */
-class DefaultNamingStrategyTest extends \PHPUnit_Framework_TestCase
+class DefaultNamingStrategyTest extends TestCase
 {
     /**
      * @dataProvider classNameProvider

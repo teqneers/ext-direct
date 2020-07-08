@@ -9,9 +9,9 @@
 
 namespace TQ\ExtDirect\Router;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Contracts\EventDispatcher\Event;
 use TQ\ExtDirect\Router\Event\BeginRequestEvent;
 use TQ\ExtDirect\Router\Event\EndRequestEvent;
 use TQ\ExtDirect\Router\Event\ExceptionEvent;
@@ -41,9 +41,9 @@ class Router
     private $debug;
 
     /**
-     * @param ServiceResolverInterface      $serviceResolver
+     * @param ServiceResolverInterface $serviceResolver
      * @param EventDispatcherInterface|null $eventDispatcher
-     * @param bool                          $debug
+     * @param bool $debug
      */
     public function __construct(
         ServiceResolverInterface $serviceResolver,
@@ -52,7 +52,7 @@ class Router
     ) {
         $this->serviceResolver = $serviceResolver;
         $this->eventDispatcher = $eventDispatcher;
-        $this->debug           = $debug;
+        $this->debug = $debug;
     }
 
     /**
@@ -75,7 +75,7 @@ class Router
 
     /**
      * @param RequestCollection $directRequest
-     * @param HttpRequest       $httpRequest
+     * @param HttpRequest $httpRequest
      * @return ResponseCollection
      */
     public function handle(RequestCollection $directRequest, HttpRequest $httpRequest)
@@ -89,7 +89,7 @@ class Router
         );
 
         $invocations = $this->prepareInvocation($directRequest, $httpRequest);
-        $responses   = array();
+        $responses = array();
         foreach ($invocations as $invocation) {
             /** @var ServiceReference|Response $service */
             /** @var array|\Exception $arguments */
@@ -142,12 +142,12 @@ class Router
 
     /**
      * @param RequestCollection $directRequest
-     * @param HttpRequest       $httpRequest
+     * @param HttpRequest $httpRequest
      * @return array
      */
     protected function prepareInvocation(RequestCollection $directRequest, HttpRequest $httpRequest)
     {
-        $invocations  = array();
+        $invocations = array();
         $closeSession = true;
         foreach ($directRequest as $singleRequest) {
             /** @var Request $singleRequest */
@@ -172,7 +172,7 @@ class Router
                         null
                     )
                 );
-                $invocations[]  = array($exceptionEvent->getResponse(), $e, $singleRequest);
+                $invocations[] = array($exceptionEvent->getResponse(), $e, $singleRequest);
             }
         }
 
@@ -187,7 +187,7 @@ class Router
     }
 
     /**
-     * @param Request     $directRequest
+     * @param Request $directRequest
      * @param HttpRequest $httpRequest
      * @return array
      */
@@ -200,10 +200,10 @@ class Router
         );
 
         if (!$beforeResolveEvent->hasBeenResolved()) {
-            $service   = $this->serviceResolver->getService($directRequest);
+            $service = $this->serviceResolver->getService($directRequest);
             $arguments = $this->serviceResolver->getArguments($directRequest, $httpRequest);
         } else {
-            $service   = $beforeResolveEvent->getService();
+            $service = $beforeResolveEvent->getService();
             $arguments = $beforeResolveEvent->getArguments();
         }
 
@@ -218,9 +218,9 @@ class Router
 
     /**
      * @param ServiceReference $service
-     * @param array            $arguments
-     * @param Request          $directRequest
-     * @param HttpRequest      $httpRequest
+     * @param array $arguments
+     * @param Request $directRequest
+     * @param HttpRequest $httpRequest
      * @return mixed
      */
     protected function invokeService(
@@ -252,13 +252,13 @@ class Router
 
     /**
      * @param string $eventName
-     * @param Event  $event
+     * @param Event $event
      * @return Event
      */
     protected function dispatchEvent($eventName, Event $event)
     {
         if ($this->eventDispatcher) {
-            return $this->eventDispatcher->dispatch($eventName, $event);
+            return $this->eventDispatcher->dispatch($event, $eventName);
         } else {
             return $event;
         }

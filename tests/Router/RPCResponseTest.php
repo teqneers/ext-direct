@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Router\Request;
 use TQ\ExtDirect\Router\RPCResponse;
 
@@ -16,7 +17,7 @@ use TQ\ExtDirect\Router\RPCResponse;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class RPCResponseTest extends \PHPUnit_Framework_TestCase
+class RPCResponseTest extends TestCase
 {
     public function testJsonSerialize()
     {

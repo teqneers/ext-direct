@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Description;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Description\ActionDescription;
 use TQ\ExtDirect\Description\MethodDescription;
 use TQ\ExtDirect\Description\ServiceDescription;
@@ -17,7 +18,7 @@ use TQ\ExtDirect\Description\ServiceDescription;
  *
  * @package TQ\ExtDirect\Tests\Description
  */
-class ServiceDescriptionTest extends \PHPUnit_Framework_TestCase
+class ServiceDescriptionTest extends TestCase
 {
     public function testCreateDefaultConstructor()
     {

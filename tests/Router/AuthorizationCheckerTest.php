@@ -8,6 +8,8 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use TQ\ExtDirect\Router\AuthorizationChecker;
 
@@ -16,15 +18,15 @@ use TQ\ExtDirect\Router\AuthorizationChecker;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
+class AuthorizationCheckerTest extends TestCase
 {
     public function testAuthorizationCheckPassesWithEmptyExpression()
     {
-        /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|\PHPUnit_Framework_MockObject_MockObject $trustResolver */
+        /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|MockObject $trustResolver */
         $trustResolver = $this->createPartialMock('Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface',
             ['isAnonymous', 'isRememberMe', 'isFullFledged']);
 
-        /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject $tokenStorage */
+        /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|MockObject $tokenStorage */
         $tokenStorage = $this->createPartialMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface',
             ['getToken', 'setToken']);
 
@@ -32,18 +34,18 @@ class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
                      ->method('getToken')
                      ->willReturn(new AnonymousToken('secret', 'user'));
 
-        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject $authChecker */
+        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|MockObject $authChecker */
         $authChecker = $this->createPartialMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface',
             ['isGranted']);
 
-        /** @var \Symfony\Component\Security\Core\Authorization\ExpressionLanguage|\PHPUnit_Framework_MockObject_MockObject $language */
+        /** @var \Symfony\Component\Security\Core\Authorization\ExpressionLanguage|MockObject $language */
         $language = $this->createPartialMock('Symfony\Component\Security\Core\Authorization\ExpressionLanguage',
             ['evaluate']);
 
         $language->expects($this->never())
                  ->method('evaluate');
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock('TQ\ExtDirect\Router\ServiceReference', ['getAuthorizationExpression']);
 
         $service->expects($this->once())
@@ -56,11 +58,11 @@ class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthorizationCheckReturnsTrueWhenNoAuthenticationTokenIsAvailable()
     {
-        /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|\PHPUnit_Framework_MockObject_MockObject $trustResolver */
+        /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|MockObject $trustResolver */
         $trustResolver = $this->createPartialMock('Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface',
             ['isAnonymous', 'isRememberMe', 'isFullFledged']);
 
-        /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject $tokenStorage */
+        /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|MockObject $tokenStorage */
         $tokenStorage = $this->createPartialMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface',
             ['getToken', 'setToken']);
 
@@ -68,18 +70,18 @@ class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
                      ->method('getToken')
                      ->willReturn(null);
 
-        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject $authChecker */
+        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|MockObject $authChecker */
         $authChecker = $this->createPartialMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface',
             ['isGranted']);
 
-        /** @var \Symfony\Component\Security\Core\Authorization\ExpressionLanguage|\PHPUnit_Framework_MockObject_MockObject $language */
+        /** @var \Symfony\Component\Security\Core\Authorization\ExpressionLanguage|MockObject $language */
         $language = $this->createPartialMock('Symfony\Component\Security\Core\Authorization\ExpressionLanguage',
             ['evaluate']);
 
         $language->expects($this->never())
                  ->method('evaluate');
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock('TQ\ExtDirect\Router\ServiceReference', ['getAuthorizationExpression']);
 
         $service->expects($this->never())
@@ -91,11 +93,11 @@ class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthorizationCheckEvaluatesExpression()
     {
-        /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|\PHPUnit_Framework_MockObject_MockObject $trustResolver */
+        /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|MockObject $trustResolver */
         $trustResolver = $this->createPartialMock('Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface',
             ['isAnonymous', 'isRememberMe', 'isFullFledged']);
 
-        /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|\PHPUnit_Framework_MockObject_MockObject $tokenStorage */
+        /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|MockObject $tokenStorage */
         $tokenStorage = $this->createPartialMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface',
             ['getToken', 'setToken']);
 
@@ -104,11 +106,11 @@ class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
                      ->method('getToken')
                      ->willReturn($token);
 
-        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|\PHPUnit_Framework_MockObject_MockObject $authChecker */
+        /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|MockObject $authChecker */
         $authChecker = $this->createPartialMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface',
             ['isGranted']);
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock('TQ\ExtDirect\Router\ServiceReference', ['getAuthorizationExpression']);
 
         $expression = 'true';
@@ -118,7 +120,7 @@ class AuthorizationCheckerTest extends \PHPUnit_Framework_TestCase
                 ->method('getAuthorizationExpression')
                 ->willReturn($expression);
 
-        /** @var \Symfony\Component\Security\Core\Authorization\ExpressionLanguage|\PHPUnit_Framework_MockObject_MockObject $language */
+        /** @var \Symfony\Component\Security\Core\Authorization\ExpressionLanguage|MockObject $language */
         $language = $this->createPartialMock('Symfony\Component\Security\Core\Authorization\ExpressionLanguage',
             ['evaluate']);
 

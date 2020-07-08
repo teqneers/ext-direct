@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Service;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Service\DefaultNamingStrategy;
 use TQ\ExtDirect\Service\DefaultServiceRegistry;
 
@@ -16,7 +17,7 @@ use TQ\ExtDirect\Service\DefaultServiceRegistry;
  *
  * @package TQ\ExtDirect\Tests\Service
  */
-class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
+class DefaultServiceRegistryTest extends TestCase
 {
     public function testGetAllMetadata()
     {
@@ -42,11 +43,11 @@ class DefaultServiceRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Metadata\MetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Metadata\MetadataFactoryInterface|MockObject
      */
     protected function createMetadataFactory()
     {
-        /** @var \Metadata\MetadataFactoryInterface|\PHPUnit_Framework_MockObject_MockObject $metadataFactory */
+        /** @var \Metadata\MetadataFactoryInterface|MockObject $metadataFactory */
         $metadataFactory = $this->createMock(
             'Metadata\MetadataFactoryInterface'
         );

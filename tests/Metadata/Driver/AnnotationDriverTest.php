@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Metadata\Driver;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraint;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 use TQ\ExtDirect\Metadata\Driver\ClassAnnotationDriver;
@@ -18,7 +19,7 @@ use TQ\ExtDirect\Metadata\Driver\ClassAnnotationDriver;
  *
  * @package TQ\ExtDirect\Tests\Metadata\Driver
  */
-class AnnotationDriverTest extends \PHPUnit_Framework_TestCase
+class AnnotationDriverTest extends TestCase
 {
     protected function getDriver()
     {

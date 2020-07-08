@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Tests\Metadata;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
 use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 
@@ -17,7 +18,7 @@ use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
  *
  * @package TQ\ExtDirect\Tests\Metadata
  */
-class ActionMetadataTest extends \PHPUnit_Framework_TestCase
+class ActionMetadataTest extends TestCase
 {
     public function testSerialize()
     {

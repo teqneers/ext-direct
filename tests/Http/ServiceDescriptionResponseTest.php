@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Http;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Description\ActionDescription;
 use TQ\ExtDirect\Description\MethodDescription;
 use TQ\ExtDirect\Description\ServiceDescription;
@@ -18,7 +19,7 @@ use TQ\ExtDirect\Http\ServiceDescriptionResponse;
  *
  * @package TQ\ExtDirect\Tests\Http
  */
-class ServiceDescriptionResponseTest extends \PHPUnit_Framework_TestCase
+class ServiceDescriptionResponseTest extends TestCase
 {
     public function testDefaultServiceDescriptionResponse()
     {

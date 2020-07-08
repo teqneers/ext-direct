@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Description;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Description\MethodDescription;
 
 /**
@@ -15,7 +16,7 @@ use TQ\ExtDirect\Description\MethodDescription;
  *
  * @package TQ\ExtDirect\Tests\Description
  */
-class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
+class MethodDescriptionTest extends TestCase
 {
     public function testMethodWithDefaultConstructor()
     {
@@ -143,7 +144,8 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
     {
         $m = new MethodDescription('method', true);
 
-        $this->setExpectedException('BadMethodCallException', 'Cannot add parameters to form handler methods');
+        $this->expectException('BadMethodCallException');
+        $this->expectExceptionMessage('Cannot add parameters to form handler methods');
         $m->addParam('a');
     }
 
@@ -151,7 +153,8 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
     {
         $m = new MethodDescription('method', true);
 
-        $this->setExpectedException('BadMethodCallException', 'Cannot set named params on form handler methods');
+        $this->expectException('BadMethodCallException');
+        $this->expectExceptionMessage('Cannot set named params on form handler methods');
         $m->setNamedParams(true);
     }
 
@@ -159,7 +162,8 @@ class MethodDescriptionTest extends \PHPUnit_Framework_TestCase
     {
         $m = new MethodDescription('method', true);
 
-        $this->setExpectedException('BadMethodCallException', 'Cannot set strict params on form handler methods');
+        $this->expectException('BadMethodCallException');
+        $this->expectExceptionMessage('Cannot set strict params on form handler methods');
         $m->setStrict(false);
     }
 

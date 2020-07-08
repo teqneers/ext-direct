@@ -8,6 +8,8 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use TQ\ExtDirect\Router\Request as DirectRequest;
 use TQ\ExtDirect\Router\RequestCollection;
@@ -18,17 +20,17 @@ use TQ\ExtDirect\Router\Router;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
     public function testSuccessfulMethodCall()
     {
-        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
+        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|MockObject $serviceResolver */
         $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
@@ -88,19 +90,19 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessfulBatchedMethodsCall()
     {
-        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
+        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|MockObject $serviceResolver */
         $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service1 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service2 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
@@ -201,13 +203,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testFailedMethodCall()
     {
-        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
+        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|MockObject $serviceResolver */
         $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
@@ -267,19 +269,19 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testPartiallySuccessfulBatchedMethodsCall()
     {
-        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
+        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|MockObject $serviceResolver */
         $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service1 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service2 = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
@@ -381,13 +383,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testEventDispatcherIsCalledCorrectlyForSuccessfulCall()
     {
-        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
+        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|MockObject $serviceResolver */
         $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
@@ -447,31 +449,31 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                         ->method('dispatch')
                         ->withConsecutive(
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent'),
                                 $this->equalTo('tq_extdirect.router.begin_request'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
                                 $this->equalTo('tq_extdirect.router.before_resolve'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
                                 $this->equalTo('tq_extdirect.router.after_resolve'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
                                 $this->equalTo('tq_extdirect.router.before_invoke'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
                                 $this->equalTo('tq_extdirect.router.after_invoke'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent'),
                                 $this->equalTo('tq_extdirect.router.end_request'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent')
                             )
                         )
-                        ->will($this->returnArgument(1));
+                        ->will($this->returnArgument(0));
 
         $router = new Router($serviceResolver, $eventDispatcher);
         $router->handle(new RequestCollection(array($directRequest)), $httpRequest);
@@ -480,13 +482,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testEventDispatcherIsCalledCorrectlyForFailedCall()
     {
-        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|\PHPUnit_Framework_MockObject_MockObject $serviceResolver */
+        /** @var \TQ\ExtDirect\Router\ServiceResolverInterface|MockObject $serviceResolver */
         $serviceResolver = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceResolverInterface',
             array('getService', 'getArguments')
         );
 
-        /** @var \TQ\ExtDirect\Router\ServiceReference|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var \TQ\ExtDirect\Router\ServiceReference|MockObject $service */
         $service = $this->createPartialMock(
             'TQ\ExtDirect\Router\ServiceReference',
             array('__invoke', 'hasSession')
@@ -547,31 +549,31 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                         ->method('dispatch')
                         ->withConsecutive(
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent'),
                                 $this->equalTo('tq_extdirect.router.begin_request'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
                                 $this->equalTo('tq_extdirect.router.before_resolve'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
                                 $this->equalTo('tq_extdirect.router.after_resolve'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
                                 $this->equalTo('tq_extdirect.router.before_invoke'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ExceptionEvent'),
                                 $this->equalTo('tq_extdirect.router.exception'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ExceptionEvent')
                             ),
                             array(
+                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent'),
                                 $this->equalTo('tq_extdirect.router.end_request'),
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent')
                             )
                         )
-                        ->will($this->returnArgument(1));
+                        ->will($this->returnArgument(0));
 
         $router = new Router($serviceResolver, $eventDispatcher);
         $router->handle(new RequestCollection(array($directRequest)), $httpRequest);

@@ -27,9 +27,9 @@ class EndRequestEvent extends BeginRequestEvent
     private $directResponse;
 
     /**
-     * @param RequestCollection  $directRequest
+     * @param RequestCollection $directRequest
      * @param ResponseCollection $directResponse
-     * @param HttpRequest        $httpRequest
+     * @param HttpRequest $httpRequest
      */
     public function __construct(
         RequestCollection $directRequest,

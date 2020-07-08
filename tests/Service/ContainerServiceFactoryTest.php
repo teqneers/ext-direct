@@ -9,8 +9,9 @@
 namespace TQ\ExtDirect\Tests\Service;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Metadata\Driver\AnnotationDriver;
-use TQ\ExtDirect\Metadata\Driver\PathAnnotationDriver;
 use TQ\ExtDirect\Service\ContainerServiceFactory;
 
 /**
@@ -18,20 +19,20 @@ use TQ\ExtDirect\Service\ContainerServiceFactory;
  *
  * @package TQ\ExtDirect\Tests\Service
  */
-class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
+class ContainerServiceFactoryTest extends TestCase
 {
 
     public function testServiceFactoryWithServiceId()
     {
         $classMetadata = $this->loadMetadataForClass('TQ\ExtDirect\Tests\Service\Services\Service1');
-        $container     = $this->createContainer();
+        $container = $this->createContainer();
 
         $service = new \TQ\ExtDirect\Tests\Service\Services\Service1();
 
         $container->expects($this->once())
-                  ->method('get')
-                  ->with($this->equalTo('app.direct.test'))
-                  ->willReturn($service);
+            ->method('get')
+            ->with($this->equalTo('app.direct.test'))
+            ->willReturn($service);
 
         $factory = new ContainerServiceFactory($container);
 
@@ -44,7 +45,7 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $container = $this->createContainer();
         $container->expects($this->never())
-                  ->method('get');
+            ->method('get');
 
         $factory = new ContainerServiceFactory($container);
 
@@ -60,7 +61,7 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $container = $this->createContainer();
         $container->expects($this->never())
-                  ->method('get');
+            ->method('get');
 
         $factory = new ContainerServiceFactory($container);
 
@@ -80,18 +81,19 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
         $classMetadata = $this->loadMetadataForClass('TQ\ExtDirect\Tests\Service\Services\Service4');
 
         $container = $this->createContainer();
-        $factory   = new ContainerServiceFactory($container);
+        $factory = new ContainerServiceFactory($container);
 
-        $this->setExpectedException('\InvalidArgumentException', 'Cannot instantiate action');
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Cannot instantiate action');
         $factory->createService($classMetadata);
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Symfony\Component\DependencyInjection\ContainerInterface
+     * @return MockObject|\Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected function createContainer()
     {
-        /** @var \Symfony\Component\DependencyInjection\ContainerInterface|\PHPUnit_Framework_MockObject_MockObject $container */
+        /** @var \Symfony\Component\DependencyInjection\ContainerInterface|MockObject $container */
         $container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         return $container;
     }
@@ -102,9 +104,9 @@ class ContainerServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function loadMetadataForClass($className)
     {
-        $driver          = new AnnotationDriver(new AnnotationReader());
+        $driver = new AnnotationDriver(new AnnotationReader());
         $reflectionClass = new\ReflectionClass($className);
-        $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
+        $classMetadata = $driver->loadMetadataForClass($reflectionClass);
         return $classMetadata;
     }
 

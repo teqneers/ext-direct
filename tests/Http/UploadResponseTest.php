@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Http;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Http\UploadResponse;
 use TQ\ExtDirect\Router\RPCResponse;
 
@@ -16,7 +17,7 @@ use TQ\ExtDirect\Router\RPCResponse;
  *
  * @package TQ\ExtDirect\Tests\Http
  */
-class UploadResponseTest extends \PHPUnit_Framework_TestCase
+class UploadResponseTest extends TestCase
 {
     public function testUploadResponse()
     {

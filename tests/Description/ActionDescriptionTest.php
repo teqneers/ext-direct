@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Description;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Description\ActionDescription;
 use TQ\ExtDirect\Description\MethodDescription;
 
@@ -16,7 +17,7 @@ use TQ\ExtDirect\Description\MethodDescription;
  *
  * @package TQ\ExtDirect\Tests\Description
  */
-class ActionDescriptionTest extends \PHPUnit_Framework_TestCase
+class ActionDescriptionTest extends TestCase
 {
     public function testActionWithoutMethods()
     {

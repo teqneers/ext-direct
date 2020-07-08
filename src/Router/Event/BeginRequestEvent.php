@@ -10,8 +10,8 @@
 namespace TQ\ExtDirect\Router\Event;
 
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Contracts\EventDispatcher\Event;
 use TQ\ExtDirect\Router\RequestCollection;
 
 /**
@@ -32,12 +32,12 @@ class BeginRequestEvent extends Event
 
     /**
      * @param RequestCollection $directRequest
-     * @param HttpRequest       $httpRequest
+     * @param HttpRequest $httpRequest
      */
     public function __construct(RequestCollection $directRequest, HttpRequest $httpRequest)
     {
         $this->directRequest = $directRequest;
-        $this->httpRequest   = $httpRequest;
+        $this->httpRequest = $httpRequest;
     }
 
     /**

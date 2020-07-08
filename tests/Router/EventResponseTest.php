@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\TestCase;
 use TQ\ExtDirect\Router\EventResponse;
 
 /**
@@ -15,7 +16,7 @@ use TQ\ExtDirect\Router\EventResponse;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class EventResponseTest extends \PHPUnit_Framework_TestCase
+class EventResponseTest extends TestCase
 {
     public function testJsonSerialize()
     {

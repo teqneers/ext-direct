@@ -8,6 +8,7 @@
 
 namespace TQ\ExtDirect\Tests\Router;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use TQ\ExtDirect\Router\Request;
 use TQ\ExtDirect\Router\RequestFactory;
@@ -17,7 +18,7 @@ use TQ\ExtDirect\Router\RequestFactory;
  *
  * @package TQ\ExtDirect\Tests\Router
  */
-class RequestFactoryTest extends \PHPUnit_Framework_TestCase
+class RequestFactoryTest extends TestCase
 {
     public function testCreateJsonRequest()
     {
@@ -132,7 +133,8 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             '{]'
         );
 
-        $this->setExpectedException('TQ\ExtDirect\Router\Exception\BadRequestException', 'The JSON string in invalid');
+        $this->expectException('TQ\ExtDirect\Router\Exception\BadRequestException');
+        $this->expectExceptionMessage('The JSON string in invalid');
         $factory->createRequest($httpRequest);
     }
 
@@ -143,8 +145,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             '"a"'
         );
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'The Ext direct request is invalid'
         );
         $factory->createRequest($httpRequest);
@@ -157,8 +161,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             '{"action":"My.service.Action","method":"method","data":["a", "b"],"type":"rpc"}'
         );
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'The Ext direct request is missing vital information'
         );
         $factory->createRequest($httpRequest);
@@ -176,8 +182,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'The Ext direct request is missing vital information'
         );
         $factory->createRequest($httpRequest);
@@ -190,8 +198,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             '{"action":"My.service.Action","method":"method","data":["a", "b"],"type":"foo","tid":1}'
         );
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'The Ext direct request is missing vital information'
         );
         $factory->createRequest($httpRequest);
@@ -210,8 +220,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'The Ext direct request is missing vital information'
         );
         $factory->createRequest($httpRequest);
@@ -223,8 +235,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $httpRequest = new HttpRequest();
         $httpRequest->setMethod(HttpRequest::METHOD_GET);
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'Only POST requests are allowed'
         );
         $factory->createRequest($httpRequest);
@@ -236,8 +250,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $httpRequest = new HttpRequest();
         $httpRequest->setMethod(HttpRequest::METHOD_PUT);
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'Only POST requests are allowed'
         );
         $factory->createRequest($httpRequest);
@@ -249,8 +265,10 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
         $httpRequest = new HttpRequest();
         $httpRequest->setMethod(HttpRequest::METHOD_DELETE);
 
-        $this->setExpectedException(
-            'TQ\ExtDirect\Router\Exception\BadRequestException',
+        $this->expectException(
+            'TQ\ExtDirect\Router\Exception\BadRequestException'
+        );
+        $this->expectExceptionMessage(
             'Only POST requests are allowed'
         );
         $factory->createRequest($httpRequest);
