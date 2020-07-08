@@ -11,7 +11,6 @@ namespace TQ\ExtDirect\Router\Event;
 
 
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Contracts\EventDispatcher\Event;
 use TQ\ExtDirect\Router\RequestCollection;
 
 /**

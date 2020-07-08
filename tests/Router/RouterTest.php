@@ -36,42 +36,42 @@ class RouterTest extends TestCase
             array('__invoke', 'hasSession')
         );
 
-        $httpRequest   = new HttpRequest();
+        $httpRequest = new HttpRequest();
         $directRequest = new DirectRequest(1, 'My.Action', 'myMethod', array('a', 'b'), false, false);
 
         $serviceResolver->expects($this->once())
-                        ->method('getService')
-                        ->with($this->equalTo($directRequest))
-                        ->willReturn($service);
+            ->method('getService')
+            ->with($this->equalTo($directRequest))
+            ->willReturn($service);
 
         $serviceResolver->expects(($this->once()))
-                        ->method('getArguments')
-                        ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
-                        ->willReturn(array(
-                            '__internal__directRequest' => $directRequest,
-                            '__internal__httpRequest'   => $httpRequest,
-                            'a'                         => 'a',
-                            'b'                         => 'b'
-                        ));
+            ->method('getArguments')
+            ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
+            ->willReturn(array(
+                '__internal__directRequest' => $directRequest,
+                '__internal__httpRequest' => $httpRequest,
+                'a' => 'a',
+                'b' => 'b'
+            ));
 
         $service->expects($this->any())
-                ->method('hasSession')
-                ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $service->expects($this->once())
-                ->method('__invoke')
-                ->with(
-                    $this->equalTo(
-                        array(
-                            $directRequest,
-                            $httpRequest,
-                            'a',
-                            'b'
-                        )
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest,
+                        $httpRequest,
+                        'a',
+                        'b'
                     )
                 )
-                ->willReturn(1);
+            )
+            ->willReturn(1);
 
-        $router   = new Router($serviceResolver);
+        $router = new Router($serviceResolver);
         $response = $router->handle(new RequestCollection(array($directRequest)), $httpRequest);
 
 
@@ -108,74 +108,74 @@ class RouterTest extends TestCase
             array('__invoke', 'hasSession')
         );
 
-        $httpRequest    = new HttpRequest();
+        $httpRequest = new HttpRequest();
         $directRequest1 = new DirectRequest(1, 'My.Action', 'myMethod1', array('a', 'b'), false, false);
         $directRequest2 = new DirectRequest(2, 'My.Action', 'myMethod2', array('c', 'd'), false, false);
 
         $serviceResolver->expects($this->exactly(2))
-                        ->method('getService')
-                        ->withConsecutive(
-                            array($this->equalTo($directRequest1)),
-                            array($this->equalTo($directRequest2))
-                        )
-                        ->willReturnOnConsecutiveCalls($service1, $service2);
+            ->method('getService')
+            ->withConsecutive(
+                array($this->equalTo($directRequest1)),
+                array($this->equalTo($directRequest2))
+            )
+            ->willReturnOnConsecutiveCalls($service1, $service2);
 
         $serviceResolver->expects(($this->exactly(2)))
-                        ->method('getArguments')
-                        ->withConsecutive(
-                            array($this->equalTo($directRequest1), $this->equalTo($httpRequest)),
-                            array($this->equalTo($directRequest2), $this->equalTo($httpRequest))
-                        )
-                        ->willReturnOnConsecutiveCalls(
-                            array(
-                                '__internal__directRequest' => $directRequest1,
-                                '__internal__httpRequest'   => $httpRequest,
-                                'a'                         => 'a',
-                                'b'                         => 'b'
-                            ),
-                            array(
-                                '__internal__directRequest' => $directRequest2,
-                                '__internal__httpRequest'   => $httpRequest,
-                                'a'                         => 'c',
-                                'b'                         => 'd'
-                            )
-                        );
+            ->method('getArguments')
+            ->withConsecutive(
+                array($this->equalTo($directRequest1), $this->equalTo($httpRequest)),
+                array($this->equalTo($directRequest2), $this->equalTo($httpRequest))
+            )
+            ->willReturnOnConsecutiveCalls(
+                array(
+                    '__internal__directRequest' => $directRequest1,
+                    '__internal__httpRequest' => $httpRequest,
+                    'a' => 'a',
+                    'b' => 'b'
+                ),
+                array(
+                    '__internal__directRequest' => $directRequest2,
+                    '__internal__httpRequest' => $httpRequest,
+                    'a' => 'c',
+                    'b' => 'd'
+                )
+            );
 
         $service1->expects($this->any())
-                 ->method('hasSession')
-                 ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $service1->expects($this->once())
-                 ->method('__invoke')
-                 ->with(
-                     $this->equalTo(
-                         array(
-                             $directRequest1,
-                             $httpRequest,
-                             'a',
-                             'b'
-                         )
-                     )
-                 )
-                 ->willReturn(1);
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest1,
+                        $httpRequest,
+                        'a',
+                        'b'
+                    )
+                )
+            )
+            ->willReturn(1);
 
         $service2->expects($this->any())
-                 ->method('hasSession')
-                 ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $service2->expects($this->once())
-                 ->method('__invoke')
-                 ->with(
-                     $this->equalTo(
-                         array(
-                             $directRequest2,
-                             $httpRequest,
-                             'c',
-                             'd'
-                         )
-                     )
-                 )
-                 ->willReturn(2);
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest2,
+                        $httpRequest,
+                        'c',
+                        'd'
+                    )
+                )
+            )
+            ->willReturn(2);
 
-        $router   = new Router($serviceResolver);
+        $router = new Router($serviceResolver);
         $response = $router->handle(new RequestCollection(array($directRequest1, $directRequest2)), $httpRequest);
 
 
@@ -215,43 +215,43 @@ class RouterTest extends TestCase
             array('__invoke', 'hasSession')
         );
 
-        $httpRequest   = new HttpRequest();
+        $httpRequest = new HttpRequest();
         $directRequest = new DirectRequest(1, 'My.Action', 'myMethod', array('a', 'b'), false, false);
 
         $serviceResolver->expects($this->once())
-                        ->method('getService')
-                        ->with($this->equalTo($directRequest))
-                        ->willReturn($service);
+            ->method('getService')
+            ->with($this->equalTo($directRequest))
+            ->willReturn($service);
 
         $serviceResolver->expects(($this->once()))
-                        ->method('getArguments')
-                        ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
-                        ->willReturn(array(
-                            '__internal__directRequest' => $directRequest,
-                            '__internal__httpRequest'   => $httpRequest,
-                            'a'                         => 'a',
-                            'b'                         => 'b'
-                        ));
+            ->method('getArguments')
+            ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
+            ->willReturn(array(
+                '__internal__directRequest' => $directRequest,
+                '__internal__httpRequest' => $httpRequest,
+                'a' => 'a',
+                'b' => 'b'
+            ));
 
         $service->expects($this->any())
-                ->method('hasSession')
-                ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $exception = new \RuntimeException('Something has happened');
         $service->expects($this->once())
-                ->method('__invoke')
-                ->with(
-                    $this->equalTo(
-                        array(
-                            $directRequest,
-                            $httpRequest,
-                            'a',
-                            'b'
-                        )
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest,
+                        $httpRequest,
+                        'a',
+                        'b'
                     )
                 )
-                ->willThrowException($exception);
+            )
+            ->willThrowException($exception);
 
-        $router   = new Router($serviceResolver);
+        $router = new Router($serviceResolver);
         $response = $router->handle(new RequestCollection(array($directRequest)), $httpRequest);
 
         $this->assertInstanceOf('TQ\ExtDirect\Router\ResponseCollection', $response);
@@ -287,75 +287,75 @@ class RouterTest extends TestCase
             array('__invoke', 'hasSession')
         );
 
-        $httpRequest    = new HttpRequest();
+        $httpRequest = new HttpRequest();
         $directRequest1 = new DirectRequest(1, 'My.Action', 'myMethod1', array('a', 'b'), false, false);
         $directRequest2 = new DirectRequest(2, 'My.Action', 'myMethod2', array('c', 'd'), false, false);
 
         $serviceResolver->expects($this->exactly(2))
-                        ->method('getService')
-                        ->withConsecutive(
-                            array($this->equalTo($directRequest1)),
-                            array($this->equalTo($directRequest2))
-                        )
-                        ->willReturnOnConsecutiveCalls($service1, $service2);
+            ->method('getService')
+            ->withConsecutive(
+                array($this->equalTo($directRequest1)),
+                array($this->equalTo($directRequest2))
+            )
+            ->willReturnOnConsecutiveCalls($service1, $service2);
 
         $serviceResolver->expects(($this->exactly(2)))
-                        ->method('getArguments')
-                        ->withConsecutive(
-                            array($this->equalTo($directRequest1), $this->equalTo($httpRequest)),
-                            array($this->equalTo($directRequest2), $this->equalTo($httpRequest))
-                        )
-                        ->willReturnOnConsecutiveCalls(
-                            array(
-                                '__internal__directRequest' => $directRequest1,
-                                '__internal__httpRequest'   => $httpRequest,
-                                'a'                         => 'a',
-                                'b'                         => 'b'
-                            ),
-                            array(
-                                '__internal__directRequest' => $directRequest2,
-                                '__internal__httpRequest'   => $httpRequest,
-                                'a'                         => 'c',
-                                'b'                         => 'd'
-                            )
-                        );
+            ->method('getArguments')
+            ->withConsecutive(
+                array($this->equalTo($directRequest1), $this->equalTo($httpRequest)),
+                array($this->equalTo($directRequest2), $this->equalTo($httpRequest))
+            )
+            ->willReturnOnConsecutiveCalls(
+                array(
+                    '__internal__directRequest' => $directRequest1,
+                    '__internal__httpRequest' => $httpRequest,
+                    'a' => 'a',
+                    'b' => 'b'
+                ),
+                array(
+                    '__internal__directRequest' => $directRequest2,
+                    '__internal__httpRequest' => $httpRequest,
+                    'a' => 'c',
+                    'b' => 'd'
+                )
+            );
 
         $service1->expects($this->any())
-                 ->method('hasSession')
-                 ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $service1->expects($this->once())
-                 ->method('__invoke')
-                 ->with(
-                     $this->equalTo(
-                         array(
-                             $directRequest1,
-                             $httpRequest,
-                             'a',
-                             'b'
-                         )
-                     )
-                 )
-                 ->willReturn(1);
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest1,
+                        $httpRequest,
+                        'a',
+                        'b'
+                    )
+                )
+            )
+            ->willReturn(1);
 
         $service2->expects($this->any())
-                 ->method('hasSession')
-                 ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $exception = new \RuntimeException('Something has happened');
         $service2->expects($this->once())
-                 ->method('__invoke')
-                 ->with(
-                     $this->equalTo(
-                         array(
-                             $directRequest2,
-                             $httpRequest,
-                             'c',
-                             'd'
-                         )
-                     )
-                 )
-                 ->willThrowException($exception);
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest2,
+                        $httpRequest,
+                        'c',
+                        'd'
+                    )
+                )
+            )
+            ->willThrowException($exception);
 
-        $router   = new Router($serviceResolver);
+        $router = new Router($serviceResolver);
         $response = $router->handle(new RequestCollection(array($directRequest1, $directRequest2)), $httpRequest);
 
 
@@ -395,40 +395,40 @@ class RouterTest extends TestCase
             array('__invoke', 'hasSession')
         );
 
-        $httpRequest   = new HttpRequest();
+        $httpRequest = new HttpRequest();
         $directRequest = new DirectRequest(1, 'My.Action', 'myMethod', array('a', 'b'), false, false);
 
         $serviceResolver->expects($this->once())
-                        ->method('getService')
-                        ->with($this->equalTo($directRequest))
-                        ->willReturn($service);
+            ->method('getService')
+            ->with($this->equalTo($directRequest))
+            ->willReturn($service);
 
         $serviceResolver->expects(($this->once()))
-                        ->method('getArguments')
-                        ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
-                        ->willReturn(array(
-                            '__internal__directRequest' => $directRequest,
-                            '__internal__httpRequest'   => $httpRequest,
-                            'a'                         => 'a',
-                            'b'                         => 'b'
-                        ));
+            ->method('getArguments')
+            ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
+            ->willReturn(array(
+                '__internal__directRequest' => $directRequest,
+                '__internal__httpRequest' => $httpRequest,
+                'a' => 'a',
+                'b' => 'b'
+            ));
 
         $service->expects($this->any())
-                ->method('hasSession')
-                ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $service->expects($this->once())
-                ->method('__invoke')
-                ->with(
-                    $this->equalTo(
-                        array(
-                            $directRequest,
-                            $httpRequest,
-                            'a',
-                            'b'
-                        )
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest,
+                        $httpRequest,
+                        'a',
+                        'b'
                     )
                 )
-                ->willReturn(1);
+            )
+            ->willReturn(1);
 
 
         $eventDispatcher = $this->createPartialMock(
@@ -445,35 +445,41 @@ class RouterTest extends TestCase
             )
         );
 
+        $calls = [
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent'),
+                $this->equalTo('tq_extdirect.router.begin_request'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
+                $this->equalTo('tq_extdirect.router.before_resolve'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
+                $this->equalTo('tq_extdirect.router.after_resolve'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
+                $this->equalTo('tq_extdirect.router.before_invoke'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
+                $this->equalTo('tq_extdirect.router.after_invoke'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent'),
+                $this->equalTo('tq_extdirect.router.end_request'),
+            )
+        ];
+
+
+        if (!class_exists(\Symfony\Contracts\EventDispatcher\Event::class)) {
+            $calls = array_map('array_reverse', $calls);
+        }
         $eventDispatcher->expects($this->exactly(6))
-                        ->method('dispatch')
-                        ->withConsecutive(
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent'),
-                                $this->equalTo('tq_extdirect.router.begin_request'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
-                                $this->equalTo('tq_extdirect.router.before_resolve'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
-                                $this->equalTo('tq_extdirect.router.after_resolve'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
-                                $this->equalTo('tq_extdirect.router.before_invoke'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
-                                $this->equalTo('tq_extdirect.router.after_invoke'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent'),
-                                $this->equalTo('tq_extdirect.router.end_request'),
-                            )
-                        )
-                        ->will($this->returnArgument(0));
+            ->method('dispatch')
+            ->withConsecutive(...$calls)
+            ->will($this->returnArgument(0));
 
         $router = new Router($serviceResolver, $eventDispatcher);
         $router->handle(new RequestCollection(array($directRequest)), $httpRequest);
@@ -494,41 +500,41 @@ class RouterTest extends TestCase
             array('__invoke', 'hasSession')
         );
 
-        $httpRequest   = new HttpRequest();
+        $httpRequest = new HttpRequest();
         $directRequest = new DirectRequest(1, 'My.Action', 'myMethod', array('a', 'b'), false, false);
 
         $serviceResolver->expects($this->once())
-                        ->method('getService')
-                        ->with($this->equalTo($directRequest))
-                        ->willReturn($service);
+            ->method('getService')
+            ->with($this->equalTo($directRequest))
+            ->willReturn($service);
 
         $serviceResolver->expects(($this->once()))
-                        ->method('getArguments')
-                        ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
-                        ->willReturn(array(
-                            '__internal__directRequest' => $directRequest,
-                            '__internal__httpRequest'   => $httpRequest,
-                            'a'                         => 'a',
-                            'b'                         => 'b'
-                        ));
+            ->method('getArguments')
+            ->with($this->equalTo($directRequest), $this->equalTo($httpRequest))
+            ->willReturn(array(
+                '__internal__directRequest' => $directRequest,
+                '__internal__httpRequest' => $httpRequest,
+                'a' => 'a',
+                'b' => 'b'
+            ));
 
         $service->expects($this->any())
-                ->method('hasSession')
-                ->willReturn(true);
+            ->method('hasSession')
+            ->willReturn(true);
         $exception = new \RuntimeException('Something has happened');
         $service->expects($this->once())
-                ->method('__invoke')
-                ->with(
-                    $this->equalTo(
-                        array(
-                            $directRequest,
-                            $httpRequest,
-                            'a',
-                            'b'
-                        )
+            ->method('__invoke')
+            ->with(
+                $this->equalTo(
+                    array(
+                        $directRequest,
+                        $httpRequest,
+                        'a',
+                        'b'
                     )
                 )
-                ->willThrowException($exception);
+            )
+            ->willThrowException($exception);
 
 
         $eventDispatcher = $this->createPartialMock(
@@ -545,35 +551,39 @@ class RouterTest extends TestCase
             )
         );
 
+        $calls = [
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent'),
+                $this->equalTo('tq_extdirect.router.begin_request'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
+                $this->equalTo('tq_extdirect.router.before_resolve'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
+                $this->equalTo('tq_extdirect.router.after_resolve'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
+                $this->equalTo('tq_extdirect.router.before_invoke'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ExceptionEvent'),
+                $this->equalTo('tq_extdirect.router.exception'),
+            ),
+            array(
+                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent'),
+                $this->equalTo('tq_extdirect.router.end_request'),
+            )
+        ];
+        if (!class_exists(\Symfony\Contracts\EventDispatcher\Event::class)) {
+            $calls = array_map('array_reverse', $calls);
+        }
         $eventDispatcher->expects($this->exactly(6))
-                        ->method('dispatch')
-                        ->withConsecutive(
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\BeginRequestEvent'),
-                                $this->equalTo('tq_extdirect.router.begin_request'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
-                                $this->equalTo('tq_extdirect.router.before_resolve'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ServiceResolveEvent'),
-                                $this->equalTo('tq_extdirect.router.after_resolve'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\InvokeEvent'),
-                                $this->equalTo('tq_extdirect.router.before_invoke'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\ExceptionEvent'),
-                                $this->equalTo('tq_extdirect.router.exception'),
-                            ),
-                            array(
-                                $this->isInstanceOf('TQ\ExtDirect\Router\Event\EndRequestEvent'),
-                                $this->equalTo('tq_extdirect.router.end_request'),
-                            )
-                        )
-                        ->will($this->returnArgument(0));
+            ->method('dispatch')
+            ->withConsecutive(...$calls)
+            ->will($this->returnArgument(0));
 
         $router = new Router($serviceResolver, $eventDispatcher);
         $router->handle(new RequestCollection(array($directRequest)), $httpRequest);

@@ -11,9 +11,9 @@ namespace TQ\ExtDirect\Router;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Contracts\EventDispatcher\Event;
 use TQ\ExtDirect\Router\Event\BeginRequestEvent;
 use TQ\ExtDirect\Router\Event\EndRequestEvent;
+use TQ\ExtDirect\Router\Event\Event;
 use TQ\ExtDirect\Router\Event\ExceptionEvent;
 use TQ\ExtDirect\Router\Event\InvokeEvent;
 use TQ\ExtDirect\Router\Event\ServiceResolveEvent;
@@ -258,7 +258,12 @@ class Router
     protected function dispatchEvent($eventName, Event $event)
     {
         if ($this->eventDispatcher) {
-            return $this->eventDispatcher->dispatch($event, $eventName);
+            if (class_exists(\Symfony\Contracts\EventDispatcher\Event::class)) {
+                return $this->eventDispatcher->dispatch($event, $eventName);
+            } else {
+                $this->eventDispatcher->dispatch($eventName, $event);
+                return $event;
+            }
         } else {
             return $event;
         }
