@@ -97,7 +97,7 @@ class Endpoint
         $serviceDescription = $this->descriptionFactory->createServiceDescription($url);
 
         if ($format == 'json') {
-            $response = JsonResponse::create($serviceDescription);
+            $response = new JsonResponse($serviceDescription);
         } else {
             $response = new ServiceDescriptionResponse($serviceDescription, $this->getDescriptor());
         }
@@ -120,7 +120,7 @@ class Endpoint
         if ($directRequest->isFormUpload()) {
             $response = new UploadResponse($directResponse->getFirst());
         } else {
-            $response = JsonResponse::create($directResponse);
+            $response = new JsonResponse($directResponse);
         }
 
         if ($this->debug) {
