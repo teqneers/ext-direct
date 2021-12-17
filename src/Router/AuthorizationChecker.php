@@ -48,11 +48,11 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
     private $roleHierarchy;
 
     /**
-     * @param ExpressionLanguage $language
+     * @param ExpressionLanguage                   $language
      * @param AuthenticationTrustResolverInterface $trustResolver
-     * @param TokenStorageInterface $tokenStorage
-     * @param BaseAuthorizationCheckerInterface $authChecker
-     * @param RoleHierarchyInterface|null $roleHierarchy
+     * @param TokenStorageInterface                $tokenStorage
+     * @param BaseAuthorizationCheckerInterface    $authChecker
+     * @param RoleHierarchyInterface|null          $roleHierarchy
      */
     public function __construct(
         ExpressionLanguage $language,
@@ -61,16 +61,16 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
         BaseAuthorizationCheckerInterface $authChecker,
         RoleHierarchyInterface $roleHierarchy = null
     ) {
-        $this->language = $language;
+        $this->language      = $language;
         $this->trustResolver = $trustResolver;
-        $this->tokenStorage = $tokenStorage;
-        $this->authChecker = $authChecker;
+        $this->tokenStorage  = $tokenStorage;
+        $this->authChecker   = $authChecker;
         $this->roleHierarchy = $roleHierarchy;
     }
 
     /**
      * @param ServiceReference $service
-     * @param array $arguments
+     * @param array            $arguments
      * @return bool
      */
     public function isGranted(ServiceReference $service, array $arguments)
@@ -95,32 +95,24 @@ class AuthorizationChecker implements AuthorizationCheckerInterface
     private function getVariables(array $arguments)
     {
         $token = $this->tokenStorage->getToken();
-        if (method_exists($token, 'getRoleNames')) {
+        if ($token) {
             $roles = $token->getRoleNames();
         } else {
-            // BC with symfony 3.x
-            $roles = array_map(static function ($role) {
-                return $role->getRole();
-            }, $token->getRoles());
+            $roles = [];
         }
 
         if ($this->roleHierarchy !== null) {
-            if (method_exists($this->roleHierarchy, 'getReachableRoleNames')) {
-                $roles = $this->roleHierarchy->getReachableRoleNames($roles);
-            } else {
-                // BC with symfony 3.x
-                $roles = $this->roleHierarchy->getReachableRoles($roles);
-            }
+            $roles = $this->roleHierarchy->getReachableRoleNames($roles);
         }
 
-        $variables = array(
-            'token' => $token,
-            'user' => $token->getUser(),
-            'roles' => $roles,
+        $variables = [
+            'token'          => $token,
+            'user'           => $token ? $token->getUser() : null,
+            'roles'          => $roles,
             'trust_resolver' => $this->trustResolver,
-            'auth_checker' => $this->authChecker,
-            'args' => $arguments
-        );
+            'auth_checker'   => $this->authChecker,
+            'args'           => $arguments,
+        ];
 
         return $variables;
     }
