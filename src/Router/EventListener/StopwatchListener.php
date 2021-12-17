@@ -32,7 +32,7 @@ class StopwatchListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             RouterEvents::BEGIN_REQUEST  => array('onBeginRequest', 255),
