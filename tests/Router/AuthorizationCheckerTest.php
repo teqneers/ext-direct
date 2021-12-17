@@ -10,6 +10,7 @@ namespace TQ\ExtDirect\Tests\Router;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use TQ\ExtDirect\Router\AuthorizationChecker;
 
@@ -36,7 +37,9 @@ class AuthorizationCheckerTest extends TestCase
 
         $tokenStorage->expects($this->once())
                      ->method('getToken')
-                     ->willReturn(new NullToken());
+                     ->willReturn(
+                         class_exists(NullToken::class) ? new NullToken() : new AnonymousToken('secret', 'user')
+                     );
 
         /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|MockObject $authChecker */
         $authChecker = $this->createPartialMock(
@@ -121,7 +124,7 @@ class AuthorizationCheckerTest extends TestCase
             ['getToken', 'setToken']
         );
 
-        $token = new NullToken();
+        $token = class_exists(NullToken::class) ? new NullToken() : new AnonymousToken('secret', 'user');
         $tokenStorage->expects($this->exactly(2))
                      ->method('getToken')
                      ->willReturn($token);
@@ -150,7 +153,7 @@ class AuthorizationCheckerTest extends TestCase
 
         $variables = [
             'token' => $token,
-            'user' => '',
+            'user' => $token->getUser(),
             'roles' => [],
             'trust_resolver' => $trustResolver,
             'auth_checker' => $authChecker,
