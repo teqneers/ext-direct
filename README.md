@@ -2,6 +2,8 @@
 
 A base component to integrate Sencha Ext JS Ext.direct into a PHP application
 
+[![Build Status](https://github.com/teqneers/ext-direct/actions/workflows/php.yml/badge.svg)](https://github.com/teqneers/ext-direct/actions/workflows/php.yml)
+
 ## Introduction
 
 This library provides a server-side implementation for Sencha *Ext.direct* an RPC-style communication component that is
