@@ -52,7 +52,7 @@ class RequestCollection implements \IteratorAggregate, \Countable, \JsonSerializ
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->requests);
     }
@@ -60,7 +60,7 @@ class RequestCollection implements \IteratorAggregate, \Countable, \JsonSerializ
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->requests);
     }
@@ -98,7 +98,7 @@ class RequestCollection implements \IteratorAggregate, \Countable, \JsonSerializ
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function jsonSerialize()
     {

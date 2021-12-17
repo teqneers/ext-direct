@@ -41,7 +41,7 @@ class ActionMetadata extends MergeableClassMetadata
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize(array(
             $this->isAction,
@@ -55,7 +55,7 @@ class ActionMetadata extends MergeableClassMetadata
     /**
      * {@inheritdoc}
      */
-    public function unserialize($str)
+    public function unserialize($str): void
     {
         list(
             $this->isAction,

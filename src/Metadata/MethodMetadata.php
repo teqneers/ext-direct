@@ -128,7 +128,7 @@ class MethodMetadata extends BaseMethodMetadata
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function serialize(): string
     {
         $parameterNames = array_map(
             function (\ReflectionParameter $param) {
@@ -157,7 +157,7 @@ class MethodMetadata extends BaseMethodMetadata
     /**
      * {@inheritdoc}
      */
-    public function unserialize($str)
+    public function unserialize($str): void
     {
         list(
             $this->isMethod,

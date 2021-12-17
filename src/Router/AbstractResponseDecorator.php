@@ -30,7 +30,7 @@ abstract class AbstractResponseDecorator extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function jsonSerialize()
     {

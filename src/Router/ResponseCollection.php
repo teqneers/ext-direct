@@ -40,7 +40,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->responses);
     }
@@ -48,7 +48,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->responses);
     }
@@ -77,7 +77,7 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function jsonSerialize()
     {

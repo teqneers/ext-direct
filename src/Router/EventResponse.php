@@ -57,7 +57,7 @@ class EventResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function jsonSerialize()
     {

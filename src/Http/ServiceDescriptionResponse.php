@@ -34,7 +34,7 @@ class ServiceDescriptionResponse extends JsonResponse
         ServiceDescription $serviceDescription,
         $descriptor = 'Ext.app.REMOTING_API',
         $status = 200,
-        $headers = array()
+        $headers = []
     ) {
         parent::__construct($serviceDescription, $status, $headers);
 
@@ -45,7 +45,7 @@ class ServiceDescriptionResponse extends JsonResponse
      * @param string $descriptor
      * @return $this
      */
-    public function setDescriptor($descriptor)
+    public function setDescriptor($descriptor): self
     {
         $this->descriptor = $descriptor;
         return $this->update();
@@ -54,7 +54,7 @@ class ServiceDescriptionResponse extends JsonResponse
     /**
      * {@inheritdoc}
      */
-    protected function update()
+    protected function update(): self
     {
         $this->headers->set('Content-Type', 'application/javascript');
 

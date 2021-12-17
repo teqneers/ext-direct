@@ -59,7 +59,7 @@ class RPCResponse extends AbstractTransactionResponse
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function jsonSerialize()
     {
