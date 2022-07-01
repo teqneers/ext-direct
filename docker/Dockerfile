@@ -1,4 +1,4 @@
-ARG PHP_IMAGE=php:7.4-cli
+ARG PHP_IMAGE=php:8.1-cli
 
 FROM $PHP_IMAGE
 LABEL maintainer="Stefan Gehrig <gehrig@teqneers.de>"
