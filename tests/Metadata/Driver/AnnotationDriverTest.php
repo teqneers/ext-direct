@@ -30,7 +30,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service1');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service1');
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
 
         $this->assertNull($classMetadata);
@@ -40,7 +40,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service2');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service2');
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
 
         $this->assertNull($classMetadata);
@@ -50,7 +50,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service3');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -76,7 +76,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4');
         $classMetadata   = $driver->loadMetadataForClass($reflectionClass);
 
         $this->assertEmpty($classMetadata->serviceId);
@@ -87,7 +87,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -113,7 +113,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -142,7 +142,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service5');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -171,7 +171,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub\Service6');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Sub\Service6');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -183,7 +183,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service7');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service7');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -194,7 +194,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service8');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service8');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -218,7 +218,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service9');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service9');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -242,7 +242,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -260,7 +260,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -278,7 +278,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -296,7 +296,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service10');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -314,7 +314,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service11');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service11');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -325,7 +325,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service11');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service11');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -349,7 +349,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -367,7 +367,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 
@@ -385,7 +385,7 @@ class AnnotationDriverTest extends TestCase
     {
         $driver = $this->getDriver();
 
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Driver\Services\Service12');
         /** @var \TQ\ExtDirect\Metadata\ActionMetadata $classMetadata */
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
 

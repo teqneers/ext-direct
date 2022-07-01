@@ -105,7 +105,7 @@ class ContainerServiceFactoryTest extends TestCase
     protected function loadMetadataForClass($className)
     {
         $driver = new AnnotationDriver(new AnnotationReader());
-        $reflectionClass = new\ReflectionClass($className);
+        $reflectionClass = new \ReflectionClass($className);
         $classMetadata = $driver->loadMetadataForClass($reflectionClass);
         return $classMetadata;
     }

@@ -23,7 +23,7 @@ class ActionMetadataTest extends TestCase
     public function testSerialize()
     {
         $driver          = new AnnotationDriver(new AnnotationReader());
-        $reflectionClass = new\ReflectionClass('TQ\ExtDirect\Tests\Metadata\Services\Service1');
+        $reflectionClass = new \ReflectionClass('TQ\ExtDirect\Tests\Metadata\Services\Service1');
         $origMetadata    = $driver->loadMetadataForClass($reflectionClass);
 
         $serialized = serialize($origMetadata);
