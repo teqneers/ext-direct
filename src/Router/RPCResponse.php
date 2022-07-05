@@ -58,10 +58,7 @@ class RPCResponse extends AbstractTransactionResponse
         return $this->result;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_merge(
             parent::jsonSerialize(),

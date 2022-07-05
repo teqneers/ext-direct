@@ -78,10 +78,7 @@ class ExceptionResponse extends AbstractTransactionResponse
         return $this->debug;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $exception = $this->getException();
 

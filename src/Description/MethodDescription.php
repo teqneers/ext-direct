@@ -211,10 +211,7 @@ class MethodDescription implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $description = [
             'name' => $this->getName(),

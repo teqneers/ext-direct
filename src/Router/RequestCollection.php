@@ -97,9 +97,6 @@ class RequestCollection implements \IteratorAggregate, \Countable, \JsonSerializ
         return $this->isForm() && $this->isUpload();
     }
 
-    /**
-     * @return mixed
-     */
     public function jsonSerialize(): mixed
     {
         if (count($this->requests) !== 1) {

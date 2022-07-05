@@ -29,10 +29,7 @@ abstract class AbstractResponseDecorator extends Response
         $this->decorated = $decorated;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $serialized = $this->decorated->jsonSerialize();
 

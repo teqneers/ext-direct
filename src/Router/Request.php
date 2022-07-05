@@ -128,10 +128,7 @@ class Request implements \JsonSerializable
         return $this->isForm() && $this->isUpload();
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'tid'          => $this->getTid(),

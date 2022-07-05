@@ -230,10 +230,7 @@ class ServiceDescription implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $api = [
             'type'      => $this->getType(),
