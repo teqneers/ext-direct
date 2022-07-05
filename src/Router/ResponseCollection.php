@@ -76,15 +76,12 @@ class ResponseCollection implements \IteratorAggregate, \Countable, \JsonSeriali
         return $this->responses[$index];
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         if (count($this->responses) !== 1) {
             return $this->responses;
-        } else {
-            return reset($this->responses);
         }
+
+        return reset($this->responses);
     }
 }

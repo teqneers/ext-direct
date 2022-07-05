@@ -100,12 +100,12 @@ class RequestCollection implements \IteratorAggregate, \Countable, \JsonSerializ
     /**
      * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         if (count($this->requests) !== 1) {
             return $this->requests;
-        } else {
-            return reset($this->requests);
         }
+
+        return reset($this->requests);
     }
 }

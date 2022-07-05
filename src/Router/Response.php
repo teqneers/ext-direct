@@ -41,13 +41,10 @@ class Response implements \JsonSerializable
         return $this->type;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
-        return array(
-            'type' => $this->getType()
-        );
+        return [
+            'type' => $this->getType(),
+        ];
     }
 }
