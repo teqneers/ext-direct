@@ -48,7 +48,7 @@ class Endpoint
     /**
      * @var string
      */
-    private $descriptor;
+    private string $descriptor;
 
     /**
      * @var bool
@@ -68,7 +68,7 @@ class Endpoint
         ServiceDescriptionFactory $descriptionFactory,
         Router $router,
         RequestFactory $requestFactory,
-        $descriptor,
+        string $descriptor,
         $debug = false
     ) {
         $this->id                 = $id;
@@ -133,7 +133,7 @@ class Endpoint
     /**
      * @return string
      */
-    public function getDescriptor()
+    public function getDescriptor(): string
     {
         return $this->descriptor;
     }

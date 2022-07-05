@@ -102,11 +102,12 @@ class ServiceResolver implements ServiceResolverInterface
         $arguments         = array();
         $i                 = 0;
         foreach ($methodMetadata->parameters as $parameter) {
-            if ($parameter->getClass() && $parameter->getClass()->name === HttpRequest::class) {
+            $type = $parameter->getType();
+            if ($type && $type->getName() === HttpRequest::class) {
                 $arguments['__internal__http_request__'] = $httpRequest;
-            } elseif ($parameter->getClass() && $parameter->getClass()->name === DirectRequest::class) {
+            } elseif ($type && $type->getName() === DirectRequest::class) {
                 $arguments['__internal__direct_request__'] = $directRequest;
-            } elseif ($parameter->getClass() && $parameter->getClass()->name === ArgumentValidationResult::class) {
+            } elseif ($type && $type->getName() === ArgumentValidationResult::class) {
                 $arguments['__internal__validation_result__'] = new ArgumentValidationResult();
             } else {
                 if (isset($requestParameters[$i])) {

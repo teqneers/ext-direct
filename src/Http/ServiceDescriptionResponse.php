@@ -19,33 +19,20 @@ use TQ\ExtDirect\Description\ServiceDescription;
  */
 class ServiceDescriptionResponse extends JsonResponse
 {
-    /**
-     * @var string
-     */
-    private $descriptor;
+    private string $descriptor = '';
 
-    /**
-     * @param ServiceDescription $serviceDescription
-     * @param string             $descriptor
-     * @param int                $status
-     * @param array              $headers
-     */
     public function __construct(
         ServiceDescription $serviceDescription,
-        $descriptor = 'Ext.app.REMOTING_API',
-        $status = 200,
-        $headers = []
+        string $descriptor = 'Ext.app.REMOTING_API',
+        int $status = 200,
+        array $headers = []
     ) {
         parent::__construct($serviceDescription, $status, $headers);
 
         $this->setDescriptor($descriptor);
     }
 
-    /**
-     * @param string $descriptor
-     * @return $this
-     */
-    public function setDescriptor($descriptor): self
+    public function setDescriptor(string $descriptor): self
     {
         $this->descriptor = $descriptor;
         return $this->update();

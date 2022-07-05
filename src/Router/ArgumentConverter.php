@@ -47,13 +47,14 @@ class ArgumentConverter implements ArgumentConverterInterface
                 continue;
             }
 
-            if (!$parameter->getClass()) {
+            $type = $parameter->getType();
+            if (!$type || $type->isBuiltin()) {
                 continue;
             }
 
             $arguments[$name] = $this->serializer->fromArray(
                 $value,
-                $parameter->getClass()->name,
+                $type->getName(),
                 $this->createDeserializationContext($service, $name)
             );
         }

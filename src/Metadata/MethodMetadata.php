@@ -128,7 +128,7 @@ class MethodMetadata extends BaseMethodMetadata
     /**
      * {@inheritdoc}
      */
-    public function serialize(): string
+    public function __serialize(): array
     {
         $parameterNames = array_map(
             function (\ReflectionParameter $param) {
@@ -137,29 +137,7 @@ class MethodMetadata extends BaseMethodMetadata
             $this->parameters
         );
 
-        return serialize(
-            [
-                $this->isMethod,
-                $this->isFormHandler,
-                $this->hasNamedParams,
-                $this->isStrict,
-                $this->batched,
-                $this->hasSession,
-                $parameterNames,
-                $this->parameterMetadata,
-                $this->result,
-                $this->authorizationExpression,
-                parent::serialize(),
-            ]
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($str): void
-    {
-        list(
+        return [
             $this->isMethod,
             $this->isFormHandler,
             $this->hasNamedParams,
@@ -170,9 +148,29 @@ class MethodMetadata extends BaseMethodMetadata
             $this->parameterMetadata,
             $this->result,
             $this->authorizationExpression,
-            $parentStr
-            ) = unserialize($str);
-        parent::unserialize($parentStr);
+            parent::__serialize(),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __unserialize(array $str): void
+    {
+        [
+            $this->isMethod,
+            $this->isFormHandler,
+            $this->hasNamedParams,
+            $this->isStrict,
+            $this->batched,
+            $this->hasSession,
+            $parameterNames,
+            $this->parameterMetadata,
+            $this->result,
+            $this->authorizationExpression,
+            $parentStr,
+        ] = $str;
+        parent::__unserialize($parentStr);
 
         foreach ($parameterNames as $parameterName) {
             $this->parameters[$parameterName] = new \ReflectionParameter(

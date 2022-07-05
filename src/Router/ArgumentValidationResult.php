@@ -9,6 +9,7 @@
 namespace TQ\ExtDirect\Router;
 
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Traversable;
 
 /**
  * Class ArgumentValidationResult
@@ -64,7 +65,7 @@ class ArgumentValidationResult implements \Countable, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->results);
     }
@@ -72,7 +73,7 @@ class ArgumentValidationResult implements \Countable, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         foreach ($this->results as $argumentName => $result) {
             yield $argumentName => $result;

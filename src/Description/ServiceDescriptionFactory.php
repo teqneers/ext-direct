@@ -53,12 +53,12 @@ class ServiceDescriptionFactory
     private $maxRetries;
 
     /**
-     * @param ServiceRegistry  $serviceRegistry
-     * @param string           $namespace
+     * @param ServiceRegistry $serviceRegistry
+     * @param string $namespace
      * @param boolean|int|null $enableBuffer
-     * @param int|null         $bufferLimit
-     * @param int|null         $timeout
-     * @param int|null         $maxRetries
+     * @param int|null $bufferLimit
+     * @param int|null $timeout
+     * @param int|null $maxRetries
      */
     public function __construct(
         ServiceRegistry $serviceRegistry,
@@ -106,14 +106,13 @@ class ServiceDescriptionFactory
 
                 $parameters = [];
                 foreach ($methodMetadata->parameters as $parameter) {
-                    if (($class = $parameter->getClass()) === null
-                        || (
-                            $class->name !== HttpRequest::class
-                            && $class->name !== DirectRequest::class
-                            && $class->name !== ArgumentValidationResult::class
+                    if (($class = $parameter->getType()) === null
+                        || !in_array(
+                            $class->getName(),
+                            [HttpRequest::class, DirectRequest::class, ArgumentValidationResult::class]
                         )
                     ) {
-                        $parameters[] = $parameter->name;
+                        $parameters[] = $parameter->getName();
                     }
                 }
 
