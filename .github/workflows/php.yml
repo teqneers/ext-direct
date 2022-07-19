@@ -35,6 +35,8 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
+      - name: Allow plugin symfony/flex to be used
+        run: composer global config --no-plugins allow-plugins.symfony/flex true
       - name: Install symfony/flex globally
         run: composer global require --no-interaction --no-progress --no-scripts --no-plugins symfony/flex
       - name: Validate composer.json and composer.lock
