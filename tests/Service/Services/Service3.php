@@ -9,7 +9,7 @@
 namespace TQ\ExtDirect\Tests\Service\Services;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use TQ\ExtDirect\Annotation as Direct;
 
@@ -22,21 +22,21 @@ use TQ\ExtDirect\Annotation as Direct;
  */
 class Service3 implements ContainerAwareInterface
 {
-    use ContainerAwareTrait;
+    protected ?ContainerInterface $container;
 
     /**
      * @Direct\Method()
-     *
-     * @param mixed $a
      */
-    public function methodA($a)
+    public function methodA(mixed $a)
     {
     }
 
-    /**
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    public function getContainer()
+    public function setContainer(?ContainerInterface $container = null): void
+    {
+        $this->container = $container;
+    }
+
+    public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
