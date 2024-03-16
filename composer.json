@@ -28,7 +28,7 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "doctrine/annotations": "~1.13",
+        "doctrine/annotations": "^1.13|^2.0",
         "jms/metadata": "~2.6",
         "jms/serializer": "~3.17",
         "symfony/dependency-injection": "~5.0",
