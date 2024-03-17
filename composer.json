@@ -39,6 +39,7 @@
         "symfony/validator": "6.4.*"
     },
     "require-dev": {
+        "koriym/attributes": "^1.0",
         "phpunit/phpunit": "^9.5",
         "symfony/phpunit-bridge": "6.4.*",
         "symfony/stopwatch": "6.4.*"
