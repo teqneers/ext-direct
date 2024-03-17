@@ -18,14 +18,14 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action()
  */
+#[Direct\Action()]
 class Service2
 {
     /**
      * @Direct\Method()
-     *
-     * @param mixed $a
      */
-    public function methodA($a)
+    #[Direct\Method()]
+    public function methodA(mixed $a)
     {
     }
 }

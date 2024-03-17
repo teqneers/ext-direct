@@ -20,6 +20,7 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action()
  */
+#[Direct\Action()]
 class Service3 implements ContainerAwareInterface
 {
     protected ?ContainerInterface $container;
@@ -27,6 +28,7 @@ class Service3 implements ContainerAwareInterface
     /**
      * @Direct\Method()
      */
+    #[Direct\Method()]
     public function methodA(mixed $a)
     {
     }

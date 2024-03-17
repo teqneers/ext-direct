@@ -18,85 +18,96 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action("app.direct.test")
  */
+#[Direct\Action("app.direct.test")]
 class Service5
 {
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed $a
      */
-    public function methodA($a)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
+    public function methodA(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", constraints={ @Assert\NotNull() })
-     *
-     * @param mixed $a
      */
-    public function methodB($a)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", constraints: [ new Assert\NotNull() ])]
+    public function methodB(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() })
-     *
-     * @param mixed $a
      */
-    public function methodC($a)
+    #[Direct\Method()]
+    #[Direct\Parameter(name: "a", constraints: [ new Assert\NotNull() ])]
+    public function methodC(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() }, {"myGroup"})
-     *
-     * @param mixed $a
      */
-    public function methodD($a)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ], [ "myGroup" ])]
+    public function methodD(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroups="myGroup")
-     *
-     * @param mixed $a
      */
-    public function methodE($a)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ], validationGroups: "myGroup" )]
+    public function methodE(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() }, validationGroups="myGroup")
-     *
-     * @param mixed $a
      */
-    public function methodF($a)
+    #[Direct\Method()]
+
+    #[Direct\Parameter(
+      name: "a",
+      constraints: [ new Assert\NotNull() ],
+      validationGroups: "myGroup"
+    )]
+    public function methodF(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() }, validationGroups={"myGroup"})
-     *
-     * @param mixed $a
      */
-    public function methodG($a)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ], validationGroups: [ "myGroup" ])]
+    public function methodG(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter(name="a", constraints={ @Assert\NotNull() }, validationGroups={"myGroup"})
-     *
-     * @param mixed $a
      */
-    public function methodH($a)
+    #[Direct\Method()]
+
+    #[Direct\Parameter(
+      name: "a",
+      constraints: [ new Assert\NotNull() ],
+      validationGroups: [ "myGroup" ]
+    )]
+    public function methodH(mixed $a)
     {
     }
 }

@@ -8,7 +8,9 @@
 
 namespace TQ\ExtDirect\Tests\Router\Services;
 
+use Symfony\Component\HttpFoundation\Request;
 use TQ\ExtDirect\Annotation as Direct;
+use TQ\ExtDirect\Router\Request as ExtDirectRequest;
 
 /**
  * Class Service2
@@ -19,29 +21,25 @@ class Service2
 {
     /**
      * @Direct\Method(true)
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function methodA(\Symfony\Component\HttpFoundation\Request $request)
+    #[Direct\Method(true)]
+    public function methodA(Request $request)
     {
     }
 
     /**
      * @Direct\Method(true)
-     *
-     * @param \TQ\ExtDirect\Router\Request $request
      */
-    public function methodB(\TQ\ExtDirect\Router\Request $request)
+    #[Direct\Method(true)]
+    public function methodB(ExtDirectRequest $request)
     {
     }
 
     /**
      * @Direct\Method(true)
-     *
-     * @param \TQ\ExtDirect\Router\Request              $request1
-     * @param \Symfony\Component\HttpFoundation\Request $request2
      */
-    public function methodC(\TQ\ExtDirect\Router\Request $request1, \Symfony\Component\HttpFoundation\Request $request2)
+    #[Direct\Method(true)]
+    public function methodC(ExtDirectRequest $request1, Request $request2)
     {
     }
 }

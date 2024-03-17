@@ -17,12 +17,15 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action()
  */
+#[Direct\Action()]
 class Service10
 {
     /**
      * @Direct\Method()
      * @Direct\Result(groups={"a", "b"})
      */
+    #[Direct\Method()]
+    #[Direct\Result(groups: ["a", "b"])]
     public function methodA()
     {
     }
@@ -31,6 +34,8 @@ class Service10
      * @Direct\Method()
      * @Direct\Result(attributes={"a": 1, "b": 2})
      */
+    #[Direct\Method()]
+    #[Direct\Result(attributes: ["a" => 1, "b" => 2])]
     public function methodB()
     {
     }
@@ -39,6 +44,8 @@ class Service10
      * @Direct\Method()
      * @Direct\Result(version=1)
      */
+    #[Direct\Method()]
+    #[Direct\Result(version: 1)]
     public function methodC()
     {
     }
@@ -47,6 +54,13 @@ class Service10
      * @Direct\Method()
      * @Direct\Result(groups={"a", "b"}, attributes={"a": 1, "b": 2}, version=1)
      */
+    #[Direct\Method()]
+
+    #[Direct\Result(
+      groups: ["a", "b"],
+      attributes: ["a" => 1, "b" => 2],
+      version: 1
+    )]
     public function methodD()
     {
     }
