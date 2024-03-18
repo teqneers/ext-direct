@@ -30,7 +30,7 @@ class RequestFactory
             throw BadRequestException::createMethodNotAllowed($request);
         }
 
-        if ($request->getContentType() == 'json') {
+        if ($request->getContentTypeFormat() == 'json') {
             return $this->createJsonRequest($request);
         } else {
             return $this->createFormRequest($request);

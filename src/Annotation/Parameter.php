@@ -9,6 +9,8 @@
 
 namespace TQ\ExtDirect\Annotation;
 
+use Doctrine\Common\Annotations\NamedArgumentConstructor;
+
 /**
  * Class Parameter
  *
@@ -16,90 +18,39 @@ namespace TQ\ExtDirect\Annotation;
  *
  * @Annotation
  * @Target("METHOD")
+ * @NamedArgumentConstructor
  */
+#[\Attribute(\Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class Parameter
 {
-    /**
-     * @\Doctrine\Common\Annotations\Annotation\Required
-     *
-     * @var string
-     */
-    public $name;
+    public function __construct(
+        public string $name,
 
-    /**
-     * @var array<Symfony\Component\Validator\Constraint>
-     */
-    public $constraints = array();
+        /** @var string|array<Symfony\Component\Validator\Constraint> */
+        public string|array $constraints = [],
 
-    /**
-     * @var array<string>
-     */
-    public $validationGroups;
+        /** @var string|null|array<string> */
+        public string|null|array $validationGroups = null,
 
-    /**
-     * @var bool
-     */
-    public $strict = true;
+        public bool $strict = true,
 
-    /**
-     * @var array<string>
-     */
-    public $serializationGroups = [];
+        /** @var string|array<string> */
+        public string|array $serializationGroups = [],
 
-    /**
-     * @var array<string>
-     */
-    public $serializationAttributes = [];
+        /** @var string|array<string> */
+        public string|array $serializationAttributes = [],
 
-    /**
-     * @var int|null
-     */
-    public $serializationVersion = null;
+        public ?int $serializationVersion = null,
+    ) {
+        $arrayProperties = [
+            'constraints', 'validationGroups', 'serializationGroups',
+            'serializationAttributes'
+        ];
 
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data)
-    {
-        if (isset($data['value'])) {
-            if (is_array($data['value'])) {
-                $data['name'] = array_shift($data['value']);
-                if (!empty($data['value'])) {
-                    $data['constraints'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['validationGroups'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['strict'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['serializationGroups'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['serializationAttributes'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['serializationVersion'] = array_shift($data['value']);
-                }
-            } else {
-                $data['name'] = $data['value'];
+        foreach ($arrayProperties as $property) {
+            if (is_string($$property)) {
+                $this->$property = [$$property];
             }
-            unset($data['value']);
-        }
-
-        foreach ($data as $k => $v) {
-            if ($k == 'constraints' && !is_array($v)) {
-                $v = array($v);
-            } elseif ($k == 'validationGroups' && !is_array($v)) {
-                $v = array($v);
-            } elseif ($k == 'serializationGroups' && !is_array($v)) {
-                $v = array($v);
-            } elseif ($k == 'serializationAttributes' && !is_array($v)) {
-                $v = array($v);
-            }
-
-            $this->{$k} = $v;
         }
     }
 }

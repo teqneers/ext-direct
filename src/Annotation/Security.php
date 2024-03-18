@@ -8,6 +8,8 @@
 
 namespace TQ\ExtDirect\Annotation;
 
+use Doctrine\Common\Annotations\NamedArgumentConstructor;
+
 /**
  * Class Security
  *
@@ -15,13 +17,10 @@ namespace TQ\ExtDirect\Annotation;
  *
  * @Annotation
  * @Target({"CLASS","METHOD"})
+ * @NamedArgumentConstructor
  */
+#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD)]
 class Security
 {
-    /**
-     * @\Doctrine\Common\Annotations\Annotation\Required
-     *
-     * @var string
-     */
-    public $expression;
+    public function __construct(public string $expression) {}
 }

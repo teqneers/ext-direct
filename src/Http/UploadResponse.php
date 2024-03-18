@@ -64,7 +64,7 @@ class UploadResponse extends JsonResponse
     /**
      * {@inheritdoc}
      */
-    protected function update()
+    protected function update(): static
     {
         if ($this->response !== null) {
             $this->headers->set('Content-Type', 'text/html; charset=UTF-8');

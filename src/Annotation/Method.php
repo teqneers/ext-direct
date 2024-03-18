@@ -9,6 +9,7 @@
 
 namespace TQ\ExtDirect\Annotation;
 
+use Doctrine\Common\Annotations\NamedArgumentConstructor;
 
 /**
  * Class Method
@@ -17,31 +18,16 @@ namespace TQ\ExtDirect\Annotation;
  *
  * @Annotation
  * @Target("METHOD")
+ * @NamedArgumentConstructor
  */
+#[\Attribute(\Attribute::TARGET_METHOD)]
 class Method
 {
-    /**
-     * @var bool
-     */
-    public $formHandler = false;
-
-    /**
-     * @var bool
-     */
-    public $namedParams = false;
-
-    /**
-     * @var bool
-     */
-    public $strict = true;
-
-    /**
-     * @var mixed
-     */
-    public $batched = null;
-
-    /**
-     * @var bool
-     */
-    public $session = true;
+    public function __construct(
+        public bool $formHandler = false,
+        public bool $namedParams = false,
+        public bool $strict = true,
+        public mixed $batched = null,
+        public bool $session = true,
+    ) {}
 }

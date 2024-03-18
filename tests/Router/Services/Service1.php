@@ -8,8 +8,11 @@
 
 namespace TQ\ExtDirect\Tests\Router\Services;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use TQ\ExtDirect\Annotation as Direct;
+use TQ\ExtDirect\Router\ArgumentValidationResult;
+use TQ\ExtDirect\Router\Request as ExtDirectRequest;
 
 /**
  * Class Service1
@@ -18,11 +21,13 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action("app.direct.test")
  */
+#[Direct\Action("app.direct.test")]
 class Service1
 {
     /**
      * @Direct\Method()
      */
+    #[Direct\Method()]
     public function methodA()
     {
     }
@@ -30,53 +35,48 @@ class Service1
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed $a
      */
-    public function methodB($a)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
+    public function methodB(mixed $a)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed                                     $a
-     * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function methodC($a, \Symfony\Component\HttpFoundation\Request $request)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
+    public function methodC(mixed $a, Request $request)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed                        $a
-     * @param \TQ\ExtDirect\Router\Request $request
      */
-    public function methodD($a, \TQ\ExtDirect\Router\Request $request)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
+    public function methodD(mixed $a, ExtDirectRequest $request)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed                                     $a
-     * @param \TQ\ExtDirect\Router\Request              $request1
-     * @param \Symfony\Component\HttpFoundation\Request $request2
      */
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
     public function methodE(
-        $a,
-        \TQ\ExtDirect\Router\Request $request1,
-        \Symfony\Component\HttpFoundation\Request $request2
+        mixed $a, ExtDirectRequest $request1, Request $request2
     ) {
     }
 
     /**
      * @Direct\Method()
      */
+    #[Direct\Method()]
     public static function methodF()
     {
     }
@@ -84,22 +84,20 @@ class Service1
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed                                         $a
-     * @param \TQ\ExtDirect\Router\ArgumentValidationResult $result
      */
-    public function methodG($a, \TQ\ExtDirect\Router\ArgumentValidationResult $result = null)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
+    public function methodG(mixed $a, ArgumentValidationResult $result = null)
     {
     }
 
     /**
      * @Direct\Method()
      * @Direct\Parameter("a", { @Assert\NotNull() })
-     *
-     * @param mixed                                         $a
-     * @param \TQ\ExtDirect\Router\ArgumentValidationResult $result
      */
-    public function methodH($a, \TQ\ExtDirect\Router\ArgumentValidationResult $result)
+    #[Direct\Method()]
+    #[Direct\Parameter("a", [ new Assert\NotNull() ])]
+    public function methodH(mixed $a, ArgumentValidationResult $result)
     {
     }
 }

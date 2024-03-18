@@ -17,17 +17,20 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action()
  */
+#[Direct\Action()]
 class Service12
 {
     /**
      * @Direct\Method(batched=null)
      */
+    #[Direct\Method(batched: null)]
     public function methodA()
     {
     }
     /**
      * @Direct\Method(batched=true)
      */
+    #[Direct\Method(batched: true)]
     public function methodB()
     {
     }
@@ -35,6 +38,7 @@ class Service12
     /**
      * @Direct\Method(batched=false)
      */
+    #[Direct\Method(batched: false)]
     public function methodC()
     {
     }

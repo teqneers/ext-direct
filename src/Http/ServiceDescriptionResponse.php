@@ -41,7 +41,7 @@ class ServiceDescriptionResponse extends JsonResponse
     /**
      * {@inheritdoc}
      */
-    protected function update(): self
+    protected function update(): static
     {
         $this->headers->set('Content-Type', 'application/javascript');
 

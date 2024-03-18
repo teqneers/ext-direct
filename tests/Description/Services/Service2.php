@@ -17,6 +17,7 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action()
  */
+#[Direct\Action()]
 class Service2
 {
 

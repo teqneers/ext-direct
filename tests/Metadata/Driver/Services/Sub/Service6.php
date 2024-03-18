@@ -18,11 +18,13 @@ use TQ\ExtDirect\Tests\Metadata\Driver\Services\Service4;
  *
  * @Direct\Action("app.direct.test")
  */
+#[Direct\Action("app.direct.test")]
 class Service6 extends Service4
 {
     /**
      * @Direct\Method()
      */
+    #[Direct\Method()]
     public function methodA()
     {
     }

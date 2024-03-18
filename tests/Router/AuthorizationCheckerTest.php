@@ -26,7 +26,7 @@ class AuthorizationCheckerTest extends TestCase
         /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|MockObject $trustResolver */
         $trustResolver = $this->createPartialMock(
             'Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface',
-            ['isAnonymous', 'isRememberMe', 'isFullFledged']
+            ['isAuthenticated', 'isRememberMe', 'isFullFledged']
         );
 
         /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|MockObject $tokenStorage */
@@ -72,7 +72,7 @@ class AuthorizationCheckerTest extends TestCase
         /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|MockObject $trustResolver */
         $trustResolver = $this->createPartialMock(
             'Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface',
-            ['isAnonymous', 'isRememberMe', 'isFullFledged']
+            ['isAuthenticated', 'isRememberMe', 'isFullFledged']
         );
 
         /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|MockObject $tokenStorage */
@@ -115,7 +115,7 @@ class AuthorizationCheckerTest extends TestCase
         /** @var \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface|MockObject $trustResolver */
         $trustResolver = $this->createPartialMock(
             'Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface',
-            ['isAnonymous', 'isRememberMe', 'isFullFledged']
+            ['isAuthenticated', 'isRememberMe', 'isFullFledged']
         );
 
         /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|MockObject $tokenStorage */

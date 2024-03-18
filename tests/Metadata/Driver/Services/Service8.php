@@ -17,11 +17,13 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action()
  */
+#[Direct\Action()]
 class Service8
 {
     /**
      * @Direct\Method()
      */
+    #[Direct\Method()]
     public static function methodA()
     {
     }

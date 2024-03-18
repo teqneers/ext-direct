@@ -9,6 +9,7 @@
 
 namespace TQ\ExtDirect\Annotation;
 
+use Doctrine\Common\Annotations\NamedArgumentConstructor;
 
 /**
  * Class Action
@@ -17,16 +18,13 @@ namespace TQ\ExtDirect\Annotation;
  *
  * @Annotation
  * @Target("CLASS")
+ * @NamedArgumentConstructor
  */
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class Action
 {
-    /**
-     * @var string
-     */
-    public $serviceId;
-
-    /**
-     * @var string
-     */
-    public $alias;
+    public function __construct(
+        public ?string $serviceId = null,
+        public ?string $alias = null,
+    ) {}
 }

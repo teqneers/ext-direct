@@ -9,6 +9,7 @@
 
 namespace TQ\ExtDirect\Annotation;
 
+use Doctrine\Common\Annotations\NamedArgumentConstructor;
 
 /**
  * Class Result
@@ -17,55 +18,26 @@ namespace TQ\ExtDirect\Annotation;
  *
  * @Annotation
  * @Target("METHOD")
+ * @NamedArgumentConstructor
  */
+#[\Attribute(\Attribute::TARGET_METHOD)]
 class Result
 {
-    /**
-     * @var array<string>
-     */
-    public $groups = [];
+    public function __construct(
+        /** @var string|array<string> */
+        public string|array $groups = [],
 
-    /**
-     * @var array<string>
-     */
-    public $attributes = [];
+        /** @var string|array<string> */
+        public string|array $attributes = [],
 
-    /**
-     * @var int|null
-     */
-    public $version = null;
+        public ?int $version = null,
+    ) {
+        $arrayProperties = ['groups', 'attributes'];
 
-    /**
-     * @param array $data
-     */
-    public function __construct(array $data)
-    {
-        if (isset($data['value'])) {
-            if (is_array($data['value'])) {
-                $data['groups'] = array_shift($data['value']);
-                if (!empty($data['value'])) {
-                    $data['constraints'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['attributes'] = array_shift($data['value']);
-                }
-                if (!empty($data['value'])) {
-                    $data['version'] = array_shift($data['value']);
-                }
-            } else {
-                $data['groups'] = $data['value'];
+        foreach ($arrayProperties as $property) {
+            if (is_string($$property)) {
+                $this->$property = [$$property];
             }
-            unset($data['value']);
-        }
-
-        foreach ($data as $k => $v) {
-            if ($k == 'groups' && !is_array($v)) {
-                $v = array($v);
-            } elseif ($k == 'attributes' && !is_array($v)) {
-                $v = array($v);
-            }
-
-            $this->{$k} = $v;
         }
     }
 }

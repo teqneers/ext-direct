@@ -17,11 +17,13 @@ use TQ\ExtDirect\Annotation as Direct;
  *
  * @Direct\Action("app.direct.test")
  */
+#[Direct\Action("app.direct.test")]
 class Service3
 {
     /**
      * @Direct\Method()
      */
+    #[Direct\Method()]
     public function methodA()
     {
     }
